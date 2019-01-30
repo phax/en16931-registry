@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.compare.ESortOrder;
+import com.helger.commons.locale.country.CountryCache;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.url.ISimpleURL;
 import com.helger.html.hc.html.forms.HCEdit;
@@ -32,6 +33,7 @@ import com.helger.html.hc.html.tabular.HCRow;
 import com.helger.html.hc.html.tabular.HCTable;
 import com.helger.html.hc.html.tabular.IHCCell;
 import com.helger.html.hc.html.textlevel.HCA;
+import com.helger.html.hc.html.textlevel.HCSpan;
 import com.helger.html.hc.impl.HCNodeList;
 import com.helger.photon.bootstrap4.alert.BootstrapErrorBox;
 import com.helger.photon.bootstrap4.alert.BootstrapQuestionBox;
@@ -47,16 +49,19 @@ import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDTColAction;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDataTables;
 import com.helger.photon.core.form.FormErrorList;
 import com.helger.photon.core.form.RequestField;
+import com.helger.photon.uicore.html.select.HCCountrySelect;
 import com.helger.photon.uicore.icon.EDefaultIcon;
 import com.helger.photon.uicore.page.EWebPageFormAction;
 import com.helger.photon.uicore.page.WebPageExecutionContext;
 import com.helger.photon.uictrls.datatables.column.DTCol;
+import com.helger.photon.uictrls.famfam.FamFamFlags;
 import com.helger.registry434.app.MetaManager;
 import com.helger.registry434.domain.CEHeaderManager;
 import com.helger.registry434.domain.EObjectStatus;
 import com.helger.registry434.domain.EObjectType;
 import com.helger.registry434.domain.ICEHeader;
 import com.helger.registry434.ui.AbstractBSWebPageForm;
+import com.helger.registry434.ui.HCObjectTypeSelect;
 import com.helger.web.scope.IRequestWebScopeWithoutResponse;
 
 /**
@@ -64,11 +69,22 @@ import com.helger.web.scope.IRequestWebScopeWithoutResponse;
  *
  * @author Philip Helger
  */
-public class PageSecureCEHeaderList extends AbstractBSWebPageForm <ICEHeader>
+public class PageSecureCEHeader extends AbstractBSWebPageForm <ICEHeader>
 {
   private static final String FIELD_NAME = "name";
+  private static final String FIELD_TYPE = "type";
+  private static final String FIELD_COUNTRY = "country";
+  private static final String FIELD_SECTOR = "sector";
+  private static final String FIELD_PURPOSE = "purpose";
+  private static final String FIELD_PUBLISHER = "publisher";
+  private static final String FIELD_GOVERNOR = "governor";
+  private static final String FIELD_UNDERLYING_SPEC = "underlyingspec";
+  private static final String FIELD_FURTHER_INFO = "furtherinfo";
+  private static final String FIELD_STATE = "state";
+  private static final String FIELD_CONTACT_NAME = "contactname";
+  private static final String FIELD_CONTACT_EMAIL = "contactemail";
 
-  public PageSecureCEHeaderList (@Nonnull @Nonempty final String sID)
+  public PageSecureCEHeader (@Nonnull @Nonempty final String sID)
   {
     super (sID, "CIUS and Extensions");
     setDeleteHandler (new AbstractBootstrapWebPageActionHandlerDelete <ICEHeader, WebPageExecutionContext> ()
@@ -133,6 +149,21 @@ public class PageSecureCEHeaderList extends AbstractBSWebPageForm <ICEHeader>
     aNodeList.addChild (aViewForm);
 
     aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Name").setCtrl (aSelectedObject.getName ()));
+
+    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Type")
+                                                     .setCtrl (aSelectedObject.getType ().getDisplayName ()));
+
+    final String sCountryID = aSelectedObject.getCountry ();
+    final Locale aCountry = CountryCache.getInstance ().getCountry (sCountryID);
+    final String sCountry = aCountry == null ? sCountryID : aCountry.getDisplayCountry (aDisplayLocale);
+    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Country")
+                                                     .setCtrl (new HCSpan ().addChild (sCountry + " ")
+                                                                            .addChild (FamFamFlags.getFlagNodeFromLocale (aCountry))));
+
+    if (aSelectedObject.hasSector ())
+      aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Sector").setCtrl (aSelectedObject.getSector ()));
+
+    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Purpose").setCtrl (aSelectedObject.getPurpose ()));
   }
 
   @Override
@@ -152,6 +183,33 @@ public class PageSecureCEHeaderList extends AbstractBSWebPageForm <ICEHeader>
                                                                                                                  : aSelectedObject.getName ())))
                                                  .setErrorList (aFormErrors.getListOfField (FIELD_NAME))
                                                  .setHelpText ("Display name of the element."));
+
+    aForm.addFormGroup (new BootstrapFormGroup ().setLabelMandatory ("Type")
+                                                 .setCtrl (new HCObjectTypeSelect (new RequestField (FIELD_TYPE,
+                                                                                                     aSelectedObject == null ? null
+                                                                                                                             : aSelectedObject.getTypeID ()),
+                                                                                   aDisplayLocale))
+                                                 .setErrorList (aFormErrors.getListOfField (FIELD_TYPE)));
+
+    aForm.addFormGroup (new BootstrapFormGroup ().setLabelMandatory ("Country")
+                                                 .setCtrl (new HCCountrySelect (new RequestField (FIELD_COUNTRY,
+                                                                                                  aSelectedObject == null ? null
+                                                                                                                          : aSelectedObject.getCountry ()),
+                                                                                aDisplayLocale))
+                                                 .setErrorList (aFormErrors.getListOfField (FIELD_COUNTRY)));
+
+    aForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Sector")
+                                                 .setCtrl (new HCEdit (new RequestField (FIELD_SECTOR,
+                                                                                         aSelectedObject == null ? null
+                                                                                                                 : aSelectedObject.getSector ())))
+                                                 .setErrorList (aFormErrors.getListOfField (FIELD_SECTOR))
+                                                 .setHelpText ("The sector to which the artifact applies to (e.g. 'government' or 'energy')."));
+
+    aForm.addFormGroup (new BootstrapFormGroup ().setLabelMandatory ("Purpose")
+                                                 .setCtrl (new HCEdit (new RequestField (FIELD_PURPOSE,
+                                                                                         aSelectedObject == null ? null
+                                                                                                                 : aSelectedObject.getPurpose ())))
+                                                 .setErrorList (aFormErrors.getListOfField (FIELD_PURPOSE)));
   }
 
   @Override
@@ -166,19 +224,38 @@ public class PageSecureCEHeaderList extends AbstractBSWebPageForm <ICEHeader>
 
     final String sName = aWPEC.params ().getAsStringTrimmed (FIELD_NAME);
 
+    final String sTypeID = aWPEC.params ().getAsStringTrimmed (FIELD_TYPE);
+    final EObjectType eType = EObjectType.getFromIDOrNull (sTypeID);
+
+    final String sCountryCode = aWPEC.params ().getAsStringTrimmed (FIELD_COUNTRY);
+    final Locale aCountry = CountryCache.getInstance ().getCountry (sCountryCode);
+
+    final String sSector = aWPEC.params ().getAsStringTrimmed (FIELD_SECTOR);
+
+    final String sPurpose = aWPEC.params ().getAsStringTrimmed (FIELD_PURPOSE);
+
+    final String sPublisher = aWPEC.params ().getAsStringTrimmed (FIELD_PUBLISHER);
+
+    final String sGovernor = aWPEC.params ().getAsStringTrimmed (FIELD_GOVERNOR);
+
+    final String sUnderlyingSpec = aWPEC.params ().getAsStringTrimmed (FIELD_UNDERLYING_SPEC);
+
+    // Validate
     if (StringHelper.hasNoText (sName))
       aFormErrors.addFieldError (FIELD_NAME, "A name must be provided.");
+
+    if (eType == null)
+      aFormErrors.addFieldError (FIELD_TYPE, "A type must be selected.");
+
+    if (aCountry == null)
+      aFormErrors.addFieldError (FIELD_COUNTRY, "A country must be selected.");
+
+    if (StringHelper.hasNoText (sPurpose))
+      aFormErrors.addFieldError (FIELD_PURPOSE, "A purpose must be provided.");
 
     if (aFormErrors.isEmpty ())
     {
       // TODO
-      final EObjectType eType = null;
-      final String sCountry = null;
-      final String sSector = null;
-      final String sPurpose = null;
-      final String sPublisher = null;
-      final String sGovernor = null;
-      final String sUnderlyingSpec = null;
       final String sFurtherInfo = null;
       final EObjectStatus eState = null;
       final String sContactName = null;
@@ -189,7 +266,7 @@ public class PageSecureCEHeaderList extends AbstractBSWebPageForm <ICEHeader>
         aCEHeaderMgr.updateCEHeader (aSelectedObject.getID (),
                                      sName,
                                      eType,
-                                     sCountry,
+                                     aCountry.getCountry (),
                                      sSector,
                                      sPurpose,
                                      sPublisher,
@@ -207,7 +284,7 @@ public class PageSecureCEHeaderList extends AbstractBSWebPageForm <ICEHeader>
       {
         aCEHeaderMgr.createCEHeader (sName,
                                      eType,
-                                     sCountry,
+                                     aCountry.getCountry (),
                                      sSector,
                                      sPurpose,
                                      sPublisher,
