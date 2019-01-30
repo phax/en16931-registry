@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.url.ISimpleURL;
 import com.helger.html.hc.IHCNode;
+import com.helger.html.hc.html.grouping.HCP;
 import com.helger.html.hc.html.metadata.HCHead;
 import com.helger.html.hc.html.root.HCHtml;
 import com.helger.html.hc.html.sections.HCBody;
@@ -44,11 +45,13 @@ import com.helger.photon.core.app.context.ISimpleWebExecutionContext;
 import com.helger.photon.core.app.context.LayoutExecutionContext;
 import com.helger.photon.core.app.context.SimpleWebExecutionContext;
 import com.helger.photon.core.app.html.AbstractSWECHTMLProvider;
+import com.helger.photon.core.app.layout.CLayout;
 import com.helger.photon.core.servlet.LogoutServlet;
 import com.helger.photon.core.url.LinkHelper;
 import com.helger.photon.security.login.LoggedInUserManager;
 import com.helger.photon.security.user.IUser;
 import com.helger.photon.security.util.SecurityHelper;
+import com.helger.photon.uicore.html.HCCookieConsent;
 import com.helger.registry434.app.CApp;
 import com.helger.web.scope.IRequestWebScopeWithoutResponse;
 import com.helger.xservlet.forcedredirect.ForcedRedirectException;
@@ -129,6 +132,15 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
 
     // Menu and page content
     aOuterContainer.addChild (BootstrapPageRenderer.getMenuAndPageNextToEachOther (aLEC));
+
+    // Footer
+    {
+      final BootstrapContainer aDiv = new BootstrapContainer ().setFluid (true).setID (CLayout.LAYOUT_AREAID_FOOTER);
+      aDiv.addChild (new HCP ().addChild (CApp.APP_NAME + " - a CEN/TC 434 service"));
+      aOuterContainer.addChild (aDiv);
+    }
+
+    aOuterContainer.addChild (HCCookieConsent.createBottomDefault ("#000", "#0f0", "#0f0", null));
 
     aBody.addChild (aOuterContainer);
   }
