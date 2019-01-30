@@ -278,8 +278,9 @@ public class PageSecureCEHeader extends AbstractBSWebPageForm <ICEHeader>
     aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Contact name")
                                                      .setCtrl (aSelectedObject.getContactName ()));
 
-    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Contact email address")
-                                                     .setCtrl (HCA_MailTo.createLinkedEmail (aSelectedObject.getContactEmail ())));
+    if (aSelectedObject.hasContactEmail ())
+      aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Contact email address")
+                                                       .setCtrl (HCA_MailTo.createLinkedEmail (aSelectedObject.getContactEmail ())));
   }
 
   @Override
@@ -417,7 +418,7 @@ public class PageSecureCEHeader extends AbstractBSWebPageForm <ICEHeader>
                                                  .setErrorList (aFormErrors.getListOfField (FIELD_CONTACT_NAME))
                                                  .setHelpText ("The name of the contact point for that specification."));
 
-    aForm.addFormGroup (new BootstrapFormGroup ().setLabelMandatory ("Contact email address")
+    aForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Contact email address")
                                                  .setCtrl (new HCEdit (new RequestField (FIELD_CONTACT_EMAIL,
                                                                                          aSelectedObject == null ? null
                                                                                                                  : aSelectedObject.getContactEmail ())))

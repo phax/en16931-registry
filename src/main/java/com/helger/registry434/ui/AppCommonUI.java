@@ -27,11 +27,13 @@ import javax.annotation.concurrent.Immutable;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.datetime.PDTToString;
+import com.helger.commons.string.StringHelper;
 import com.helger.commons.type.ITypedObject;
 import com.helger.commons.url.ISimpleURL;
 import com.helger.css.property.CCSSProperties;
 import com.helger.css.propertyvalue.CCSSValue;
 import com.helger.html.hc.IHCNode;
+import com.helger.html.hc.ext.HCA_MailTo;
 import com.helger.html.hc.html.embedded.HCImg;
 import com.helger.html.hc.html.textlevel.HCA;
 import com.helger.html.hc.impl.HCNodeList;
@@ -89,6 +91,15 @@ public final class AppCommonUI
         break;
     }
     return new BootstrapBadge (eBadgeType).addChild (eStatus.getDisplayName ().toUpperCase (CApp.DEFAULT_LOCALE));
+  }
+
+  @Nonnull
+  public static IHCNode getUIContact (@Nonnull @Nonempty final String sContactName,
+                                      @Nullable final String sContactEmail)
+  {
+    if (StringHelper.hasNoText (sContactEmail))
+      return new HCTextNode (sContactName);
+    return HCA_MailTo.createLinkedEmail (sContactEmail, sContactName);
   }
 
   @Nullable
