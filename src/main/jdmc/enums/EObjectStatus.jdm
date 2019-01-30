@@ -1,0 +1,6 @@
+{
+  "PLANNED": [ "planned", "Planned" ],
+  "DEV": [ "dev", "in Development" ],
+  "ACTIVE": [ "active", "Active" ],
+  "REVOKED": [ "revoked", "Revoked" ]
+}

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2019 Philip Helger
+    http://www.helger.com
+    philip[at]helger[dot]com
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<web-app version="3.0" 
+         xmlns="http://java.sun.com/xml/ns/javaee" 
+         metadata-complete="false">
+  <display-name>registry434</display-name>
+  <description>Registry/434</description>
+  
+  <session-config>
+    <session-timeout>60</session-timeout>
+  </session-config>
+  <welcome-file-list>
+    <welcome-file></welcome-file>
+  </welcome-file-list>
+  
+  <listener>
+    <listener-class>com.helger.registry434.servlet.AppWebAppListener</listener-class>
+  </listener>
+  
+  <filter>
+    <filter-name>BMSecureLoginFilter</filter-name>
+    <filter-class>com.helger.registry434.servlet.AppSecureLoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>BMSecureLoginFilter</filter-name>
+    <url-pattern>/secure/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>BMSecureLoginFilter</filter-name>
+    <url-pattern>/secureajax/*</url-pattern>
+  </filter-mapping>
+  
+  <servlet>
+    <servlet-name>PublicApplicationServlet</servlet-name>
+    <servlet-class>com.helger.registry434.servlet.AppPublicApplicationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublicApplicationServlet</servlet-name>
+    <url-pattern>/public/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SecureApplicationServlet</servlet-name>
+    <servlet-class>com.helger.registry434.servlet.AppSecureApplicationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SecureApplicationServlet</servlet-name>
+    <url-pattern>/secure/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>RootServlet</servlet-name>
+    <servlet-class>com.helger.registry434.servlet.AppRootServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RootServlet</servlet-name>
+    <url-pattern></url-pattern>
+  </servlet-mapping>
+</web-app>
