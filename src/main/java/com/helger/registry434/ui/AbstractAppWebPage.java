@@ -24,9 +24,9 @@ import com.helger.html.hc.IHCNode;
 import com.helger.photon.bootstrap4.pages.AbstractBootstrapWebPage;
 import com.helger.photon.uicore.page.WebPageExecutionContext;
 
-public abstract class AbstractBSWebPage extends AbstractBootstrapWebPage <WebPageExecutionContext>
+public abstract class AbstractAppWebPage extends AbstractBootstrapWebPage <WebPageExecutionContext>
 {
-  public AbstractBSWebPage (@Nonnull @Nonempty final String sID, @Nonnull final String sName)
+  public AbstractAppWebPage (@Nonnull @Nonempty final String sID, @Nonnull final String sName)
   {
     super (sID, sName);
   }
@@ -34,6 +34,6 @@ public abstract class AbstractBSWebPage extends AbstractBootstrapWebPage <WebPag
   @Nonnull
   protected static IHCNode _unescapeHTML (final String s)
   {
-    return AbstractBSWebPageForm._unescapeHTML (s);
+    return AbstractAppWebPageForm._unescapeHTML (s);
   }
 }

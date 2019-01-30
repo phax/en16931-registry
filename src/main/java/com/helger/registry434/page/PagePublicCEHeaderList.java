@@ -98,9 +98,15 @@ public class PagePublicCEHeaderList extends AbstractBootstrapWebPage <WebPageExe
         final HCNodeList aCtrl = new HCNodeList ();
         // TODO limit
         aCtrl.addChildren (HCExtHelper.nl2divList (aItem.getFurtherInfo ()));
+
+        int nLink = 1;
         for (final String sExternalURL : aItem.externalURLs ())
-          aCtrl.addChild (new HCDiv ().addChild (new HCA (new SimpleURL (sExternalURL)).addChild (sExternalURL)
+        {
+          aCtrl.addChild (new HCDiv ().addChild (new HCA (new SimpleURL (sExternalURL)).addChild ("External link " +
+                                                                                                  nLink)
                                                                                        .setTargetBlank ()));
+          nLink++;
+        }
         aRow.addCell (aCtrl);
       }
       aRow.addCell (AppCommonUI.getUIStatus (aItem.getStatus ()));

@@ -87,10 +87,10 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
                                                                     : null),
                       aLinkToStartPage);
 
-    final BootstrapNavbarToggleable aToggleable = aNavbar.addAndReturnToggleable ();
-
+    final IUser aUser = LoggedInUserManager.getInstance ().getCurrentUser ();
+    if (aUser != null)
     {
-      final IUser aUser = LoggedInUserManager.getInstance ().getCurrentUser ();
+      final BootstrapNavbarToggleable aToggleable = aNavbar.addAndReturnToggleable ();
       aToggleable.addAndReturnText ()
                  .addChild (new HCSpan ().addChild ("Logged in as ")
                                          .addChild (new HCStrong ().addChild (SecurityHelper.getUserDisplayName (aUser,

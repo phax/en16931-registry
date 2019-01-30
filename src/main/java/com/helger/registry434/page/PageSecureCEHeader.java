@@ -89,7 +89,7 @@ import com.helger.registry434.domain.CEHeaderManager;
 import com.helger.registry434.domain.EObjectStatus;
 import com.helger.registry434.domain.EObjectType;
 import com.helger.registry434.domain.ICEHeader;
-import com.helger.registry434.ui.AbstractBSWebPageForm;
+import com.helger.registry434.ui.AbstractAppWebPageForm;
 import com.helger.registry434.ui.AppCommonUI;
 import com.helger.registry434.ui.HCObjectStatusSelect;
 import com.helger.registry434.ui.HCObjectTypeSelect;
@@ -102,7 +102,7 @@ import com.helger.web.scope.IRequestWebScopeWithoutResponse;
  *
  * @author Philip Helger
  */
-public class PageSecureCEHeader extends AbstractBSWebPageForm <ICEHeader>
+public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
 {
   private static final String FIELD_NAME = "name";
   private static final String FIELD_TYPE = "type";
@@ -269,7 +269,8 @@ public class PageSecureCEHeader extends AbstractBSWebPageForm <ICEHeader>
     {
       final HCNodeList aCtrl = new HCNodeList ();
       for (final String sExternalURL : aSelectedObject.externalURLs ())
-        aCtrl.addChild (new HCDiv ().addChild (new HCA (new SimpleURL (sExternalURL)).addChild (sExternalURL).setTargetBlank ()));
+        aCtrl.addChild (new HCDiv ().addChild (new HCA (new SimpleURL (sExternalURL)).addChild (sExternalURL)
+                                                                                     .setTargetBlank ()));
       aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("External URLs").setCtrl (aCtrl));
     }
 
@@ -589,6 +590,7 @@ public class PageSecureCEHeader extends AbstractBSWebPageForm <ICEHeader>
 
     final HCTable aTable = new HCTable (new DTCol ("").setVisible (false),
                                         new DTCol ("Name").setInitialSorting (ESortOrder.ASCENDING),
+                                        new DTCol ("Type"),
                                         new BootstrapDTColAction (aDisplayLocale)).setID (getID ());
     for (final ICEHeader aItem : aCEHeaderMgr.getAll ())
     {
@@ -597,6 +599,7 @@ public class PageSecureCEHeader extends AbstractBSWebPageForm <ICEHeader>
 
       aRow.addCell (aItem.getID ());
       aRow.addCell (new HCA (aViewURL).addChild (aItem.getName ()));
+      aRow.addCell (aItem.getType ().getDisplayName ());
 
       final IHCCell <?> aActionCell = aRow.addCell ();
       if (isActionAllowed (aWPEC, EWebPageFormAction.EDIT, aItem))
