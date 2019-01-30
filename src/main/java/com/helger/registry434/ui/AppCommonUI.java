@@ -37,6 +37,8 @@ import com.helger.html.hc.html.textlevel.HCA;
 import com.helger.html.hc.impl.HCNodeList;
 import com.helger.html.hc.impl.HCTextNode;
 import com.helger.photon.basic.app.menu.IMenuObject;
+import com.helger.photon.bootstrap4.badge.BootstrapBadge;
+import com.helger.photon.bootstrap4.badge.EBootstrapBadgeType;
 import com.helger.photon.bootstrap4.pages.BootstrapPagesMenuConfigurator;
 import com.helger.photon.core.url.LinkHelper;
 import com.helger.photon.security.mgr.PhotonSecurityManager;
@@ -46,6 +48,8 @@ import com.helger.photon.security.usergroup.IUserGroup;
 import com.helger.photon.security.util.SecurityHelper;
 import com.helger.photon.uicore.css.CPageParam;
 import com.helger.photon.uicore.page.IWebPageExecutionContext;
+import com.helger.registry434.app.CApp;
+import com.helger.registry434.domain.EObjectStatus;
 
 @Immutable
 public final class AppCommonUI
@@ -54,12 +58,37 @@ public final class AppCommonUI
   {}
 
   @Nonnull
-  public static HCImg createImg ()
+  public static HCImg createLogoImg ()
   {
     return new HCImg ().setSrc (LinkHelper.getURLWithContext ("/imgs/logo-97-50.png"))
                        .addStyle (CCSSProperties.MARGIN.newValue ("-15px"))
                        .addStyle (CCSSProperties.VERTICAL_ALIGN.newValue (CCSSValue.TOP))
                        .addStyle (CCSSProperties.PADDING.newValue ("0 6px"));
+  }
+
+  @Nullable
+  public static IHCNode getUIStatus (@Nullable final EObjectStatus eStatus)
+  {
+    if (eStatus == null)
+      return null;
+
+    EBootstrapBadgeType eBadgeType = null;
+    switch (eStatus)
+    {
+      case PLANNED:
+        eBadgeType = EBootstrapBadgeType.WARNING;
+        break;
+      case DEV:
+        eBadgeType = EBootstrapBadgeType.SUCCESS;
+        break;
+      case ACTIVE:
+        eBadgeType = EBootstrapBadgeType.SECONDARY;
+        break;
+      case REVOKED:
+        eBadgeType = EBootstrapBadgeType.DANGER;
+        break;
+    }
+    return new BootstrapBadge (eBadgeType).addChild (eStatus.getDisplayName ().toUpperCase (CApp.DEFAULT_LOCALE));
   }
 
   @Nullable
@@ -84,17 +113,17 @@ public final class AppCommonUI
       if (aUserName != null)
       {
         // Date and user
-        return new HCNodeList ().addChildren (new HCTextNode ("am " + sDateTime + " von "), aUserName);
+        return new HCNodeList ().addChildren (new HCTextNode ("on " + sDateTime + " by "), aUserName);
       }
 
       // Date only
-      return new HCTextNode ("am  " + sDateTime);
+      return new HCTextNode ("on  " + sDateTime);
     }
 
     if (aUserName != null)
     {
       // User only
-      return new HCNodeList ().addChildren (new HCTextNode ("von "), aUserName);
+      return new HCNodeList ().addChildren (new HCTextNode ("by "), aUserName);
     }
 
     // Neither nor

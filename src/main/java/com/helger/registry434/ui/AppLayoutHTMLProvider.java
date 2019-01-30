@@ -30,6 +30,7 @@ import com.helger.html.hc.html.sections.HCBody;
 import com.helger.html.hc.html.textlevel.HCSpan;
 import com.helger.html.hc.html.textlevel.HCStrong;
 import com.helger.html.hc.impl.HCNodeList;
+import com.helger.photon.basic.app.appid.CApplicationID;
 import com.helger.photon.basic.app.appid.RequestSettings;
 import com.helger.photon.basic.app.menu.IMenuItemPage;
 import com.helger.photon.bootstrap4.CBootstrapCSS;
@@ -65,7 +66,7 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
   {}
 
   @Nonnull
-  private static IHCNode _getNavbar (@Nonnull final SimpleWebExecutionContext aSWEC)
+  private static IHCNode _getNavbar (@Nonnull final SimpleWebExecutionContext aSWEC, final boolean bIsAdministration)
   {
     final Locale aDisplayLocale = aSWEC.getDisplayLocale ();
     final IRequestWebScopeWithoutResponse aRequestScope = aSWEC.getRequestScope ();
@@ -74,11 +75,13 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
 
     final BootstrapNavbar aNavbar = new BootstrapNavbar ();
 
-    aNavbar.addBrand (AppCommonUI.createImg (), aLinkToStartPage);
+    aNavbar.addBrand (AppCommonUI.createLogoImg (), aLinkToStartPage);
 
-    aNavbar.addBrand (new HCNodeList ().addChild (new HCSpan ().addChild (CApp.APP_NAME).addClass (CApp.CSS_CLASS_LOGO1))
-                                       .addChild (new HCSpan ().addChild (" Administration")
-                                                               .addClass (CApp.CSS_CLASS_LOGO2)),
+    aNavbar.addBrand (new HCNodeList ().addChild (new HCSpan ().addChild (CApp.APP_NAME)
+                                                               .addClass (CApp.CSS_CLASS_LOGO1))
+                                       .addChild (bIsAdministration ? new HCSpan ().addChild (" Administration")
+                                                                                   .addClass (CApp.CSS_CLASS_LOGO2)
+                                                                    : null),
                       aLinkToStartPage);
 
     final BootstrapNavbarToggleable aToggleable = aNavbar.addAndReturnToggleable ();
@@ -86,7 +89,7 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
     {
       final IUser aUser = LoggedInUserManager.getInstance ().getCurrentUser ();
       aToggleable.addAndReturnText ()
-                 .addChild (new HCSpan ().addChild ("Angemeldet als ")
+                 .addChild (new HCSpan ().addChild ("Logged in as ")
                                          .addChild (new HCStrong ().addChild (SecurityHelper.getUserDisplayName (aUser,
                                                                                                                  aDisplayLocale))))
                  .addClass (CBootstrapCSS.ML_AUTO);
@@ -104,6 +107,7 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
                            @Nonnull final HCHtml aHtml) throws ForcedRedirectException
   {
     final IRequestWebScopeWithoutResponse aRequestScope = aSWEC.getRequestScope ();
+    final boolean bIsAdministration = CApplicationID.APP_ID_SECURE.equals (RequestSettings.getApplicationID (aRequestScope));
     final Locale aDisplayLocale = aSWEC.getDisplayLocale ();
     final IMenuItemPage aMenuItem = RequestSettings.getMenuItem (aRequestScope);
     final LayoutExecutionContext aLEC = new LayoutExecutionContext (aSWEC, aMenuItem);
@@ -118,7 +122,7 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
     final BootstrapContainer aOuterContainer = new BootstrapContainer ().setFluid (true);
 
     // Header
-    aOuterContainer.addChild (_getNavbar (aLEC));
+    aOuterContainer.addChild (_getNavbar (aLEC, bIsAdministration));
 
     // Breadcrumbs
     aOuterContainer.addChild (BootstrapPageRenderer.getBreadcrumb (aLEC));

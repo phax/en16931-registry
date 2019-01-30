@@ -6,14 +6,15 @@
   },
   "name": ["String", "Artifact name"],
   "type": ["EObjectType", "Artifact type (CIUS, Extension, ...)"],  
-  "country": ["String", "Country code"],
+  "country": ["String?", "Country code. Optional - none means country independent "],
   "sector": [ "String?", "Special sector to which this artifact applies" ],
-  "purpose": [ "String", "Purpose of the artifact" ],
+  "purpose": [ "String", "Purpose of the artifact, multiline" ],
   "publisher": [ "String", "Who publishes it" ],
   "governor": [ "String", "Who governs it" ],
   "underlyingSpec": [ "String", "Underlying specification" ],
-  "furtherInfo": [ "String?", "External URL where more information can be found" ],
-  "state": [ "EObjectStatus", "Status of this artifact" ],
+  "furtherInfo": [ "String?", "Further information, multiline" ],
+  "externalURLs": [ "String*", "External URLs where more information can be found" ],
+  "status": [ "EObjectStatus", "Status of this artifact" ],
   "contactName": [ "String", "Name of the contact point" ],
-  "contactEmail": [ "String", "Email address of the contact point" ]
+  "contactEmail": [ "String?", "Optional email address of the contact point" ]
 }

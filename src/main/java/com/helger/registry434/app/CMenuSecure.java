@@ -23,12 +23,7 @@ import javax.annotation.concurrent.Immutable;
 public final class CMenuSecure
 {
   // Menu item IDs
-  public static final String MENU_ASSESSMENT = "assessment";
-  public static final String MENU_BIOTOPBAEUME = "assessment-bb";
-  public static final String MENU_HABITATBAUMGRUPPE = "assessment-hbg";
-
-  public static final String MENU_EXPORT = "export";
-  public static final String MENU_EXPORT_EXCEL = "export-excel";
+  public static final String MENU_CE_HEADER = "ceheader";
 
   // Admin stuff
   public static final String MENU_ADMIN = "admin";

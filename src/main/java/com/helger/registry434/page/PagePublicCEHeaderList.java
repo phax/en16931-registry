@@ -30,13 +30,15 @@ public class PagePublicCEHeaderList extends AbstractBootstrapWebPage <WebPageExe
     final CEHeaderManager aCEHeaderMgr = MetaManager.getCEHeaderMgr ();
 
     final HCTable aTable = new HCTable (new DTCol ("").setVisible (false),
-                                        new DTCol ("Name").setInitialSorting (ESortOrder.ASCENDING)).setID (getID ());
+                                        new DTCol ("Name").setInitialSorting (ESortOrder.ASCENDING),
+                                        new DTCol ("Type")).setID (getID ());
     for (final ICEHeader aItem : aCEHeaderMgr.getAll ())
     {
       final HCRow aRow = aTable.addBodyRow ();
 
       aRow.addCell (aItem.getID ());
       aRow.addCell (aItem.getName ());
+      aRow.addCell (aItem.getType ().getDisplayName ());
     }
     aNodeList.addChild (aTable);
     aNodeList.addChild (BootstrapDataTables.createDefaultDataTables (aWPEC, aTable));

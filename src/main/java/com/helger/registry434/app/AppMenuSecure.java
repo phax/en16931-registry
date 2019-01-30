@@ -27,6 +27,7 @@ import com.helger.photon.bootstrap4.pages.security.BasePageSecurityChangePasswor
 import com.helger.photon.security.menu.MenuObjectFilterUserAssignedToUserGroup;
 import com.helger.photon.uicore.page.WebPageExecutionContext;
 import com.helger.photon.uicore.page.system.BasePageShowChildren;
+import com.helger.registry434.page.PageSecureCEHeader;
 
 @Immutable
 public final class AppMenuSecure
@@ -40,6 +41,10 @@ public final class AppMenuSecure
     // statically!
     final MenuObjectFilterUserAssignedToUserGroup aFilterSuperUser = new MenuObjectFilterUserAssignedToUserGroup (CAppSecurity.USERGROUPID_SUPERUSER);
 
+    {
+      aMenuTree.createRootItem (new PageSecureCEHeader (CMenuSecure.MENU_CE_HEADER));
+    }
+
     // Administrator
     {
       final IMenuItemPage aAdmin = aMenuTree.createRootItem (new BasePageShowChildren <WebPageExecutionContext> (CMenuSecure.MENU_ADMIN,
@@ -51,6 +56,6 @@ public final class AppMenuSecure
     }
 
     // Default menu item
-    aMenuTree.setDefaultMenuItemID (CMenuSecure.MENU_ASSESSMENT);
+    aMenuTree.setDefaultMenuItemID (CMenuSecure.MENU_CE_HEADER);
   }
 }
