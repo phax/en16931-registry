@@ -34,6 +34,7 @@ import com.helger.commons.id.factory.GlobalIDFactory;
 import com.helger.commons.locale.country.CountryCache;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.url.ISimpleURL;
+import com.helger.commons.url.SimpleURL;
 import com.helger.commons.url.URLHelper;
 import com.helger.html.hc.IHCNode;
 import com.helger.html.hc.ext.HCA_MailTo;
@@ -267,8 +268,8 @@ public class PageSecureCEHeader extends AbstractBSWebPageForm <ICEHeader>
     if (aSelectedObject.externalURLs ().isNotEmpty ())
     {
       final HCNodeList aCtrl = new HCNodeList ();
-      for (final String sURL : aSelectedObject.externalURLs ())
-        aCtrl.addChild (new HCDiv ().addChild (HCA.createLinkedWebsite (sURL)));
+      for (final String sExternalURL : aSelectedObject.externalURLs ())
+        aCtrl.addChild (new HCDiv ().addChild (new HCA (new SimpleURL (sExternalURL)).addChild (sExternalURL).setTargetBlank ()));
       aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("External URLs").setCtrl (aCtrl));
     }
 

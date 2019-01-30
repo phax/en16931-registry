@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import com.helger.commons.compare.ESortOrder;
 import com.helger.commons.locale.country.CountryCache;
+import com.helger.commons.url.SimpleURL;
 import com.helger.html.hc.ext.HCExtHelper;
 import com.helger.html.hc.html.grouping.HCDiv;
 import com.helger.html.hc.html.tabular.HCRow;
@@ -98,7 +99,8 @@ public class PagePublicCEHeaderList extends AbstractBootstrapWebPage <WebPageExe
         // TODO limit
         aCtrl.addChildren (HCExtHelper.nl2divList (aItem.getFurtherInfo ()));
         for (final String sExternalURL : aItem.externalURLs ())
-          aCtrl.addChild (new HCDiv ().addChild (HCA.createLinkedWebsite (sExternalURL)));
+          aCtrl.addChild (new HCDiv ().addChild (new HCA (new SimpleURL (sExternalURL)).addChild (sExternalURL)
+                                                                                       .setTargetBlank ()));
         aRow.addCell (aCtrl);
       }
       aRow.addCell (AppCommonUI.getUIStatus (aItem.getStatus ()));
