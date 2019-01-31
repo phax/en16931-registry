@@ -1,0 +1,214 @@
+ID;Level;Cardinality;Business Term;Semantic data type
+BT-1;+;1..1;Invoice number;Identifier
+BT-2;+;1..1;Invoice issue date;Date
+BT-3;+;1..1;Invoice type code;Code
+BT-5;+;1..1;Invoice currency code;Code
+BT-6;+;0..1;VAT accounting currency code;Code
+BT-7;+;0..1;Value added tax point date;Date
+BT-8;+;0..1;Value added tax point date code;Code
+BT-9;+;0..1;Payment due date;Date
+BT-10;+;0..1;Buyer reference;Text
+BT-11;+;0..1;Project reference;Document reference
+BT-12;+;0..1;Contract reference;Document reference
+BT-13;+;0..1;Purchase order reference;Document reference
+BT-14;+;0..1;Sales order reference;Document reference
+BT-15;+;0..1;Receiving advice reference;Document reference
+BT-16;+;0..1;Despatch advice reference;Document reference
+BT-17;+;0..1;Tender or lot reference;Document reference
+BT-18;+;0..1;Invoiced object identifier;Identifier
+;;0..1;Scheme identifier;
+BT-19;+;0..1;Buyer accounting reference;Text
+BT-20;+;0..1;Payment terms;Text
+BG-1;+;0..n;INVOICE NOTE;
+BT-21;++;0..1;Invoice note subject code;Text
+BT-22;++;1..1;Invoice note;Text
+BG-2;+;1..1;PROCESS CONTROL;
+BT-23;++;0..1;Business process type;Text
+BT-24;++;1..1;Specification identifier;Identifier
+BG-3;+;0..n;PRECEDING INVOICE REFERENCE;
+BT-25;++;1..1;Preceding Invoice reference;Document reference
+BT-26;++;0..1;Preceding Invoice issue date;Date
+BG-4;+;1..1;SELLER;
+BT-27;++;1..1;Seller name;Text
+BT-28;++;0..1;Seller trading name;Text
+BT-29;++;0..n;Seller identifier;Identifier
+;;0..1;Scheme identifier;
+BT-30;++;0..1;Seller legal registration identifier;Identifier
+;;0..1;Scheme identifier;
+BT-31;++;0..1;Seller VAT identifier;Identifier
+BT-32;++;0..1;Seller tax registration identifier;Identifier
+BT-33;++;0..1;Seller additional legal information;Text
+BT-34;++;0..1;Seller electronic address;Identifier
+;;1..1;Scheme identifier;
+BG-5;++;1..1;SELLER POSTAL ADDRESS;
+BT-35;+++;0..1;Seller address line 1;Text
+BT-36;+++;0..1;Seller address line 2;Text
+BT-162;+++;0..1;Seller address line 3;Text
+BT-37;+++;0..1;Seller city;Text
+BT-38;+++;0..1;Seller post code;Text
+BT-39;+++;0..1;Seller country subdivision;Text
+BT-40;+++;1..1;Seller country code;Code
+BG-6;++;0..1;SELLER CONTACT;
+BT-41;+++;0..1;Seller contact point;Text
+BT-42;+++;0..1;Seller contact telephone number;Text
+BT-43;+++;0..1;Seller contact email address;Text
+BG-7;+;1..1;BUYER;
+BT-44;++;1..1;Buyer name;Text
+BT-45;++;0..1;Buyer trading name;Text
+BT-46;++;0..1;Buyer identifier;Identifier
+;;0..1;Scheme identifier;
+BT-47;++;0..1;Buyer legal registration identifier;Identifier
+;;0..1;Scheme identifier;
+BT-48;++;0..1;Buyer VAT identifier;Identifier
+BT-49;++;0..1;Buyer electronic address;Identifier
+;;1..1;Scheme identifier;
+BG-8;++;1..1;BUYER POSTAL ADDRESS;
+BT-50;+++;0..1;Buyer address line 1;Text
+BT-51;+++;0..1;Buyer address line 2;Text
+BT-163;+++;0..1;Buyer address line 3;Text
+BT-52;+++;0..1;Buyer city;Text
+BT-53;+++;0..1;Buyer post code;Text
+BT-54;+++;0..1;Buyer country subdivision;Text
+BT-55;+++;1..1;Buyer country code;Code
+BG-9;++;0..1;BUYER CONTACT;
+BT-56;+++;0..1;Buyer contact point;Text
+BT-57;+++;0..1;Buyer contact telephone number;Text
+BT-58;+++;0..1;Buyer contact email address;Text
+BG-10;+;0..1;PAYEE;
+BT-59;++;1..1;Payee name;Text
+BT-60;++;0..1;Payee identifier;Identifier
+;;0..1;Scheme identifier;
+BT-61;++;0..1;Payee legal registration identifier;Identifier
+;;0..1;Scheme identifier;
+BG-11;+;0..1;SELLER TAX REPRESENTATIVE PARTY;
+BT-62;++;1..1;Seller tax representative name;Text
+BT-63;++;1..1;Seller tax representative VAT identifier;Identifier
+BG-12;++;1..1;SELLER TAX REPRESENTATIVE POSTAL ADDRESS;
+BT-64;+++;0..1;Tax representative address line 1;Text
+BT-65;+++;0..1;Tax representative address line 2;Text
+BT-164;+++;0..1;Tax representative address line 3;Text
+BT-66;+++;0..1;Tax representative city;Text
+BT-67;+++;0..1;Tax representative post code;Text
+BT-68;+++;0..1;Tax representative country subdivision;Text
+BT-69;+++;1..1;Tax representative country code;Code
+BG-13;+;0..1;DELIVERY INFORMATION;
+BT-70;++;0..1;Deliver to party name;Text
+BT-71;++;0..1;Deliver to location identifier;Identifier
+;;0..1;Scheme identifier;
+BT-72;++;0..1;Actual delivery date;Date
+BG-14;++;0..1;INVOICING PERIOD;
+BT-73;+++;0..1;Invoicing period start date;Date
+BT-74;+++;0..1;Invoicing period end date;Date
+BG-15;++;0..1;DELIVER TO ADDRESS;
+BT-75;+++;0..1;Deliver to address line 1;Text
+BT-76;+++;0..1;Deliver to address line 2;Text
+BT-165;+++;0..1;Deliver to address line 3;Text
+BT-77;+++;0..1;Deliver to city;Text
+BT-78;+++;0..1;Deliver to post code;Text
+BT-79;+++;0..1;Deliver to country subdivision;Text
+BT-80;+++;1..1;Deliver to country code;Code
+BG-16;+;0..1;PAYMENT INSTRUCTIONS;
+BT-81;++;1..1;Payment means type code;Code
+BT-82;++;0..1;Payment means text;Text
+BT-83;++;0..1;Remittance information;Text
+BG-17;++;0..n;CREDIT TRANSFER;
+BT-84;+++;1..1;Payment account identifier;Identifier
+BT-85;+++;0..1;Payment account name;Text
+BT-86;+++;0..1;Payment service provider identifier;Identifier
+BG-18;++;0..1;PAYMENT CARD INFORMATION;
+BT-87;+++;1..1;Payment card primary account number;Text
+BT-88;+++;0..1;Payment card holder name;Text
+BG-19;++;0..1;DIRECT DEBIT;
+BT-89;+++;0..1;Mandate reference identifier;Identifier
+BT-90;+++;0..1;Bank assigned creditor identifier;Identifier
+BT-91;+++;0..1;Debited account identifier;Identifier
+BG-20;+;0..n;DOCUMENT LEVEL ALLOWANCES;
+BT-92;++;1..1;Document level allowance amount;Amount
+BT-93;++;0..1;Document level allowance base amount;Amount
+BT-94;++;0..1;Document level allowance percentage;Percentage
+BT-95;++;1..1;Document level allowance VAT category code;Code
+BT-96;++;0..1;Document level allowance VAT rate;Percentage
+BT-97;++;0..1;Document level allowance reason;Text
+BT-98;++;0..1;Document level allowance reason code;Code
+BG-21;+;0..n;DOCUMENT LEVEL CHARGES;
+BT-99;++;1..1;Document level charge amount;Amount
+BT-100;++;0..1;Document level charge base amount;Amount
+BT-101;++;0..1;Document level charge percentage;Percentage
+BT-102;++;1..1;Document level charge VAT category code;Code
+BT-103;++;0..1;Document level charge VAT rate;Percentage
+BT-104;++;0..1;Document level charge reason;Text
+BT-105;++;0..1;Document level charge reason code;Code
+BG-22;+;1..1;DOCUMENT TOTALS;
+BT-106;++;1..1;Sum of Invoice line net amount;Amount
+BT-107;++;0..1;Sum of allowances on document level;Amount
+BT-108;++;0..1;Sum of charges on document level;Amount
+BT-109;++;1..1;Invoice total amount without VAT;Amount
+BT-110;++;0..1;Invoice total VAT amount;Amount
+BT-111;++;0..1;Invoice total VAT amount in accounting currency;Amount
+BT-112;++;1..1;Invoice total amount with VAT;Amount
+BT-113;++;0..1;Paid amount;Amount
+BT-114;++;0..1;Rounding amount;Amount
+BT-115;++;1..1;Amount due for payment;Amount
+BG-23;+;1..n;VAT BREAKDOWN;
+BT-116;++;1..1;VAT category taxable amount;Amount
+BT-117;++;1..1;VAT category tax amount;Amount
+BT-118;++;1..1;VAT category code;Code
+BT-119;++;0..1;VAT category rate;Percentage
+BT-120;++;0..1;VAT exemption reason text;Text
+BT-121;++;0..1;VAT exemption reason code;Code
+BG-24;+;0..n;ADDITIONAL SUPPORTING DOCUMENTS;
+BT-122;++;1..1;Supporting document reference;Document reference
+BT-123;++;0..1;Supporting document description;Text
+BT-124;++;0..1;External document location;Text
+BT-125;++;0..1;Attached document;Binary object
+;;;;
+;;1..1;Attached document Mime code;
+;;1..1;Attached document Filename;
+BG-25;+;1..n;INVOICE LINE;
+BT-126;++;1..1;Invoice line identifier;Identifier
+BT-127;++;0..1;Invoice line note;Text
+BT-128;++;0..1;Invoice line object identifier;Identifier
+;;0..1;Scheme identifier;
+BT-129;++;1..1;Invoiced quantity;Quantity
+BT-130;++;1..1;Invoiced quantity unit of measure code;Code
+BT-131;++;1..1;Invoice line net amount;Amount
+BT-132;++;0..1;Referenced purchase order line reference;Document reference
+BT-133;++;0..1;Invoice line Buyer accounting reference;Text
+BG-26;++;0..1;INVOICE LINE PERIOD;
+BT-134;+++;0..1;Invoice line period start date;Date
+BT-135;+++;0..1;Invoice line period end date;Date
+BG-27;++;0..n;INVOICE LINE ALLOWANCES;
+BT-136;+++;1..1;Invoice line allowance amount;Amount
+BT-137;+++;0..1;Invoice line allowance base amount;Amount
+BT-138;+++;0..1;Invoice line allowance percentage;Percentage
+BT-139;+++;0..1;Invoice line allowance reason;Text
+BT-140;+++;0..1;Invoice line allowance reason code;Code
+BG-28;++;0..n;INVOICE LINE CHARGES;
+BT-141;+++;1..1;Invoice line charge amount;Amount
+BT-142;+++;0..1;Invoice line charge base amount;Amount
+BT-143;+++;0..1;Invoice line charge percentage;Percentage
+BT-144;+++;0..1;Invoice line charge reason;Text
+BT-145;+++;0..1;Invoice line charge reason code;Code
+BG-29;++;1..1;PRICE DETAILS;
+BT-146;+++;1..1;Item net price;Unit price amount
+BT-147;+++;0..1;Item price discount;Unit price amount
+BT-148;+++;0..1;Item gross price;Unit price amount
+BT-149;+++;0..1;Item price base quantity;Quantity
+BT-150;+++;0..1;Item price base quantity unit of measure code;Code
+BG-30;++;1..1;LINE VAT INFORMATION;
+BT-151;+++;1..1;Invoiced item VAT category code;Code
+BT-152;+++;0..1;Invoiced item VAT rate;Percentage
+BG-31;++;1..1;ITEM INFORMATION;
+BT-153;+++;1..1;Item name;Text
+BT-154;+++;0..1;Item description;Text
+BT-155;+++;0..1;Item Seller's identifier;Identifier
+BT-156;+++;0..1;Item Buyer's identifier;Identifier
+BT-157;+++;0..1;Item standard identifier;Identifier
+;;1..1;Scheme identifier;
+BT-158;+++;0..n;Item classification identifier;Identifier
+;;1..1;Scheme identifier;
+;;0..1;Scheme version identifier;
+BT-159;+++;0..1;Item country of origin;Code
+BG-32;+++;0..n;ITEM ATTRIBUTES;
+BT-160;++++;1..1;Item attribute name;Text
+BT-161;++++;1..1;Item attribute value;Text
