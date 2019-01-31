@@ -1,0 +1,12 @@
+{
+  "AMOUNT": [ "amount", "Amount" ],
+  "BINARY": [ "binary", "Binary object" ],
+  "CODE": [ "code", "Code"],
+  "DATE": [ "date", "Date" ],
+  "DOCREF": [ "docref", "Document reference" ],
+  "IDENTIFIER": [ "id", "Identifier" ],
+  "PERCENTAGE": [ "perc", "Percentage" ],
+  "QUANTITY": [ "quantity", "Quantity" ],
+  "TEXT": [ "text", "Text" ],
+  "UNITPRICE": [ "unitprice", "Unit price amount" ]
+}
