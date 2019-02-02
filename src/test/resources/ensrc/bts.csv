@@ -161,7 +161,6 @@ BT-122;++;1..1;Supporting document reference;Document reference
 BT-123;++;0..1;Supporting document description;Text
 BT-124;++;0..1;External document location;Text
 BT-125;++;0..1;Attached document;Binary object
-;;;;
 ;;1..1;Attached document Mime code;
 ;;1..1;Attached document Filename;
 BG-25;+;1..n;INVOICE LINE;

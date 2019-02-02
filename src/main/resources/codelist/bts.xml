@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <business-term id="BT-1" dt="id" name="Invoice number" card="1..1" />
+  <business-term id="BT-2" dt="date" name="Invoice issue date" card="1..1" />
+  <business-term id="BT-3" dt="code" name="Invoice type code" card="1..1" />
+  <business-term id="BT-5" dt="code" name="Invoice currency code" card="1..1" />
+  <business-term id="BT-6" dt="code" name="VAT accounting currency code" card="0..1" />
+  <business-term id="BT-7" dt="date" name="Value added tax point date" card="0..1" />
+  <business-term id="BT-8" dt="code" name="Value added tax point date code" card="0..1" />
+  <business-term id="BT-9" dt="date" name="Payment due date" card="0..1" />
+  <business-term id="BT-10" dt="text" name="Buyer reference" card="0..1" />
+  <business-term id="BT-11" dt="docref" name="Project reference" card="0..1" />
+  <business-term id="BT-12" dt="docref" name="Contract reference" card="0..1" />
+  <business-term id="BT-13" dt="docref" name="Purchase order reference" card="0..1" />
+  <business-term id="BT-14" dt="docref" name="Sales order reference" card="0..1" />
+  <business-term id="BT-15" dt="docref" name="Receiving advice reference" card="0..1" />
+  <business-term id="BT-16" dt="docref" name="Despatch advice reference" card="0..1" />
+  <business-term id="BT-17" dt="docref" name="Tender or lot reference" card="0..1" />
+  <business-term id="BT-18" dt="id" name="Invoiced object identifier" card="0..1" />
+  <business-term id="BT-19" dt="text" name="Buyer accounting reference" card="0..1" />
+  <business-term id="BT-20" dt="text" name="Payment terms" card="0..1" />
+  <business-group id="BG-1" name="INVOICE NOTE" card="0..n">
+    <business-term id="BT-21" dt="text" name="Invoice note subject code" card="0..1" />
+    <business-term id="BT-22" dt="text" name="Invoice note" card="1..1" />
+  </business-group>
+  <business-group id="BG-2" name="PROCESS CONTROL" card="1..1">
+    <business-term id="BT-23" dt="text" name="Business process type" card="0..1" />
+    <business-term id="BT-24" dt="id" name="Specification identifier" card="1..1" />
+  </business-group>
+  <business-group id="BG-3" name="PRECEDING INVOICE REFERENCE" card="0..n">
+    <business-term id="BT-25" dt="docref" name="Preceding Invoice reference" card="1..1" />
+    <business-term id="BT-26" dt="date" name="Preceding Invoice issue date" card="0..1" />
+  </business-group>
+  <business-group id="BG-4" name="SELLER" card="1..1">
+    <business-term id="BT-27" dt="text" name="Seller name" card="1..1" />
+    <business-term id="BT-28" dt="text" name="Seller trading name" card="0..1" />
+    <business-term id="BT-29" dt="id" name="Seller identifier" card="0..n" />
+    <business-term id="BT-30" dt="id" name="Seller legal registration identifier" card="0..1" />
+    <business-term id="BT-31" dt="id" name="Seller VAT identifier" card="0..1" />
+    <business-term id="BT-32" dt="id" name="Seller tax registration identifier" card="0..1" />
+    <business-term id="BT-33" dt="text" name="Seller additional legal information" card="0..1" />
+    <business-term id="BT-34" dt="id" name="Seller electronic address" card="0..1" />
+    <business-group id="BG-5" name="SELLER POSTAL ADDRESS" card="1..1">
+      <business-term id="BT-35" dt="text" name="Seller address line 1" card="0..1" />
+      <business-term id="BT-36" dt="text" name="Seller address line 2" card="0..1" />
+      <business-term id="BT-162" dt="text" name="Seller address line 3" card="0..1" />
+      <business-term id="BT-37" dt="text" name="Seller city" card="0..1" />
+      <business-term id="BT-38" dt="text" name="Seller post code" card="0..1" />
+      <business-term id="BT-39" dt="text" name="Seller country subdivision" card="0..1" />
+      <business-term id="BT-40" dt="code" name="Seller country code" card="1..1" />
+    </business-group>
+    <business-group id="BG-6" name="SELLER CONTACT" card="0..1">
+      <business-term id="BT-41" dt="text" name="Seller contact point" card="0..1" />
+      <business-term id="BT-42" dt="text" name="Seller contact telephone number" card="0..1" />
+      <business-term id="BT-43" dt="text" name="Seller contact email address" card="0..1" />
+    </business-group>
+  </business-group>
+  <business-group id="BG-7" name="BUYER" card="1..1">
+    <business-term id="BT-44" dt="text" name="Buyer name" card="1..1" />
+    <business-term id="BT-45" dt="text" name="Buyer trading name" card="0..1" />
+    <business-term id="BT-46" dt="id" name="Buyer identifier" card="0..1" />
+    <business-term id="BT-47" dt="id" name="Buyer legal registration identifier" card="0..1" />
+    <business-term id="BT-48" dt="id" name="Buyer VAT identifier" card="0..1" />
+    <business-term id="BT-49" dt="id" name="Buyer electronic address" card="0..1" />
+    <business-group id="BG-8" name="BUYER POSTAL ADDRESS" card="1..1">
+      <business-term id="BT-50" dt="text" name="Buyer address line 1" card="0..1" />
+      <business-term id="BT-51" dt="text" name="Buyer address line 2" card="0..1" />
+      <business-term id="BT-163" dt="text" name="Buyer address line 3" card="0..1" />
+      <business-term id="BT-52" dt="text" name="Buyer city" card="0..1" />
+      <business-term id="BT-53" dt="text" name="Buyer post code" card="0..1" />
+      <business-term id="BT-54" dt="text" name="Buyer country subdivision" card="0..1" />
+      <business-term id="BT-55" dt="code" name="Buyer country code" card="1..1" />
+    </business-group>
+    <business-group id="BG-9" name="BUYER CONTACT" card="0..1">
+      <business-term id="BT-56" dt="text" name="Buyer contact point" card="0..1" />
+      <business-term id="BT-57" dt="text" name="Buyer contact telephone number" card="0..1" />
+      <business-term id="BT-58" dt="text" name="Buyer contact email address" card="0..1" />
+    </business-group>
+  </business-group>
+  <business-group id="BG-10" name="PAYEE" card="0..1">
+    <business-term id="BT-59" dt="text" name="Payee name" card="1..1" />
+    <business-term id="BT-60" dt="id" name="Payee identifier" card="0..1" />
+    <business-term id="BT-61" dt="id" name="Payee legal registration identifier" card="0..1" />
+  </business-group>
+  <business-group id="BG-11" name="SELLER TAX REPRESENTATIVE PARTY" card="0..1">
+    <business-term id="BT-62" dt="text" name="Seller tax representative name" card="1..1" />
+    <business-term id="BT-63" dt="id" name="Seller tax representative VAT identifier" card="1..1" />
+    <business-group id="BG-12" name="SELLER TAX REPRESENTATIVE POSTAL ADDRESS" card="1..1">
+      <business-term id="BT-64" dt="text" name="Tax representative address line 1" card="0..1" />
+      <business-term id="BT-65" dt="text" name="Tax representative address line 2" card="0..1" />
+      <business-term id="BT-164" dt="text" name="Tax representative address line 3" card="0..1" />
+      <business-term id="BT-66" dt="text" name="Tax representative city" card="0..1" />
+      <business-term id="BT-67" dt="text" name="Tax representative post code" card="0..1" />
+      <business-term id="BT-68" dt="text" name="Tax representative country subdivision" card="0..1" />
+      <business-term id="BT-69" dt="code" name="Tax representative country code" card="1..1" />
+    </business-group>
+  </business-group>
+  <business-group id="BG-13" name="DELIVERY INFORMATION" card="0..1">
+    <business-term id="BT-70" dt="text" name="Deliver to party name" card="0..1" />
+    <business-term id="BT-71" dt="id" name="Deliver to location identifier" card="0..1" />
+    <business-term id="BT-72" dt="date" name="Actual delivery date" card="0..1" />
+    <business-group id="BG-14" name="INVOICING PERIOD" card="0..1">
+      <business-term id="BT-73" dt="date" name="Invoicing period start date" card="0..1" />
+      <business-term id="BT-74" dt="date" name="Invoicing period end date" card="0..1" />
+    </business-group>
+    <business-group id="BG-15" name="DELIVER TO ADDRESS" card="0..1">
+      <business-term id="BT-75" dt="text" name="Deliver to address line 1" card="0..1" />
+      <business-term id="BT-76" dt="text" name="Deliver to address line 2" card="0..1" />
+      <business-term id="BT-165" dt="text" name="Deliver to address line 3" card="0..1" />
+      <business-term id="BT-77" dt="text" name="Deliver to city" card="0..1" />
+      <business-term id="BT-78" dt="text" name="Deliver to post code" card="0..1" />
+      <business-term id="BT-79" dt="text" name="Deliver to country subdivision" card="0..1" />
+      <business-term id="BT-80" dt="code" name="Deliver to country code" card="1..1" />
+    </business-group>
+  </business-group>
+  <business-group id="BG-16" name="PAYMENT INSTRUCTIONS" card="0..1">
+    <business-term id="BT-81" dt="code" name="Payment means type code" card="1..1" />
+    <business-term id="BT-82" dt="text" name="Payment means text" card="0..1" />
+    <business-term id="BT-83" dt="text" name="Remittance information" card="0..1" />
+    <business-group id="BG-17" name="CREDIT TRANSFER" card="0..n">
+      <business-term id="BT-84" dt="id" name="Payment account identifier" card="1..1" />
+      <business-term id="BT-85" dt="text" name="Payment account name" card="0..1" />
+      <business-term id="BT-86" dt="id" name="Payment service provider identifier" card="0..1" />
+    </business-group>
+    <business-group id="BG-18" name="PAYMENT CARD INFORMATION" card="0..1">
+      <business-term id="BT-87" dt="text" name="Payment card primary account number" card="1..1" />
+      <business-term id="BT-88" dt="text" name="Payment card holder name" card="0..1" />
+    </business-group>
+    <business-group id="BG-19" name="DIRECT DEBIT" card="0..1">
+      <business-term id="BT-89" dt="id" name="Mandate reference identifier" card="0..1" />
+      <business-term id="BT-90" dt="id" name="Bank assigned creditor identifier" card="0..1" />
+      <business-term id="BT-91" dt="id" name="Debited account identifier" card="0..1" />
+    </business-group>
+  </business-group>
+  <business-group id="BG-20" name="DOCUMENT LEVEL ALLOWANCES" card="0..n">
+    <business-term id="BT-92" dt="amount" name="Document level allowance amount" card="1..1" />
+    <business-term id="BT-93" dt="amount" name="Document level allowance base amount" card="0..1" />
+    <business-term id="BT-94" dt="perc" name="Document level allowance percentage" card="0..1" />
+    <business-term id="BT-95" dt="code" name="Document level allowance VAT category code" card="1..1" />
+    <business-term id="BT-96" dt="perc" name="Document level allowance VAT rate" card="0..1" />
+    <business-term id="BT-97" dt="text" name="Document level allowance reason" card="0..1" />
+    <business-term id="BT-98" dt="code" name="Document level allowance reason code" card="0..1" />
+  </business-group>
+  <business-group id="BG-21" name="DOCUMENT LEVEL CHARGES" card="0..n">
+    <business-term id="BT-99" dt="amount" name="Document level charge amount" card="1..1" />
+    <business-term id="BT-100" dt="amount" name="Document level charge base amount" card="0..1" />
+    <business-term id="BT-101" dt="perc" name="Document level charge percentage" card="0..1" />
+    <business-term id="BT-102" dt="code" name="Document level charge VAT category code" card="1..1" />
+    <business-term id="BT-103" dt="perc" name="Document level charge VAT rate" card="0..1" />
+    <business-term id="BT-104" dt="text" name="Document level charge reason" card="0..1" />
+    <business-term id="BT-105" dt="code" name="Document level charge reason code" card="0..1" />
+  </business-group>
+  <business-group id="BG-22" name="DOCUMENT TOTALS" card="1..1">
+    <business-term id="BT-106" dt="amount" name="Sum of Invoice line net amount" card="1..1" />
+    <business-term id="BT-107" dt="amount" name="Sum of allowances on document level" card="0..1" />
+    <business-term id="BT-108" dt="amount" name="Sum of charges on document level" card="0..1" />
+    <business-term id="BT-109" dt="amount" name="Invoice total amount without VAT" card="1..1" />
+    <business-term id="BT-110" dt="amount" name="Invoice total VAT amount" card="0..1" />
+    <business-term id="BT-111" dt="amount" name="Invoice total VAT amount in accounting currency" card="0..1" />
+    <business-term id="BT-112" dt="amount" name="Invoice total amount with VAT" card="1..1" />
+    <business-term id="BT-113" dt="amount" name="Paid amount" card="0..1" />
+    <business-term id="BT-114" dt="amount" name="Rounding amount" card="0..1" />
+    <business-term id="BT-115" dt="amount" name="Amount due for payment" card="1..1" />
+  </business-group>
+  <business-group id="BG-23" name="VAT BREAKDOWN" card="1..n">
+    <business-term id="BT-116" dt="amount" name="VAT category taxable amount" card="1..1" />
+    <business-term id="BT-117" dt="amount" name="VAT category tax amount" card="1..1" />
+    <business-term id="BT-118" dt="code" name="VAT category code" card="1..1" />
+    <business-term id="BT-119" dt="perc" name="VAT category rate" card="0..1" />
+    <business-term id="BT-120" dt="text" name="VAT exemption reason text" card="0..1" />
+    <business-term id="BT-121" dt="code" name="VAT exemption reason code" card="0..1" />
+  </business-group>
+  <business-group id="BG-24" name="ADDITIONAL SUPPORTING DOCUMENTS" card="0..n">
+    <business-term id="BT-122" dt="docref" name="Supporting document reference" card="1..1" />
+    <business-term id="BT-123" dt="text" name="Supporting document description" card="0..1" />
+    <business-term id="BT-124" dt="text" name="External document location" card="0..1" />
+    <business-term id="BT-125" dt="binary" name="Attached document" card="0..1" />
+  </business-group>
+  <business-group id="BG-25" name="INVOICE LINE" card="1..n">
+    <business-term id="BT-126" dt="id" name="Invoice line identifier" card="1..1" />
+    <business-term id="BT-127" dt="text" name="Invoice line note" card="0..1" />
+    <business-term id="BT-128" dt="id" name="Invoice line object identifier" card="0..1" />
+    <business-term id="BT-129" dt="quantity" name="Invoiced quantity" card="1..1" />
+    <business-term id="BT-130" dt="code" name="Invoiced quantity unit of measure code" card="1..1" />
+    <business-term id="BT-131" dt="amount" name="Invoice line net amount" card="1..1" />
+    <business-term id="BT-132" dt="docref" name="Referenced purchase order line reference" card="0..1" />
+    <business-term id="BT-133" dt="text" name="Invoice line Buyer accounting reference" card="0..1" />
+    <business-group id="BG-26" name="INVOICE LINE PERIOD" card="0..1">
+      <business-term id="BT-134" dt="date" name="Invoice line period start date" card="0..1" />
+      <business-term id="BT-135" dt="date" name="Invoice line period end date" card="0..1" />
+    </business-group>
+    <business-group id="BG-27" name="INVOICE LINE ALLOWANCES" card="0..n">
+      <business-term id="BT-136" dt="amount" name="Invoice line allowance amount" card="1..1" />
+      <business-term id="BT-137" dt="amount" name="Invoice line allowance base amount" card="0..1" />
+      <business-term id="BT-138" dt="perc" name="Invoice line allowance percentage" card="0..1" />
+      <business-term id="BT-139" dt="text" name="Invoice line allowance reason" card="0..1" />
+      <business-term id="BT-140" dt="code" name="Invoice line allowance reason code" card="0..1" />
+    </business-group>
+    <business-group id="BG-28" name="INVOICE LINE CHARGES" card="0..n">
+      <business-term id="BT-141" dt="amount" name="Invoice line charge amount" card="1..1" />
+      <business-term id="BT-142" dt="amount" name="Invoice line charge base amount" card="0..1" />
+      <business-term id="BT-143" dt="perc" name="Invoice line charge percentage" card="0..1" />
+      <business-term id="BT-144" dt="text" name="Invoice line charge reason" card="0..1" />
+      <business-term id="BT-145" dt="code" name="Invoice line charge reason code" card="0..1" />
+    </business-group>
+    <business-group id="BG-29" name="PRICE DETAILS" card="1..1">
+      <business-term id="BT-146" dt="unitprice" name="Item net price" card="1..1" />
+      <business-term id="BT-147" dt="unitprice" name="Item price discount" card="0..1" />
+      <business-term id="BT-148" dt="unitprice" name="Item gross price" card="0..1" />
+      <business-term id="BT-149" dt="quantity" name="Item price base quantity" card="0..1" />
+      <business-term id="BT-150" dt="code" name="Item price base quantity unit of measure code" card="0..1" />
+    </business-group>
+    <business-group id="BG-30" name="LINE VAT INFORMATION" card="1..1">
+      <business-term id="BT-151" dt="code" name="Invoiced item VAT category code" card="1..1" />
+      <business-term id="BT-152" dt="perc" name="Invoiced item VAT rate" card="0..1" />
+    </business-group>
+    <business-group id="BG-31" name="ITEM INFORMATION" card="1..1">
+      <business-term id="BT-153" dt="text" name="Item name" card="1..1" />
+      <business-term id="BT-154" dt="text" name="Item description" card="0..1" />
+      <business-term id="BT-155" dt="id" name="Item Seller's identifier" card="0..1" />
+      <business-term id="BT-156" dt="id" name="Item Buyer's identifier" card="0..1" />
+      <business-term id="BT-157" dt="id" name="Item standard identifier" card="0..1" />
+      <business-term id="BT-158" dt="id" name="Item classification identifier" card="0..n" />
+      <business-term id="BT-159" dt="code" name="Item country of origin" card="0..1" />
+      <business-group id="BG-32" name="ITEM ATTRIBUTES" card="0..n">
+        <business-term id="BT-160" dt="text" name="Item attribute name" card="1..1" />
+        <business-term id="BT-161" dt="text" name="Item attribute value" card="1..1" />
+      </business-group>
+    </business-group>
+  </business-group>
+</root>
