@@ -43,12 +43,10 @@ import com.helger.photon.bootstrap4.uictrls.ext.BootstrapPageRenderer;
 import com.helger.photon.core.EPhotonCoreText;
 import com.helger.photon.core.app.context.ISimpleWebExecutionContext;
 import com.helger.photon.core.app.context.LayoutExecutionContext;
-import com.helger.photon.core.app.context.SimpleWebExecutionContext;
 import com.helger.photon.core.app.html.AbstractSWECHTMLProvider;
 import com.helger.photon.core.app.layout.CLayout;
 import com.helger.photon.core.servlet.LogoutServlet;
 import com.helger.photon.core.url.LinkHelper;
-import com.helger.photon.security.login.LoggedInUserManager;
 import com.helger.photon.security.user.IUser;
 import com.helger.photon.security.util.SecurityHelper;
 import com.helger.photon.uicore.html.HCCookieConsent;
@@ -69,7 +67,7 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
   {}
 
   @Nonnull
-  private static IHCNode _getNavbar (@Nonnull final SimpleWebExecutionContext aSWEC, final boolean bIsAdministration)
+  private static IHCNode _getNavbar (@Nonnull final ISimpleWebExecutionContext aSWEC, final boolean bIsAdministration)
   {
     final Locale aDisplayLocale = aSWEC.getDisplayLocale ();
     final IRequestWebScopeWithoutResponse aRequestScope = aSWEC.getRequestScope ();
@@ -87,7 +85,7 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
                                                                     : null),
                       aLinkToStartPage);
 
-    final IUser aUser = LoggedInUserManager.getInstance ().getCurrentUser ();
+    final IUser aUser = aSWEC.getLoggedInUser ();
     if (aUser != null)
     {
       final BootstrapNavbarToggleable aToggleable = aNavbar.addAndReturnToggleable ();
