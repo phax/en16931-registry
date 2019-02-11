@@ -1,11 +1,11 @@
 {
-/* CIUS or Extension header */
+  /* CIUS or Extension header */
   "$settings" :
   {
     "createManager": true
   },
-  "name": ["String", "Artifact name"],
-  "type": ["EObjectType", "Artifact type (CIUS, Extension, ...)"],  
+  "name": [ "String", "Artifact name" ],
+  "type": [ "EObjectType", "Artifact type (CIUS, Extension, ...)" ],  
   "country": ["String?", "Country code. Optional - none means country independent "],
   "sector": [ "String?", "Special sector to which this artifact applies" ],
   "purpose": [ "String", "Purpose of the artifact, multiline" ],
