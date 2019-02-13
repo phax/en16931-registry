@@ -589,7 +589,8 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
     }
 
     final HCTable aTable = new HCTable (new DTCol ("").setVisible (false),
-                                        new DTCol ("Name").setInitialSorting (ESortOrder.ASCENDING),
+                                        new DTCol ("Artefact name").setInitialSorting (ESortOrder.ASCENDING),
+                                        new DTCol ("Governing entity"),
                                         new DTCol ("Type"),
                                         new BootstrapDTColAction (aDisplayLocale)).setID (getID ());
     for (final ICEHeader aItem : aCEHeaderMgr.getAll ())
@@ -599,6 +600,7 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
 
       aRow.addCell (aItem.getID ());
       aRow.addCell (new HCA (aViewURL).addChild (aItem.getName ()));
+      aRow.addCell (aItem.getGovernor ());
       aRow.addCell (aItem.getType ().getDisplayName ());
 
       final IHCCell <?> aActionCell = aRow.addCell ();

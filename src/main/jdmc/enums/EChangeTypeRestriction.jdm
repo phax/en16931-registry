@@ -1,0 +1,17 @@
+{
+  "_1" : [ "1", "Mark conditional Information element not to be used" ],
+  "_2" : [ "2", "Make semantic definition narrower" ],
+  "_3" : [ "3", "Add synonyms" ],
+  "_4" : [ "4", "Add explanatory text" ],
+  "_5" : [ "5", "Make a conditional element mandatory (0..x – > 1..x)" ],
+  "_6" : [ "6", "Decrease number of repetitions (x..n – > x..1)" ],
+  "_7" : [ "7", "Change semantic data type from string to ..." ],
+  "_8" : [ "8", "Codes and identifiers" ],
+  "_9" : [ "9", "Remove one of multiple defined lists" ],
+  "_10" : [ "10", "Mark defined values as not allowed" ],
+  "_11" : [ "11", "Add new non-conflicting business rule for existing element(s)" ],
+  "_12" : [ "12", "Make an existing business rule more restrictive" ],
+  "_13" : [ "13", "Restrict text or byte array length" ],
+  "_14" : [ "14", "Require defined structured values" ],
+  "_15" : [ "15", "Restrict allowed fraction digits" ]
+}

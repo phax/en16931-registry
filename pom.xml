@@ -87,7 +87,7 @@
       <dependency>
         <groupId>com.helger</groupId>
         <artifactId>ph-web-parent-pom</artifactId>
-        <version>9.1.0</version>
+        <version>9.1.1-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -174,6 +174,7 @@
           <sourceClassDefs>
             <sourceClassDef>classes/*.jdm</sourceClassDef>
             <sourceClassDef>CEHeader.jdm</sourceClassDef>
+            <sourceClassDef>CEDetails.jdm</sourceClassDef>
           </sourceClassDefs>
           <useBusinessObject>true</useBusinessObject>
           <packageName>com.helger.registry434.domain</packageName>

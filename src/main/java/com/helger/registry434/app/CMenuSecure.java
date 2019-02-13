@@ -24,6 +24,7 @@ public final class CMenuSecure
 {
   // Menu item IDs
   public static final String MENU_CE_HEADER = "ceheader";
+  public static final String MENU_CE_DETAILS = "cedetails";
 
   // Admin stuff
   public static final String MENU_ADMIN = "admin";

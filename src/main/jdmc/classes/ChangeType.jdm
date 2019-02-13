@@ -1,0 +1,4 @@
+{
+  "btID" : [ "String", "Business Term ID from bts.xml" ],
+  "changeType" : [ "EChangeTypeRestriction", "Type of change" ]
+}
