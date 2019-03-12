@@ -5,6 +5,7 @@ import java.util.Locale;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.helger.commons.collection.CollectionHelper;
 import com.helger.commons.compare.ESortOrder;
 import com.helger.commons.error.list.IErrorList;
 import com.helger.commons.id.factory.GlobalIDFactory;
@@ -19,8 +20,14 @@ import com.helger.html.hc.html.tabular.IHCCell;
 import com.helger.html.hc.html.textlevel.HCA;
 import com.helger.html.hc.impl.HCNodeList;
 import com.helger.html.jquery.JQuery;
+import com.helger.html.jquery.JQueryAjaxBuilder;
+import com.helger.html.jscode.JSAnonymousFunction;
+import com.helger.html.jscode.JSAssocArray;
+import com.helger.html.jscode.JSPackage;
+import com.helger.html.jscode.JSVar;
 import com.helger.photon.bootstrap4.button.BootstrapButton;
 import com.helger.photon.bootstrap4.button.EBootstrapButtonType;
+import com.helger.photon.bootstrap4.buttongroup.BootstrapButtonToolbar;
 import com.helger.photon.bootstrap4.form.BootstrapForm;
 import com.helger.photon.bootstrap4.form.BootstrapFormGroup;
 import com.helger.photon.bootstrap4.form.BootstrapFormHelper;
@@ -28,26 +35,31 @@ import com.helger.photon.bootstrap4.grid.BootstrapCol;
 import com.helger.photon.bootstrap4.grid.BootstrapRow;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDTColAction;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDataTables;
+import com.helger.photon.core.EPhotonCoreText;
+import com.helger.photon.core.PhotonUnifiedResponse;
 import com.helger.photon.core.ajax.decl.AjaxFunctionDeclaration;
 import com.helger.photon.core.app.context.ILayoutExecutionContext;
 import com.helger.photon.core.app.context.LayoutExecutionContext;
 import com.helger.photon.core.form.FormErrorList;
 import com.helger.photon.core.form.RequestField;
+import com.helger.photon.uicore.html.formlabel.HCFormLabel;
 import com.helger.photon.uicore.icon.EDefaultIcon;
+import com.helger.photon.uicore.js.JSJQueryHelper;
 import com.helger.photon.uicore.page.EWebPageFormAction;
 import com.helger.photon.uicore.page.WebPageExecutionContext;
 import com.helger.photon.uictrls.datatables.column.DTCol;
 import com.helger.registry434.app.MetaManager;
-import com.helger.registry434.domain.CEDetails;
 import com.helger.registry434.domain.CEHeaderManager;
+import com.helger.registry434.domain.ICEDetailsItem;
 import com.helger.registry434.domain.ICEHeader;
-import com.helger.registry434.domain.IChangeType;
 import com.helger.registry434.ui.AbstractAppWebPageForm;
 import com.helger.registry434.ui.HCBTSelect;
 import com.helger.registry434.ui.HCChangeTypeRestrictionSelect;
+import com.helger.servlet.request.IRequestParamMap;
 import com.helger.servlet.request.RequestParamMap;
+import com.helger.web.scope.IRequestWebScopeWithoutResponse;
 
-public class PageSecureCEDetails extends AbstractAppWebPageForm <CEDetails>
+public class PageSecureCEDetails extends AbstractAppWebPageForm <ICEHeader>
 {
   private static final String PREFIX_CHANGETYPE = "changetype";
   private static final String SUFFIX_CHANGETYPE_BT = "bt";
@@ -62,14 +74,14 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <CEDetails>
   {
     s_aAjaxAddRowChangeType = addAjax ( (aRequestScope, aAjaxResponse) -> {
       final LayoutExecutionContext aLEC = LayoutExecutionContext.createForAjaxOrAction (aRequestScope);
-      final IHCNode aNode = _createInputForm (aLEC, (IChangeType) null, (String) null, new FormErrorList ());
+      final IHCNode aNode = _createInputForm (aLEC, (ICEDetailsItem) null, (String) null, new FormErrorList ());
       aAjaxResponse.html (aNode);
     });
   }
 
   @Nonnull
   private static IHCNode _createInputForm (@Nonnull final ILayoutExecutionContext aLEC,
-                                           @Nullable final IChangeType aExistingObject,
+                                           @Nullable final ICEDetailsItem aExistingObject,
                                            @Nullable final String sExistingID,
                                            @Nonnull final FormErrorList aFormErrors)
   {
@@ -130,18 +142,40 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <CEDetails>
   public PageSecureCEDetails (final String sID)
   {
     super (sID, "Details");
-    // TODO
   }
 
   @Override
-  protected CEDetails getSelectedObject (final WebPageExecutionContext aWPEC, final String sID)
+  protected ICEHeader getSelectedObject (@Nonnull final WebPageExecutionContext aWPEC, final String sID)
   {
-    // TODO
-    return null;
+    final CEHeaderManager aCEMgr = MetaManager.getCEHeaderMgr ();
+    return aCEMgr.getCEHeaderOfID (sID);
   }
 
   @Override
-  protected void showSelectedObject (final WebPageExecutionContext aWPEC, final CEDetails aSelectedObject)
+  protected boolean isActionAllowed (@Nonnull final WebPageExecutionContext aWPEC,
+                                     @Nonnull final EWebPageFormAction eFormAction,
+                                     @Nullable final ICEHeader aSelectedObject)
+  {
+    if (aSelectedObject == null)
+      return false;
+
+    switch (eFormAction)
+    {
+      case VIEW:
+      case EDIT:
+      case COPY:
+      case DELETE:
+      case UNDELETE:
+        if (!aSelectedObject.hasDetails ())
+          return false;
+        break;
+    }
+
+    return super.isActionAllowed (aWPEC, eFormAction, aSelectedObject);
+  }
+
+  @Override
+  protected void showSelectedObject (final WebPageExecutionContext aWPEC, final ICEHeader aSelectedObject)
   {
     // TODO
 
@@ -149,29 +183,78 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <CEDetails>
 
   @Override
   protected void showInputForm (@Nonnull final WebPageExecutionContext aWPEC,
-                                @Nullable final CEDetails aSelectedObject,
+                                @Nullable final ICEHeader aSelectedObject,
                                 @Nonnull final BootstrapForm aForm,
                                 final boolean bIsFormSubmitted,
                                 @Nonnull final EWebPageFormAction eFormAction,
                                 @Nonnull final FormErrorList aFormErrors)
   {
     final Locale aDisplayLocale = aWPEC.getDisplayLocale ();
-    // TODO
-    final HCNodeList aNL = new HCNodeList ();
-    for (int i = 0; i < 5; ++i)
+    final IRequestWebScopeWithoutResponse aRequestScope = aWPEC.getRequestScope ();
+    final boolean bEdit = eFormAction.isEdit ();
+
+    aForm.addChild (getUIHandler ().createActionHeader (bEdit ? "Edit the details of '" +
+                                                                aSelectedObject.getName () +
+                                                                "'"
+                                                              : "Create new details for '" +
+                                                                aSelectedObject.getName () +
+                                                                "'"));
+
     {
-      final IHCNode aRow = _createInputForm (aWPEC, null, null, aFormErrors);
-      aNL.addChild (aRow);
+      final BootstrapRow aHeaderRow = new BootstrapRow ();
+      {
+        aHeaderRow.createColumn (3).addChild (HCFormLabel.createMandatory ("Business Term"));
+        aHeaderRow.createColumn (3).addChild (HCFormLabel.createMandatory ("Change Type"));
+        aHeaderRow.createColumn (4).addChild (HCFormLabel.createOptional ("Description"));
+      }
+
+      final HCDiv aEntityContainer = new HCDiv ().setID ("changes");
+
+      if (bIsFormSubmitted)
+      {
+        // Re-show of form
+        final IRequestParamMap aParamBBTrunkSizes = aWPEC.getRequestParamMap ().getMap (PREFIX_CHANGETYPE);
+        if (aParamBBTrunkSizes != null)
+          for (final String sEntityRowID : CollectionHelper.getSorted (aParamBBTrunkSizes.keySet ()))
+            aEntityContainer.addChild (_createInputForm (aWPEC, null, sEntityRowID, aFormErrors));
+      }
+      else
+      {
+        if (aSelectedObject.hasDetails ())
+        {
+          // add all existing stored entities
+          for (final ICEDetailsItem aEntity : aSelectedObject.getDetails ().changes ())
+            aEntityContainer.addChild (_createInputForm (aWPEC, aEntity, (String) null, aFormErrors));
+        }
+      }
+
+      final JSAnonymousFunction aJSAppend = new JSAnonymousFunction ();
+      final JSVar aJSAppendData = aJSAppend.param ("data");
+      aJSAppend.body ()
+               .add (JQuery.idRef (aEntityContainer)
+                           .append (aJSAppendData.ref (PhotonUnifiedResponse.HtmlHelper.PROPERTY_HTML)));
+
+      final JSPackage aOnAdd = new JSPackage ();
+      aOnAdd.add (new JQueryAjaxBuilder ().url (s_aAjaxAddRowChangeType.getInvocationURL (aRequestScope))
+                                          .data (new JSAssocArray ())
+                                          .success (JSJQueryHelper.jqueryAjaxSuccessHandler (aJSAppend, null))
+                                          .build ());
+
+      final BootstrapButtonToolbar aToolbar = new BootstrapButtonToolbar (aWPEC);
+      aToolbar.addChild (new BootstrapButton ().addChild ("Add restriction")
+                                               .setIcon (EDefaultIcon.PLUS)
+                                               .setOnClick (aOnAdd)
+                                               .setButtonType (EBootstrapButtonType.OUTLINE_SECONDARY));
+
+      aForm.addFormGroup (new BootstrapFormGroup ().setLabelMandatory ("Restrictions")
+                                                   .setCtrl (aHeaderRow, aEntityContainer, aToolbar)
+                                                   .setErrorList (aFormErrors.getListOfField (PREFIX_CHANGETYPE)));
     }
-    aNL.addChild (new HCDiv ().addChild (new BootstrapButton ().addChild ("Add restriction")
-                                                               .setIcon (EDefaultIcon.PLUS)
-                                                               .setButtonType (EBootstrapButtonType.OUTLINE_SUCCESS)));
-    aForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Restriction").setCtrl (aNL));
   }
 
   @Override
   protected void validateAndSaveInputParameters (final WebPageExecutionContext aWPEC,
-                                                 final CEDetails aSelectedObject,
+                                                 final ICEHeader aSelectedObject,
                                                  final FormErrorList aFormErrors,
                                                  final EWebPageFormAction eFormAction)
   {
@@ -180,10 +263,8 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <CEDetails>
   }
 
   @Override
-  protected void showListOfExistingObjects (final WebPageExecutionContext aWPEC)
+  protected void showListOfExistingObjects (@Nonnull final WebPageExecutionContext aWPEC)
   {
-    // TODO
-
     final HCNodeList aNodeList = aWPEC.getNodeList ();
     final Locale aDisplayLocale = aWPEC.getDisplayLocale ();
     final CEHeaderManager aCEHeaderMgr = MetaManager.getCEHeaderMgr ();
@@ -191,6 +272,7 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <CEDetails>
     final HCTable aTable = new HCTable (new DTCol ("").setVisible (false),
                                         new DTCol ("Name").setInitialSorting (ESortOrder.ASCENDING),
                                         new DTCol ("Type"),
+                                        new DTCol ("Details?"),
                                         new BootstrapDTColAction (aDisplayLocale)).setID (getID ());
     for (final ICEHeader aItem : aCEHeaderMgr.getAll ())
     {
@@ -200,11 +282,18 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <CEDetails>
       aRow.addCell (aItem.getID ());
       aRow.addCell (new HCA (aViewURL).addChild (aItem.getName ()));
       aRow.addCell (aItem.getType ().getDisplayName ());
+      aRow.addCell (EPhotonCoreText.getYesOrNo (aItem.hasDetails (), aDisplayLocale));
 
       final IHCCell <?> aActionCell = aRow.addCell ();
-      aActionCell.addChild (new HCA (createCreateURL (aWPEC)).setTitle ("Edit")
-                                                             .addChild (EDefaultIcon.EDIT.getAsNode ()));
-      aActionCell.addChild (createDeleteLink (aWPEC, aItem, "Delete"));
+      if (aItem.hasDetails ())
+      {
+        aActionCell.addChild (createEditLink (aWPEC, aItem, "Edit details"));
+        aActionCell.addChild (createDeleteLink (aWPEC, aItem, "Delete details"));
+      }
+      else
+      {
+        aActionCell.addChild (createNestedCreateLink (aWPEC, aItem, "Created details"));
+      }
     }
     aNodeList.addChild (aTable);
     aNodeList.addChild (BootstrapDataTables.createDefaultDataTables (aWPEC, aTable));

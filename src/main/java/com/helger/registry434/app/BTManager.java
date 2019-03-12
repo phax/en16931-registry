@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.util.function.BiConsumer;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.helger.commons.collection.NonBlockingStack;
+import com.helger.commons.collection.impl.CommonsHashMap;
+import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.xml.microdom.IMicroDocument;
 import com.helger.xml.microdom.IMicroElement;
@@ -72,6 +75,8 @@ public final class BTManager
   }
 
   private static final IMicroDocument BT_DOC = MicroReader.readMicroXML (new ClassPathResource ("codelist/bts.xml"));
+  private static final ICommonsMap <String, BusinessGroup> BGS = new CommonsHashMap <> ();
+  private static final ICommonsMap <String, BusinessTerm> BTS = new CommonsHashMap <> ();
 
   private static void _read (@Nonnull final IMicroElement aStart,
                              @Nonnull final NonBlockingStack <BusinessGroup> aStack,
@@ -102,12 +107,35 @@ public final class BTManager
           throw new IllegalStateException ("Unspported tag " + e.getTagName ());
   }
 
+  static
+  {
+    // Initialize map
+    forEach ( (s, x) -> {
+      if (x instanceof BusinessGroup)
+        BGS.put (x.getID (), (BusinessGroup) x);
+      else
+        BTS.put (x.getID (), (BusinessTerm) x);
+    });
+  }
+
   private BTManager ()
   {}
 
-  public static void foreach (@Nonnull final BiConsumer <NonBlockingStack <BusinessGroup>, AbstractBT> aConsumer)
+  public static void forEach (@Nonnull final BiConsumer <NonBlockingStack <BusinessGroup>, AbstractBT> aConsumer)
   {
     final NonBlockingStack <BusinessGroup> aStack = new NonBlockingStack <> ();
     _read (BT_DOC.getDocumentElement (), aStack, aConsumer);
+  }
+
+  @Nullable
+  public static BusinessGroup findBG (@Nullable final String sID)
+  {
+    return BGS.get (sID);
+  }
+
+  @Nullable
+  public static BusinessTerm findBT (@Nullable final String sID)
+  {
+    return BTS.get (sID);
   }
 }

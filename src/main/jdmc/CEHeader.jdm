@@ -16,5 +16,6 @@
   "externalURLs": [ "String*", "External URLs where more information can be found" ],
   "status": [ "EObjectStatus", "Status of this artifact" ],
   "contactName": [ "String", "Name of the contact point" ],
-  "contactEmail": [ "String?", "Optional email address of the contact point" ]
+  "contactEmail": [ "String?", "Optional email address of the contact point" ],
+  "details" : [ "CEDetailsList?" , "Details for this CIUS" ]
 }

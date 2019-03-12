@@ -40,7 +40,7 @@ public class HCBTSelect extends HCExtSelect
 
   static
   {
-    BTManager.foreach ( (aStack,
+    BTManager.forEach ( (aStack,
                          aItem) -> MAP.put (aItem.getID (),
                                             (aStack.isEmpty () ? ""
                                                                : StringHelper.getImplodedMapped (" / ",

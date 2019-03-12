@@ -88,6 +88,7 @@ import com.helger.registry434.app.MetaManager;
 import com.helger.registry434.domain.CEHeaderManager;
 import com.helger.registry434.domain.EObjectStatus;
 import com.helger.registry434.domain.EObjectType;
+import com.helger.registry434.domain.ICEDetailsList;
 import com.helger.registry434.domain.ICEHeader;
 import com.helger.registry434.ui.AbstractAppWebPageForm;
 import com.helger.registry434.ui.AppCommonUI;
@@ -214,8 +215,8 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
   @Override
   protected ICEHeader getSelectedObject (@Nonnull final WebPageExecutionContext aWPEC, @Nullable final String sID)
   {
-    final CEHeaderManager aBBMgr = MetaManager.getCEHeaderMgr ();
-    return aBBMgr.getCEHeaderOfID (sID);
+    final CEHeaderManager aCEMgr = MetaManager.getCEHeaderMgr ();
+    return aCEMgr.getCEHeaderOfID (sID);
   }
 
   @Override
@@ -547,13 +548,15 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
                                      aExternalURLs.getCopyAsList (),
                                      eStatus,
                                      sContactName,
-                                     sContactEmail);
+                                     sContactEmail,
+                                     aSelectedObject.getDetails ());
         aWPEC.postRedirectGetInternal (new BootstrapSuccessBox ().addChild ("Successfully edited '" +
                                                                             aSelectedObject.getName () +
                                                                             "'."));
       }
       else
       {
+        final ICEDetailsList aDetails = null;
         aCEHeaderMgr.createCEHeader (sName,
                                      eType,
                                      aCountry == null ? null : aCountry.getCountry (),
@@ -566,7 +569,8 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
                                      aExternalURLs.getCopyAsList (),
                                      eStatus,
                                      sContactName,
-                                     sContactEmail);
+                                     sContactEmail,
+                                     aDetails);
         aWPEC.postRedirectGetInternal (new BootstrapSuccessBox ().addChild ("Successfully created '" + sName + "'."));
       }
     }

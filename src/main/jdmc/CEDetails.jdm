@@ -1,9 +1,0 @@
-{
-  /* CIUS or Extension details */
-  "$settings" :
-  {
-    "createManager": true
-  },
-  "name": [ "String", "Artifact name" ],
-  "changes" : [ "ChangeType+", "List of changes" ]
-}

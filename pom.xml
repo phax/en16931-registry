@@ -174,7 +174,6 @@
           <sourceClassDefs>
             <sourceClassDef>classes/*.jdm</sourceClassDef>
             <sourceClassDef>CEHeader.jdm</sourceClassDef>
-            <sourceClassDef>CEDetails.jdm</sourceClassDef>
           </sourceClassDefs>
           <useBusinessObject>true</useBusinessObject>
           <packageName>com.helger.registry434.domain</packageName>
