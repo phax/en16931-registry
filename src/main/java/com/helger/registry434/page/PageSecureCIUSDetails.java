@@ -6,6 +6,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.commons.collection.CollectionHelper;
+import com.helger.commons.collection.impl.CommonsArrayList;
+import com.helger.commons.collection.impl.ICommonsList;
+import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.compare.ESortOrder;
 import com.helger.commons.error.list.IErrorList;
 import com.helger.commons.id.factory.GlobalIDFactory;
@@ -25,6 +28,7 @@ import com.helger.html.jscode.JSAnonymousFunction;
 import com.helger.html.jscode.JSAssocArray;
 import com.helger.html.jscode.JSPackage;
 import com.helger.html.jscode.JSVar;
+import com.helger.photon.bootstrap4.alert.BootstrapSuccessBox;
 import com.helger.photon.bootstrap4.button.BootstrapButton;
 import com.helger.photon.bootstrap4.button.EBootstrapButtonType;
 import com.helger.photon.bootstrap4.buttongroup.BootstrapButtonToolbar;
@@ -48,8 +52,14 @@ import com.helger.photon.uicore.js.JSJQueryHelper;
 import com.helger.photon.uicore.page.EWebPageFormAction;
 import com.helger.photon.uicore.page.WebPageExecutionContext;
 import com.helger.photon.uictrls.datatables.column.DTCol;
+import com.helger.registry434.app.BTManager;
+import com.helger.registry434.app.BTManager.BusinessTerm;
+import com.helger.registry434.app.CEHeaderManagerExt;
 import com.helger.registry434.app.MetaManager;
-import com.helger.registry434.domain.CEHeaderManager;
+import com.helger.registry434.domain.CEDetailsItem;
+import com.helger.registry434.domain.CEDetailsList;
+import com.helger.registry434.domain.EChangeTypeRestriction;
+import com.helger.registry434.domain.EObjectType;
 import com.helger.registry434.domain.ICEDetailsItem;
 import com.helger.registry434.domain.ICEHeader;
 import com.helger.registry434.ui.AbstractAppWebPageForm;
@@ -59,12 +69,12 @@ import com.helger.servlet.request.IRequestParamMap;
 import com.helger.servlet.request.RequestParamMap;
 import com.helger.web.scope.IRequestWebScopeWithoutResponse;
 
-public class PageSecureCEDetails extends AbstractAppWebPageForm <ICEHeader>
+public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
 {
-  private static final String PREFIX_CHANGETYPE = "changetype";
-  private static final String SUFFIX_CHANGETYPE_BT = "bt";
-  private static final String SUFFIX_CHANGETYPE_CTR = "ctr";
-  private static final String SUFFIX_CHANGETYPE_DESC = "desc";
+  private static final String PREFIX_DETAILSITEM = "detailsitem";
+  private static final String SUFFIX_DETAILSITEM_BT = "bt";
+  private static final String SUFFIX_DETAILSITEM_CTR = "ctr";
+  private static final String SUFFIX_DETAILSITEM_DESC = "desc";
 
   private static final String TMP_ID_PREFIX = "tmp";
 
@@ -94,7 +104,7 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <ICEHeader>
 
     {
       final BootstrapCol aCol1 = aRow.createColumn (3);
-      final String sFieldBT = RequestParamMap.getFieldName (PREFIX_CHANGETYPE, sEntityID, SUFFIX_CHANGETYPE_BT);
+      final String sFieldBT = RequestParamMap.getFieldName (PREFIX_DETAILSITEM, sEntityID, SUFFIX_DETAILSITEM_BT);
       final IErrorList aErrors = aFormErrors.getListOfField (sFieldBT);
       final HCBTSelect aCtrl = new HCBTSelect (new RequestField (sFieldBT,
                                                                  aExistingObject == null ? null
@@ -107,7 +117,7 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <ICEHeader>
 
     {
       final BootstrapCol aCol2 = aRow.createColumn (3);
-      final String sFieldCTR = RequestParamMap.getFieldName (PREFIX_CHANGETYPE, sEntityID, SUFFIX_CHANGETYPE_CTR);
+      final String sFieldCTR = RequestParamMap.getFieldName (PREFIX_DETAILSITEM, sEntityID, SUFFIX_DETAILSITEM_CTR);
       final IErrorList aErrors = aFormErrors.getListOfField (sFieldCTR);
       final HCChangeTypeRestrictionSelect aCtrl = new HCChangeTypeRestrictionSelect (new RequestField (sFieldCTR,
                                                                                                        aExistingObject == null ? null
@@ -120,7 +130,7 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <ICEHeader>
 
     {
       final BootstrapCol aCol3 = aRow.createColumn (4);
-      final String sFieldDesc = RequestParamMap.getFieldName (PREFIX_CHANGETYPE, sEntityID, SUFFIX_CHANGETYPE_DESC);
+      final String sFieldDesc = RequestParamMap.getFieldName (PREFIX_DETAILSITEM, sEntityID, SUFFIX_DETAILSITEM_DESC);
       final IErrorList aErrors = aFormErrors.getListOfField (sFieldDesc);
       final HCEdit aCtrl = new HCEdit (new RequestField (sFieldDesc,
                                                          aExistingObject == null ? null
@@ -139,15 +149,15 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <ICEHeader>
     return aRow;
   }
 
-  public PageSecureCEDetails (final String sID)
+  public PageSecureCIUSDetails (final String sID)
   {
-    super (sID, "Details");
+    super (sID, "CIUS Details");
   }
 
   @Override
   protected ICEHeader getSelectedObject (@Nonnull final WebPageExecutionContext aWPEC, final String sID)
   {
-    final CEHeaderManager aCEMgr = MetaManager.getCEHeaderMgr ();
+    final CEHeaderManagerExt aCEMgr = MetaManager.getCEHeaderMgr ();
     return aCEMgr.getCEHeaderOfID (sID);
   }
 
@@ -213,9 +223,9 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <ICEHeader>
       if (bIsFormSubmitted)
       {
         // Re-show of form
-        final IRequestParamMap aParamBBTrunkSizes = aWPEC.getRequestParamMap ().getMap (PREFIX_CHANGETYPE);
-        if (aParamBBTrunkSizes != null)
-          for (final String sEntityRowID : CollectionHelper.getSorted (aParamBBTrunkSizes.keySet ()))
+        final IRequestParamMap aParamDetailsItems = aWPEC.getRequestParamMap ().getMap (PREFIX_DETAILSITEM);
+        if (aParamDetailsItems != null)
+          for (final String sEntityRowID : CollectionHelper.getSorted (aParamDetailsItems.keySet ()))
             aEntityContainer.addChild (_createInputForm (aWPEC, null, sEntityRowID, aFormErrors));
       }
       else
@@ -248,7 +258,7 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <ICEHeader>
 
       aForm.addFormGroup (new BootstrapFormGroup ().setLabelMandatory ("Restrictions")
                                                    .setCtrl (aHeaderRow, aEntityContainer, aToolbar)
-                                                   .setErrorList (aFormErrors.getListOfField (PREFIX_CHANGETYPE)));
+                                                   .setErrorList (aFormErrors.getListOfField (PREFIX_DETAILSITEM)));
     }
   }
 
@@ -258,8 +268,75 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <ICEHeader>
                                                  final FormErrorList aFormErrors,
                                                  final EWebPageFormAction eFormAction)
   {
-    // TODO
+    final Locale aDisplayLocale = aWPEC.getDisplayLocale ();
+    final boolean bEdit = eFormAction.isEdit ();
+    final CEHeaderManagerExt aCEMgr = MetaManager.getCEHeaderMgr ();
 
+    final ICommonsList <ICEDetailsItem> aDetailsItems = new CommonsArrayList <> ();
+    final IRequestParamMap aParamDetailItems = aWPEC.getRequestParamMap ().getMap (PREFIX_DETAILSITEM);
+    if (aParamDetailItems != null)
+      for (final String sEntityRowID : aParamDetailItems.keySet ())
+      {
+        final ICommonsMap <String, String> aEntityRow = aParamDetailItems.getValueMap (sEntityRowID);
+        final int nErrors = aFormErrors.size ();
+
+        // Business Term
+        final String sFieldBT = RequestParamMap.getFieldName (PREFIX_DETAILSITEM, sEntityRowID, SUFFIX_DETAILSITEM_BT);
+        final String sEntityBT = aEntityRow.get (SUFFIX_DETAILSITEM_BT);
+        final BusinessTerm aEntityBT = BTManager.findBT (sEntityBT);
+        if (StringHelper.hasNoText (sEntityBT))
+          aFormErrors.addFieldError (sFieldBT, "A Business Term must be selected.");
+        else
+          if (aEntityBT == null)
+            aFormErrors.addFieldError (sFieldBT, "The selected Business Term does not exist.");
+
+        // Change type
+        final String sFieldCTR = RequestParamMap.getFieldName (PREFIX_DETAILSITEM,
+                                                               sEntityRowID,
+                                                               SUFFIX_DETAILSITEM_CTR);
+        final String sEntityCTRID = aEntityRow.get (SUFFIX_DETAILSITEM_CTR);
+        final EChangeTypeRestriction eEntityCTR = EChangeTypeRestriction.getFromIDOrNull (sEntityCTRID);
+        if (StringHelper.hasNoText (sEntityCTRID))
+          aFormErrors.addFieldError (sFieldCTR, "A Change Type must be selected.");
+        else
+          if (eEntityCTR == null)
+            aFormErrors.addFieldError (sFieldCTR, "The selected Change Type does not exist");
+
+        // Description
+        final String sEntityDesc = aEntityRow.get (SUFFIX_DETAILSITEM_DESC);
+
+        if (aFormErrors.size () == nErrors)
+        {
+          // Add to list
+          final CEDetailsItem aEntity = new CEDetailsItem (aEntityBT.getID (), eEntityCTR, sEntityDesc);
+          aDetailsItems.add (aEntity);
+        }
+      }
+
+    if (aDetailsItems.isEmpty ())
+      aFormErrors.addFieldError (PREFIX_DETAILSITEM, "At least one restriction must be present.");
+
+    if (aFormErrors.isEmpty ())
+    {
+      final CEDetailsList aDetailsList = new CEDetailsList (aDetailsItems);
+
+      if (bEdit)
+      {
+        // edit
+        aCEMgr.setDetails (aSelectedObject, aDetailsList);
+        aWPEC.postRedirectGetInternal (new BootstrapSuccessBox ().addChild ("Successfully edited the details of '" +
+                                                                            aSelectedObject.getName () +
+                                                                            "'."));
+      }
+      else
+      {
+        // created
+        aCEMgr.setDetails (aSelectedObject, aDetailsList);
+        aWPEC.postRedirectGetInternal (new BootstrapSuccessBox ().addChild ("Successfully created the details for '" +
+                                                                            aSelectedObject.getName () +
+                                                                            "'."));
+      }
+    }
   }
 
   @Override
@@ -267,14 +344,14 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <ICEHeader>
   {
     final HCNodeList aNodeList = aWPEC.getNodeList ();
     final Locale aDisplayLocale = aWPEC.getDisplayLocale ();
-    final CEHeaderManager aCEHeaderMgr = MetaManager.getCEHeaderMgr ();
+    final CEHeaderManagerExt aCEHeaderMgr = MetaManager.getCEHeaderMgr ();
 
     final HCTable aTable = new HCTable (new DTCol ("").setVisible (false),
                                         new DTCol ("Name").setInitialSorting (ESortOrder.ASCENDING),
                                         new DTCol ("Type"),
                                         new DTCol ("Details?"),
                                         new BootstrapDTColAction (aDisplayLocale)).setID (getID ());
-    for (final ICEHeader aItem : aCEHeaderMgr.getAll ())
+    for (final ICEHeader aItem : aCEHeaderMgr.getAll (x -> x.getType () == EObjectType.CIUS))
     {
       final ISimpleURL aViewURL = createViewURL (aWPEC, aItem);
       final HCRow aRow = aTable.addBodyRow ();
@@ -292,7 +369,7 @@ public class PageSecureCEDetails extends AbstractAppWebPageForm <ICEHeader>
       }
       else
       {
-        aActionCell.addChild (createNestedCreateLink (aWPEC, aItem, "Created details"));
+        aActionCell.addChild (createNestedCreateLink (aWPEC, aItem, "Create details"));
       }
     }
     aNodeList.addChild (aTable);

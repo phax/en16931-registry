@@ -27,7 +27,7 @@ import com.helger.photon.bootstrap4.pages.security.BasePageSecurityChangePasswor
 import com.helger.photon.security.menu.MenuObjectFilterUserAssignedToUserGroup;
 import com.helger.photon.uicore.page.WebPageExecutionContext;
 import com.helger.photon.uicore.page.system.BasePageShowChildren;
-import com.helger.registry434.page.PageSecureCEDetails;
+import com.helger.registry434.page.PageSecureCIUSDetails;
 import com.helger.registry434.page.PageSecureCEHeader;
 
 @Immutable
@@ -44,7 +44,7 @@ public final class AppMenuSecure
 
     {
       aMenuTree.createRootItem (new PageSecureCEHeader (CMenuSecure.MENU_CE_HEADER));
-      aMenuTree.createRootItem (new PageSecureCEDetails (CMenuSecure.MENU_CE_DETAILS));
+      aMenuTree.createRootItem (new PageSecureCIUSDetails (CMenuSecure.MENU_CE_DETAILS));
     }
 
     // Administrator

@@ -25,7 +25,6 @@ import org.slf4j.LoggerFactory;
 import com.helger.commons.annotation.UsedViaReflection;
 import com.helger.commons.exception.InitializationException;
 import com.helger.commons.lang.ClassHelper;
-import com.helger.registry434.domain.CEHeaderManager;
 import com.helger.scope.IScope;
 import com.helger.scope.singleton.AbstractGlobalSingleton;
 
@@ -34,7 +33,7 @@ public final class MetaManager extends AbstractGlobalSingleton
   private static final Logger LOGGER = LoggerFactory.getLogger (MetaManager.class);
   private static final String CE_HEADER_XML = "ceheader.xml";
 
-  private CEHeaderManager m_aHeaderMgr;
+  private CEHeaderManagerExt m_aHeaderMgr;
 
   @Deprecated
   @UsedViaReflection
@@ -52,7 +51,7 @@ public final class MetaManager extends AbstractGlobalSingleton
     try
     {
       // Init managers
-      m_aHeaderMgr = new CEHeaderManager (CE_HEADER_XML);
+      m_aHeaderMgr = new CEHeaderManagerExt (CE_HEADER_XML);
 
       // Migrate
       _runSystemMigrations ();
@@ -72,7 +71,7 @@ public final class MetaManager extends AbstractGlobalSingleton
   }
 
   @Nonnull
-  public static CEHeaderManager getCEHeaderMgr ()
+  public static CEHeaderManagerExt getCEHeaderMgr ()
   {
     return getInstance ().m_aHeaderMgr;
   }
