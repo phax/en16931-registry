@@ -1,4 +1,5 @@
 {
   "btID" : [ "String", "Business Term ID from bts.xml" ],
-  "changeType" : [ "EChangeTypeRestriction", "Type of change" ]
+  "changeType" : [ "EChangeTypeRestriction", "Type of change" ],
+  "description" : [ "String?", "Optional description, may be multi line" ]
 }

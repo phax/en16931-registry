@@ -18,60 +18,52 @@
 package com.helger.registry434.ui;
 
 import java.util.Locale;
-import java.util.function.BiConsumer;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
-import com.helger.commons.collection.NonBlockingStack;
-import com.helger.commons.io.resource.ClassPathResource;
+import com.helger.commons.collection.impl.CommonsLinkedHashMap;
+import com.helger.commons.collection.impl.ICommonsOrderedMap;
 import com.helger.commons.string.StringHelper;
 import com.helger.html.request.IHCRequestField;
 import com.helger.photon.uicore.html.select.HCExtSelect;
-import com.helger.xml.microdom.IMicroDocument;
-import com.helger.xml.microdom.IMicroElement;
-import com.helger.xml.microdom.serialize.MicroReader;
+import com.helger.registry434.app.BTManager;
 
 /**
- * Object status select.
+ * Business term select.
  *
  * @author Philip Helger
  */
 public class HCBTSelect extends HCExtSelect
 {
-  private static final IMicroDocument aDoc = MicroReader.readMicroXML (new ClassPathResource ("codelist/bts.xml"));
+  private static final ICommonsOrderedMap <String, String> MAP = new CommonsLinkedHashMap <> ();
+
+  static
+  {
+    BTManager.foreach ( (aStack,
+                         aItem) -> MAP.put (aItem.getID (),
+                                            (aStack.isEmpty () ? ""
+                                                               : StringHelper.getImplodedMapped (" / ",
+                                                                                                 aStack,
+                                                                                                 x -> x.getID () +
+                                                                                                      " " +
+                                                                                                      x.getName ()) +
+                                                                 " / ") +
+                                                            aItem.getID () +
+                                                            " " +
+                                                            aItem.getName () +
+                                                            " [" +
+                                                            aItem.getCard () +
+                                                            "]"));
+  }
 
   public HCBTSelect (@Nonnull final IHCRequestField aRF, @Nonnull final Locale aDisplayLocale)
   {
     super (aRF);
 
-    final NonBlockingStack <String> aStack = new NonBlockingStack <> ();
-    _read (aDoc.getDocumentElement (),
-           aStack,
-           (x, s) -> addOption (x.getAttributeValue ("id"),
-                                (s.isEmpty () ? "" : StringHelper.getImploded (" / ", s) + " / ") +
-                                                            x.getAttributeValue ("id") +
-                                                            " " +
-                                                            x.getAttributeValue ("name") +
-                                                            " [" +
-                                                            x.getAttributeValue ("card") +
-                                                            "]"));
+    for (final Map.Entry <String, String> aEntry : MAP.entrySet ())
+      addOption (aEntry.getKey (), aEntry.getValue ());
 
     addOptionPleaseSelect (aDisplayLocale);
-  }
-
-  private void _read (final IMicroElement aStart,
-                      final NonBlockingStack <String> aStack,
-                      final BiConsumer <IMicroElement, NonBlockingStack <String>> aObject)
-  {
-    for (final IMicroElement e : aStart.getAllChildElements ())
-      if (e.getTagName ().equals ("business-group"))
-      {
-        aObject.accept (e, aStack);
-        aStack.push (e.getAttributeValue ("id") + " " + e.getAttributeValue ("name"));
-        _read (e, aStack, aObject);
-        aStack.pop ();
-      }
-      else
-        aObject.accept (e, aStack);
   }
 }
