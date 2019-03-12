@@ -53,13 +53,13 @@ public class PagePublicCEHeaderList extends AbstractBootstrapWebPage <WebPageExe
     final CEHeaderManager aCEHeaderMgr = MetaManager.getCEHeaderMgr ();
 
     final HCTable aTable = new HCTable (new DTCol ("").setVisible (false),
-                                        new DTCol ("Name").setInitialSorting (ESortOrder.ASCENDING),
+                                        new DTCol ("Artefact name").setInitialSorting (ESortOrder.ASCENDING),
                                         new DTCol ("Type"),
                                         new DTCol ("Country"),
                                         new DTCol ("Sector"),
                                         new DTCol ("Purpose").setOrderable (false),
                                         new DTCol ("Publisher"),
-                                        new DTCol ("Governor"),
+                                        new DTCol ("Governing Entity"),
                                         new DTCol ("Underlying spec"),
                                         new DTCol ("Further information").setOrderable (false),
                                         new DTCol ("Status"),

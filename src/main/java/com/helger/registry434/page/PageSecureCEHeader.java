@@ -228,7 +228,7 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
     final BootstrapViewForm aViewForm = new BootstrapViewForm ();
     aNodeList.addChild (aViewForm);
 
-    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Name").setCtrl (aSelectedObject.getName ()));
+    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Artefact name").setCtrl (aSelectedObject.getName ()));
 
     aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Type")
                                                      .setCtrl (aSelectedObject.getType ().getDisplayName ()));
@@ -256,7 +256,8 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
 
     aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Publisher").setCtrl (aSelectedObject.getPublisher ()));
 
-    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Governor").setCtrl (aSelectedObject.getGovernor ()));
+    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Governing entity")
+                                                     .setCtrl (aSelectedObject.getGovernor ()));
 
     aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Underlying specification")
                                                      .setCtrl (aSelectedObject.getUnderlyingSpec ()));
@@ -339,12 +340,12 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
                                                  .setErrorList (aFormErrors.getListOfField (FIELD_PUBLISHER))
                                                  .setHelpText ("The party who formally publishes the specification."));
 
-    aForm.addFormGroup (new BootstrapFormGroup ().setLabelMandatory ("Governor")
+    aForm.addFormGroup (new BootstrapFormGroup ().setLabelMandatory ("Governing entity")
                                                  .setCtrl (new HCEdit (new RequestField (FIELD_GOVERNOR,
                                                                                          aSelectedObject == null ? null
                                                                                                                  : aSelectedObject.getGovernor ())))
                                                  .setErrorList (aFormErrors.getListOfField (FIELD_GOVERNOR))
-                                                 .setHelpText ("The party who provides the specification its authority."));
+                                                 .setHelpText ("An entity that creates a registrable artefact and becomes responsible for its maintenance and development on an ongoing basis."));
 
     aForm.addFormGroup (new BootstrapFormGroup ().setLabelMandatory ("Underlying specification")
                                                  .setCtrl (new HCEdit (new RequestField (FIELD_UNDERLYING_SPEC,
@@ -510,7 +511,7 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
       aFormErrors.addFieldError (FIELD_PUBLISHER, "A publisher must be provided.");
 
     if (StringHelper.hasNoText (sGovernor))
-      aFormErrors.addFieldError (FIELD_GOVERNOR, "A governor must be provided.");
+      aFormErrors.addFieldError (FIELD_GOVERNOR, "A governing entity must be provided.");
 
     if (StringHelper.hasNoText (sUnderlyingSpec))
       aFormErrors.addFieldError (FIELD_UNDERLYING_SPEC, "An underlying specification must be provided.");
@@ -585,7 +586,7 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
 
     {
       final BootstrapButtonToolbar aToolbar = new BootstrapButtonToolbar (aWPEC);
-      aToolbar.addChild (new BootstrapButton ().addChild ("Create a new element")
+      aToolbar.addChild (new BootstrapButton ().addChild ("Create a new artefact")
                                                .setOnClick (createCreateURL (aWPEC))
                                                .setIcon (EDefaultIcon.NEW)
                                                .setButtonType (EBootstrapButtonType.OUTLINE_PRIMARY));

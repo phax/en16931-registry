@@ -197,7 +197,8 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
                                      @Nonnull final EWebPageFormAction eFormAction,
                                      @Nullable final ICEHeader aSelectedObject)
   {
-    if (aSelectedObject == null)
+    // A valid CIUS must be selected
+    if (aSelectedObject == null || aSelectedObject.getType () != EObjectType.CIUS)
       return false;
 
     switch (eFormAction)
