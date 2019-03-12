@@ -310,7 +310,6 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
                                                  @Nonnull final FormErrorList aFormErrors,
                                                  @Nonnull final EWebPageFormAction eFormAction)
   {
-    final Locale aDisplayLocale = aWPEC.getDisplayLocale ();
     final boolean bEdit = eFormAction.isEdit ();
     final CEHeaderManagerExt aCEMgr = MetaManager.getCEHeaderMgr ();
 

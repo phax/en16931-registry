@@ -17,6 +17,7 @@
  */
 package com.helger.registry434.page;
 
+import java.util.Comparator;
 import java.util.Locale;
 
 import javax.annotation.Nonnull;
@@ -119,8 +120,6 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
   private static final String FIELD_STATUS = "status";
   private static final String FIELD_CONTACT_NAME = "contactname";
   private static final String FIELD_CONTACT_EMAIL = "contactemail";
-
-  private static final String TMP_ID_PREFIX = "tmp";
 
   private static final AjaxFunctionDeclaration s_aAjaxCreateURL;
 
@@ -364,12 +363,12 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
     {
       final HCDiv aEntityContainer = new HCDiv ().setID ("externalurls");
 
-      final IRequestParamMap aParamBBs = aWPEC.getRequestParamMap ().getMap (PREFIX_EXTERNAL_URL);
       if (bIsFormSubmitted)
       {
         // Re-show of form
-        if (aParamBBs != null)
-          for (final String sEntityRowID : CollectionHelper.getSorted (aParamBBs.keySet ()))
+        final IRequestParamMap aParamExternalURLs = aWPEC.getRequestParamMap ().getMap (PREFIX_EXTERNAL_URL);
+        if (aParamExternalURLs != null)
+          for (final String sEntityRowID : CollectionHelper.getSorted (aParamExternalURLs.keySet ()))
             aEntityContainer.addChild (_createURLInputForm (aWPEC, null, sEntityRowID, aFormErrors));
       }
       else
@@ -461,7 +460,8 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
     final ICommonsSet <String> aExternalURLs = new CommonsLinkedHashSet <> ();
     final IRequestParamMap aParamExternalURLs = aWPEC.getRequestParamMap ().getMap (PREFIX_EXTERNAL_URL);
     if (aParamExternalURLs != null)
-      for (final String sEntityRowID : aParamExternalURLs.keySet ())
+      for (final String sEntityRowID : aParamExternalURLs.keySet ()
+                                                         .getSorted (Comparator.comparingInt (AbstractAppWebPageForm::getAsIntAfterPrefix)))
       {
         final ICommonsMap <String, String> aEntityRow = aParamExternalURLs.getValueMap (sEntityRowID);
         final int nErrors = aFormErrors.size ();
