@@ -6,10 +6,14 @@ import java.util.function.BiConsumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.helger.commons.annotation.ReturnsMutableObject;
 import com.helger.commons.collection.NonBlockingStack;
 import com.helger.commons.collection.impl.CommonsHashMap;
+import com.helger.commons.collection.impl.CommonsLinkedHashMap;
 import com.helger.commons.collection.impl.ICommonsMap;
+import com.helger.commons.collection.impl.ICommonsOrderedMap;
 import com.helger.commons.io.resource.ClassPathResource;
+import com.helger.commons.string.StringHelper;
 import com.helger.xml.microdom.IMicroDocument;
 import com.helger.xml.microdom.IMicroElement;
 import com.helger.xml.microdom.serialize.MicroReader;
@@ -77,6 +81,7 @@ public final class BTManager
   private static final IMicroDocument BT_DOC = MicroReader.readMicroXML (new ClassPathResource ("codelist/bts.xml"));
   private static final ICommonsMap <String, BusinessGroup> BGS = new CommonsHashMap <> ();
   private static final ICommonsMap <String, BusinessTerm> BTS = new CommonsHashMap <> ();
+  private static final ICommonsOrderedMap <String, String> LONG_NAMES = new CommonsLinkedHashMap <> ();
 
   private static void _read (@Nonnull final IMicroElement aStart,
                              @Nonnull final NonBlockingStack <BusinessGroup> aStack,
@@ -110,11 +115,19 @@ public final class BTManager
   static
   {
     // Initialize map
-    forEach ( (s, x) -> {
-      if (x instanceof BusinessGroup)
-        BGS.put (x.getID (), (BusinessGroup) x);
+    forEach ( (aStack, aItem) -> {
+      if (aItem instanceof BusinessGroup)
+        BGS.put (aItem.getID (), (BusinessGroup) aItem);
       else
-        BTS.put (x.getID (), (BusinessTerm) x);
+        BTS.put (aItem.getID (), (BusinessTerm) aItem);
+
+      final String sPrefix = aStack.isEmpty () ? ""
+                                               : StringHelper.getImplodedMapped (" / ",
+                                                                                 aStack,
+                                                                                 x -> x.getID () + " " + x.getName ()) +
+                                                 " / ";
+      LONG_NAMES.put (aItem.getID (),
+                      sPrefix + aItem.getID () + " " + aItem.getName () + " [" + aItem.getCard () + "]");
     });
   }
 
@@ -137,5 +150,12 @@ public final class BTManager
   public static BusinessTerm findBT (@Nullable final String sID)
   {
     return BTS.get (sID);
+  }
+
+  @Nonnull
+  @ReturnsMutableObject
+  public static ICommonsOrderedMap <String, String> longNames ()
+  {
+    return LONG_NAMES;
   }
 }

@@ -41,6 +41,7 @@ import com.helger.photon.bootstrap4.form.BootstrapFormHelper;
 import com.helger.photon.bootstrap4.grid.BootstrapCol;
 import com.helger.photon.bootstrap4.grid.BootstrapRow;
 import com.helger.photon.bootstrap4.pages.handler.AbstractBootstrapWebPageActionHandlerDelete;
+import com.helger.photon.bootstrap4.table.BootstrapTable;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDTColAction;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDataTables;
 import com.helger.photon.core.EPhotonCoreText;
@@ -218,8 +219,19 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
   protected void showSelectedObject (@Nonnull final WebPageExecutionContext aWPEC,
                                      @Nonnull final ICEHeader aSelectedObject)
   {
-    // TODO
+    final HCNodeList aNodeList = aWPEC.getNodeList ();
 
+    final BootstrapTable aTable = new BootstrapTable ();
+    aTable.addHeaderRow ().addCells ("Business Term", "Change Type", "Description");
+    for (final ICEDetailsItem aItem : aSelectedObject.getDetails ().changes ())
+    {
+      final HCRow aRow = aTable.addBodyRow ();
+      aRow.addCell (BTManager.longNames ().get (aItem.getBtID ()));
+      aRow.addCell (aItem.getChangeType ().getDisplayName ());
+      aRow.addCell (aItem.getDescription ());
+    }
+
+    aNodeList.addChild (aTable);
   }
 
   @Override
@@ -230,7 +242,6 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
                                 @Nonnull final EWebPageFormAction eFormAction,
                                 @Nonnull final FormErrorList aFormErrors)
   {
-    final Locale aDisplayLocale = aWPEC.getDisplayLocale ();
     final IRequestWebScopeWithoutResponse aRequestScope = aWPEC.getRequestScope ();
     final boolean bEdit = eFormAction.isEdit ();
 
