@@ -1,5 +1,6 @@
 package com.helger.registry434.page;
 
+import java.util.Comparator;
 import java.util.Locale;
 
 import javax.annotation.Nonnull;
@@ -28,6 +29,8 @@ import com.helger.html.jscode.JSAnonymousFunction;
 import com.helger.html.jscode.JSAssocArray;
 import com.helger.html.jscode.JSPackage;
 import com.helger.html.jscode.JSVar;
+import com.helger.photon.bootstrap4.alert.BootstrapErrorBox;
+import com.helger.photon.bootstrap4.alert.BootstrapQuestionBox;
 import com.helger.photon.bootstrap4.alert.BootstrapSuccessBox;
 import com.helger.photon.bootstrap4.button.BootstrapButton;
 import com.helger.photon.bootstrap4.button.EBootstrapButtonType;
@@ -37,6 +40,7 @@ import com.helger.photon.bootstrap4.form.BootstrapFormGroup;
 import com.helger.photon.bootstrap4.form.BootstrapFormHelper;
 import com.helger.photon.bootstrap4.grid.BootstrapCol;
 import com.helger.photon.bootstrap4.grid.BootstrapRow;
+import com.helger.photon.bootstrap4.pages.handler.AbstractBootstrapWebPageActionHandlerDelete;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDTColAction;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDataTables;
 import com.helger.photon.core.EPhotonCoreText;
@@ -75,8 +79,6 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
   private static final String SUFFIX_DETAILSITEM_BT = "bt";
   private static final String SUFFIX_DETAILSITEM_CTR = "ctr";
   private static final String SUFFIX_DETAILSITEM_DESC = "desc";
-
-  private static final String TMP_ID_PREFIX = "tmp";
 
   private static final AjaxFunctionDeclaration s_aAjaxAddRowChangeType;
 
@@ -152,6 +154,34 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
   public PageSecureCIUSDetails (final String sID)
   {
     super (sID, "CIUS Details");
+    setDeleteHandler (new AbstractBootstrapWebPageActionHandlerDelete <ICEHeader, WebPageExecutionContext> ()
+    {
+      @Override
+      protected void showDeleteQuery (@Nonnull final WebPageExecutionContext aWPEC,
+                                      @Nonnull final BootstrapForm aForm,
+                                      @Nonnull final ICEHeader aSelectedObject)
+      {
+        aForm.addChild (new BootstrapQuestionBox ().addChild (new HCDiv ().addChild ("Are you sure to delete the details of '" +
+                                                                                     aSelectedObject.getName () +
+                                                                                     "'?"))
+                                                   .addChild (new HCDiv ().addChild ("It will NOT be possible to restore the details.")));
+      }
+
+      @Override
+      protected void performDelete (@Nonnull final WebPageExecutionContext aWPEC,
+                                    @Nonnull final ICEHeader aSelectedObject)
+      {
+        final CEHeaderManagerExt aCEHeaderMgr = MetaManager.getCEHeaderMgr ();
+        if (aCEHeaderMgr.setDetails (aSelectedObject, null).isChanged ())
+          aWPEC.postRedirectGetInternal (new BootstrapSuccessBox ().addChild ("The details of '" +
+                                                                              aSelectedObject.getName () +
+                                                                              "' were successfully deleted!"));
+        else
+          aWPEC.postRedirectGetInternal (new BootstrapErrorBox ().addChild ("Error deleting details of '" +
+                                                                            aSelectedObject.getName () +
+                                                                            "'!"));
+      }
+    });
   }
 
   @Override
@@ -185,7 +215,8 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
   }
 
   @Override
-  protected void showSelectedObject (final WebPageExecutionContext aWPEC, final ICEHeader aSelectedObject)
+  protected void showSelectedObject (@Nonnull final WebPageExecutionContext aWPEC,
+                                     @Nonnull final ICEHeader aSelectedObject)
   {
     // TODO
 
@@ -193,7 +224,7 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
 
   @Override
   protected void showInputForm (@Nonnull final WebPageExecutionContext aWPEC,
-                                @Nullable final ICEHeader aSelectedObject,
+                                @Nonnull final ICEHeader aSelectedObject,
                                 @Nonnull final BootstrapForm aForm,
                                 final boolean bIsFormSubmitted,
                                 @Nonnull final EWebPageFormAction eFormAction,
@@ -263,10 +294,10 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
   }
 
   @Override
-  protected void validateAndSaveInputParameters (final WebPageExecutionContext aWPEC,
-                                                 final ICEHeader aSelectedObject,
-                                                 final FormErrorList aFormErrors,
-                                                 final EWebPageFormAction eFormAction)
+  protected void validateAndSaveInputParameters (@Nonnull final WebPageExecutionContext aWPEC,
+                                                 @Nonnull final ICEHeader aSelectedObject,
+                                                 @Nonnull final FormErrorList aFormErrors,
+                                                 @Nonnull final EWebPageFormAction eFormAction)
   {
     final Locale aDisplayLocale = aWPEC.getDisplayLocale ();
     final boolean bEdit = eFormAction.isEdit ();
@@ -275,7 +306,8 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
     final ICommonsList <ICEDetailsItem> aDetailsItems = new CommonsArrayList <> ();
     final IRequestParamMap aParamDetailItems = aWPEC.getRequestParamMap ().getMap (PREFIX_DETAILSITEM);
     if (aParamDetailItems != null)
-      for (final String sEntityRowID : aParamDetailItems.keySet ())
+      for (final String sEntityRowID : aParamDetailItems.keySet ()
+                                                        .getSorted (Comparator.comparingInt (AbstractAppWebPageForm::getAsIntAfterPrefix)))
       {
         final ICommonsMap <String, String> aEntityRow = aParamDetailItems.getValueMap (sEntityRowID);
         final int nErrors = aFormErrors.size ();

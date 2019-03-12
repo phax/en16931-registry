@@ -22,6 +22,8 @@ import javax.annotation.Nullable;
 
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.id.IHasID;
+import com.helger.commons.id.factory.GlobalIDFactory;
+import com.helger.commons.id.factory.StringIDFactory;
 import com.helger.commons.name.IHasDisplayName;
 import com.helger.commons.string.StringHelper;
 import com.helger.html.hc.IHCNode;
@@ -33,6 +35,9 @@ import com.helger.photon.uicore.page.WebPageExecutionContext;
 public abstract class AbstractAppWebPageForm <DATATYPE extends IHasID <String>> extends
                                              AbstractBootstrapWebPageForm <DATATYPE, WebPageExecutionContext>
 {
+  protected static final String TMP_ID_PREFIX = ((StringIDFactory) GlobalIDFactory.getPersistentStringIDFactory ()).getPrefix ();
+  private static final int ID_PREFIX_LENGTH = TMP_ID_PREFIX.length ();
+
   public AbstractAppWebPageForm (@Nonnull @Nonempty final String sID, @Nonnull final String sName)
   {
     super (sID, sName);
@@ -59,5 +64,20 @@ public abstract class AbstractAppWebPageForm <DATATYPE extends IHasID <String>> 
   {
     final IHCNode ret = UITextFormatter.unescapeHTML (s);
     return new HCSpan ().addChild (ret);
+  }
+
+  public static final int getAsIntAfterPrefix (@Nullable final String s)
+  {
+    // use the length of the "TMP_ID_PREFIX" constant
+    if (s != null && s.length () > ID_PREFIX_LENGTH)
+      try
+      {
+        return Integer.parseInt (s.substring (ID_PREFIX_LENGTH), 10);
+      }
+      catch (final NumberFormatException ex)
+      {
+        // Fall through
+      }
+    return -1;
   }
 }
