@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2019 Philip Helger
+ * http://www.helger.com
+ * philip[at]helger[dot]com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.helger.registry434.page;
 
 import java.util.Comparator;
@@ -57,10 +74,10 @@ import com.helger.photon.uicore.js.JSJQueryHelper;
 import com.helger.photon.uicore.page.EWebPageFormAction;
 import com.helger.photon.uicore.page.WebPageExecutionContext;
 import com.helger.photon.uictrls.datatables.column.DTCol;
-import com.helger.registry434.app.BTManager;
-import com.helger.registry434.app.BTManager.BusinessTerm;
 import com.helger.registry434.app.CEHeaderManagerExt;
 import com.helger.registry434.app.MetaManager;
+import com.helger.registry434.app.bt.BTManager;
+import com.helger.registry434.app.bt.BusinessTerm;
 import com.helger.registry434.domain.CEDetailsItem;
 import com.helger.registry434.domain.CEDetailsList;
 import com.helger.registry434.domain.EChangeTypeRestriction;

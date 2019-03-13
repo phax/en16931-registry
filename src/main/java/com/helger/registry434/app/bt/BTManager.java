@@ -1,6 +1,22 @@
-package com.helger.registry434.app;
+/**
+ * Copyright (C) 2019 Philip Helger
+ * http://www.helger.com
+ * philip[at]helger[dot]com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.helger.registry434.app.bt;
 
-import java.io.Serializable;
 import java.util.function.BiConsumer;
 
 import javax.annotation.Nonnull;
@@ -25,59 +41,6 @@ import com.helger.xml.microdom.serialize.MicroReader;
  */
 public final class BTManager
 {
-  public static abstract class AbstractBT implements Serializable
-  {
-    private final String m_sID;
-    private final String m_sName;
-    private final String m_sCard;
-
-    public AbstractBT (final String sID, final String sName, final String sCard)
-    {
-      m_sID = sID;
-      m_sName = sName;
-      m_sCard = sCard;
-    }
-
-    public String getID ()
-    {
-      return m_sID;
-    }
-
-    public String getName ()
-    {
-      return m_sName;
-    }
-
-    public String getCard ()
-    {
-      return m_sCard;
-    }
-  }
-
-  public static final class BusinessGroup extends AbstractBT
-  {
-    public BusinessGroup (final String sID, final String sName, final String sCard)
-    {
-      super (sID, sName, sCard);
-    }
-  }
-
-  public static final class BusinessTerm extends AbstractBT
-  {
-    private final String m_sDataType;
-
-    public BusinessTerm (final String sID, final String sName, final String sCard, final String sDataType)
-    {
-      super (sID, sName, sCard);
-      m_sDataType = sDataType;
-    }
-
-    public String getDataType ()
-    {
-      return m_sDataType;
-    }
-  }
-
   private static final IMicroDocument BT_DOC = MicroReader.readMicroXML (new ClassPathResource ("codelist/bts.xml"));
   private static final ICommonsMap <String, BusinessGroup> BGS = new CommonsHashMap <> ();
   private static final ICommonsMap <String, BusinessTerm> BTS = new CommonsHashMap <> ();
@@ -90,7 +53,8 @@ public final class BTManager
     for (final IMicroElement e : aStart.getAllChildElements ())
       if (e.getTagName ().equals ("business-group"))
       {
-        final BusinessGroup aBG = new BusinessGroup (e.getAttributeValue ("id"),
+        final BusinessGroup aBG = new BusinessGroup (aStack.peek (),
+                                                     e.getAttributeValue ("id"),
                                                      e.getAttributeValue ("name"),
                                                      e.getAttributeValue ("card"));
         aConsumer.accept (aStack, aBG);
@@ -102,7 +66,8 @@ public final class BTManager
         if (e.getTagName ().equals ("business-term"))
         {
           // Business term
-          final BusinessTerm aBT = new BusinessTerm (e.getAttributeValue ("id"),
+          final BusinessTerm aBT = new BusinessTerm (aStack.peek (),
+                                                     e.getAttributeValue ("id"),
                                                      e.getAttributeValue ("name"),
                                                      e.getAttributeValue ("card"),
                                                      e.getAttributeValue ("dt"));

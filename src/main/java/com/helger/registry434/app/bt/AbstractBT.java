@@ -15,43 +15,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.registry434.supplementary.tools;
+package com.helger.registry434.app.bt;
 
-import javax.annotation.Nonnull;
+import java.io.Serializable;
+
 import javax.annotation.Nullable;
 
-import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.id.IHasID;
-import com.helger.commons.lang.EnumHelper;
-
-/**
- * This class was initially automatically created
- *
- * @author JDMCodeGenerator
- */
-public enum ECardinalityType implements IHasID <String>
+public abstract class AbstractBT implements Serializable
 {
-  _01 ("0..1"),
-  _0N ("0..n"),
-  _11 ("1..1"),
-  _1n ("1..n");
+  private final BusinessGroup m_aParent;
   private final String m_sID;
+  private final String m_sName;
+  private final String m_sCard;
 
-  private ECardinalityType (@Nonnull @Nonempty final String sID)
+  public AbstractBT (@Nullable final BusinessGroup aParent, final String sID, final String sName, final String sCard)
   {
+    m_aParent = aParent;
     m_sID = sID;
+    m_sName = sName;
+    m_sCard = sCard;
   }
 
-  @Nonnull
-  @Nonempty
+  @Nullable
+  public BusinessGroup getParent ()
+  {
+    return m_aParent;
+  }
+
+  public boolean hasParent ()
+  {
+    return m_aParent != null;
+  }
+
   public String getID ()
   {
     return m_sID;
   }
 
-  @Nullable
-  public static ECardinalityType getFromIDOrNull (@Nullable final String sID)
+  public String getName ()
   {
-    return EnumHelper.getFromIDOrNull (ECardinalityType.class, sID);
+    return m_sName;
+  }
+
+  public String getCard ()
+  {
+    return m_sCard;
   }
 }

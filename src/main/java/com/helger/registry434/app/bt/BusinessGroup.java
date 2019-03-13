@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2019 Philip Helger
  * http://www.helger.com
  * philip[at]helger[dot]com
@@ -15,15 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.helger.registry434.app.bt;
+
+import javax.annotation.Nullable;
+
+public final class BusinessGroup extends AbstractBT
 {
-  "AMOUNT": [ "amount", "Amount" ],
-  "BINARY": [ "binary", "Binary object" ],
-  "CODE": [ "code", "Code"],
-  "DATE": [ "date", "Date" ],
-  "DOCREF": [ "docref", "Document reference" ],
-  "IDENTIFIER": [ "id", "Identifier" ],
-  "PERCENTAGE": [ "perc", "Percentage" ],
-  "QUANTITY": [ "quantity", "Quantity" ],
-  "TEXT": [ "text", "Text" ],
-  "UNITPRICE": [ "unitprice", "Unit price amount" ]
+  public BusinessGroup (@Nullable final BusinessGroup aParent,
+                        final String sID,
+                        final String sName,
+                        final String sCard)
+  {
+    super (aParent, sID, sName, sCard);
+  }
 }

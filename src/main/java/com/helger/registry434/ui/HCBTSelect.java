@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 
 import com.helger.html.request.IHCRequestField;
 import com.helger.photon.uicore.html.select.HCExtSelect;
-import com.helger.registry434.app.BTManager;
+import com.helger.registry434.app.bt.BTManager;
 
 /**
  * Business term select.
