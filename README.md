@@ -6,6 +6,8 @@ CEN/TC 434 and EN 16931 registry services.
 
 Running prototype: https://www.helger.com/registry434/
 
+Discussion channel: https://phoss.slack.com/messages/CFTURRZNZ
+
 # External references
 
 * https://ec.europa.eu/cefdigital/wiki/display/EINVCOMMUNITY/Community-driven+Registry+of+CIUS+%28Core+Invoice+Usage+Specifications%29+and+Extensions
