@@ -38,7 +38,12 @@ public class HCBTSelect extends HCExtSelect
     super (aRF);
 
     for (final Map.Entry <String, String> aEntry : BTManager.longNames ().entrySet ())
-      addOption (aEntry.getKey (), aEntry.getValue ());
+    {
+      final String sID = aEntry.getKey ();
+      final boolean bIsBT = sID.startsWith ("BT-");
+      // Can only select BTs but not BGs
+      addOption (sID, aEntry.getValue ()).setDisabled (!bIsBT);
+    }
 
     addOptionPleaseSelect (aDisplayLocale);
   }

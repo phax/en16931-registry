@@ -70,6 +70,7 @@ import com.helger.photon.bootstrap4.form.BootstrapViewForm;
 import com.helger.photon.bootstrap4.grid.BootstrapCol;
 import com.helger.photon.bootstrap4.grid.BootstrapRow;
 import com.helger.photon.bootstrap4.pages.handler.AbstractBootstrapWebPageActionHandlerDelete;
+import com.helger.photon.bootstrap4.table.BootstrapTable;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDTColAction;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDataTables;
 import com.helger.photon.core.PhotonUnifiedResponse;
@@ -85,10 +86,12 @@ import com.helger.photon.uicore.page.EWebPageFormAction;
 import com.helger.photon.uicore.page.WebPageExecutionContext;
 import com.helger.photon.uictrls.datatables.column.DTCol;
 import com.helger.photon.uictrls.famfam.FamFamFlags;
+import com.helger.registry434.app.BTManager;
 import com.helger.registry434.app.MetaManager;
 import com.helger.registry434.domain.CEHeaderManager;
 import com.helger.registry434.domain.EObjectStatus;
 import com.helger.registry434.domain.EObjectType;
+import com.helger.registry434.domain.ICEDetailsItem;
 import com.helger.registry434.domain.ICEDetailsList;
 import com.helger.registry434.domain.ICEHeader;
 import com.helger.registry434.ui.AbstractAppWebPageForm;
@@ -284,6 +287,20 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
     if (aSelectedObject.hasContactEmail ())
       aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Contact email address")
                                                        .setCtrl (HCA_MailTo.createLinkedEmail (aSelectedObject.getContactEmail ())));
+
+    if (aSelectedObject.hasDetails ())
+    {
+      final BootstrapTable aTable = new BootstrapTable ();
+      aTable.addHeaderRow ().addCells ("Business Term", "Change Type", "Description");
+      for (final ICEDetailsItem aItem : aSelectedObject.getDetails ().changes ())
+      {
+        final HCRow aRow = aTable.addBodyRow ();
+        aRow.addCell (BTManager.longNames ().get (aItem.getBtID ()));
+        aRow.addCell (aItem.getChangeType ().getDisplayName ());
+        aRow.addCell (aItem.getDescription ());
+      }
+      aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Details").setCtrl (aTable));
+    }
   }
 
   @Override
