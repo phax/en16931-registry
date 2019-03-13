@@ -24,12 +24,9 @@ import javax.annotation.Nullable;
 
 import com.helger.commons.annotation.ReturnsMutableObject;
 import com.helger.commons.collection.NonBlockingStack;
-import com.helger.commons.collection.impl.CommonsHashMap;
 import com.helger.commons.collection.impl.CommonsLinkedHashMap;
-import com.helger.commons.collection.impl.ICommonsMap;
 import com.helger.commons.collection.impl.ICommonsOrderedMap;
 import com.helger.commons.io.resource.ClassPathResource;
-import com.helger.commons.string.StringHelper;
 import com.helger.xml.microdom.IMicroDocument;
 import com.helger.xml.microdom.IMicroElement;
 import com.helger.xml.microdom.serialize.MicroReader;
@@ -42,9 +39,7 @@ import com.helger.xml.microdom.serialize.MicroReader;
 public final class BTManager
 {
   private static final IMicroDocument BT_DOC = MicroReader.readMicroXML (new ClassPathResource ("codelist/bts.xml"));
-  private static final ICommonsMap <String, BusinessGroup> BGS = new CommonsHashMap <> ();
-  private static final ICommonsMap <String, BusinessTerm> BTS = new CommonsHashMap <> ();
-  private static final ICommonsOrderedMap <String, String> LONG_NAMES = new CommonsLinkedHashMap <> ();
+  private static final ICommonsOrderedMap <String, AbstractBT> MAP = new CommonsLinkedHashMap <> ();
 
   private static void _read (@Nonnull final IMicroElement aStart,
                              @Nonnull final NonBlockingStack <BusinessGroup> aStack,
@@ -53,7 +48,7 @@ public final class BTManager
     for (final IMicroElement e : aStart.getAllChildElements ())
       if (e.getTagName ().equals ("business-group"))
       {
-        final BusinessGroup aBG = new BusinessGroup (aStack.peek (),
+        final BusinessGroup aBG = new BusinessGroup (aStack.getLast (),
                                                      e.getAttributeValue ("id"),
                                                      e.getAttributeValue ("name"),
                                                      e.getAttributeValue ("card"));
@@ -66,7 +61,7 @@ public final class BTManager
         if (e.getTagName ().equals ("business-term"))
         {
           // Business term
-          final BusinessTerm aBT = new BusinessTerm (aStack.peek (),
+          final BusinessTerm aBT = new BusinessTerm (aStack.getLast (),
                                                      e.getAttributeValue ("id"),
                                                      e.getAttributeValue ("name"),
                                                      e.getAttributeValue ("card"),
@@ -81,18 +76,7 @@ public final class BTManager
   {
     // Initialize map
     forEach ( (aStack, aItem) -> {
-      if (aItem instanceof BusinessGroup)
-        BGS.put (aItem.getID (), (BusinessGroup) aItem);
-      else
-        BTS.put (aItem.getID (), (BusinessTerm) aItem);
-
-      final String sPrefix = aStack.isEmpty () ? ""
-                                               : StringHelper.getImplodedMapped (" / ",
-                                                                                 aStack,
-                                                                                 x -> x.getID () + " " + x.getName ()) +
-                                                 " / ";
-      LONG_NAMES.put (aItem.getID (),
-                      sPrefix + aItem.getID () + " " + aItem.getName () + " [" + aItem.getCard () + "]");
+      MAP.put (aItem.getID (), aItem);
     });
   }
 
@@ -108,19 +92,21 @@ public final class BTManager
   @Nullable
   public static BusinessGroup findBG (@Nullable final String sID)
   {
-    return BGS.get (sID);
+    final AbstractBT aItem = MAP.get (sID);
+    return aItem instanceof BusinessGroup ? (BusinessGroup) aItem : null;
   }
 
   @Nullable
   public static BusinessTerm findBT (@Nullable final String sID)
   {
-    return BTS.get (sID);
+    final AbstractBT aItem = MAP.get (sID);
+    return aItem instanceof BusinessTerm ? (BusinessTerm) aItem : null;
   }
 
   @Nonnull
   @ReturnsMutableObject
-  public static ICommonsOrderedMap <String, String> longNames ()
+  public static ICommonsOrderedMap <String, AbstractBT> map ()
   {
-    return LONG_NAMES;
+    return MAP;
   }
 }

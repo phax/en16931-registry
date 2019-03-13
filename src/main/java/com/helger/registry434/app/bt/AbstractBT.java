@@ -19,17 +19,29 @@ package com.helger.registry434.app.bt;
 
 import java.io.Serializable;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class AbstractBT implements Serializable
+import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotation.Nonempty;
+import com.helger.commons.id.IHasID;
+import com.helger.commons.name.IHasDisplayName;
+
+public abstract class AbstractBT implements Serializable, IHasID <String>, IHasDisplayName
 {
   private final BusinessGroup m_aParent;
   private final String m_sID;
   private final String m_sName;
   private final String m_sCard;
 
-  public AbstractBT (@Nullable final BusinessGroup aParent, final String sID, final String sName, final String sCard)
+  public AbstractBT (@Nullable final BusinessGroup aParent,
+                     @Nonnull @Nonempty final String sID,
+                     @Nonnull @Nonempty final String sName,
+                     @Nonnull @Nonempty final String sCard)
   {
+    ValueEnforcer.notEmpty (sID, "ID");
+    ValueEnforcer.notEmpty (sName, "Name");
+    ValueEnforcer.notEmpty (sCard, "Card");
     m_aParent = aParent;
     m_sID = sID;
     m_sName = sName;
@@ -47,18 +59,39 @@ public abstract class AbstractBT implements Serializable
     return m_aParent != null;
   }
 
-  public String getID ()
+  @Nonnull
+  @Nonempty
+  public final String getID ()
   {
     return m_sID;
   }
 
-  public String getName ()
+  @Nonnull
+  @Nonempty
+  public final String getName ()
   {
     return m_sName;
   }
 
-  public String getCard ()
+  @Nonnull
+  @Nonempty
+  public final String getCard ()
   {
     return m_sCard;
+  }
+
+  @Nonnull
+  @Nonempty
+  public final String getRecursiveDisplayName (@Nonnull final String sSeparator)
+  {
+    final StringBuilder aSB = new StringBuilder (getDisplayName ());
+    AbstractBT aCur = getParent ();
+    while (aCur != null)
+    {
+      aSB.insert (0, sSeparator);
+      aSB.insert (0, aCur.getDisplayName ());
+      aCur = aCur.getParent ();
+    }
+    return aSB.toString ();
   }
 }

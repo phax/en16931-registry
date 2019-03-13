@@ -244,7 +244,7 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
     for (final ICEDetailsItem aItem : aSelectedObject.getDetails ().changes ())
     {
       final HCRow aRow = aTable.addBodyRow ();
-      aRow.addCell (BTManager.longNames ().get (aItem.getBtID ()));
+      aRow.addCell (BTManager.findBT (aItem.getBtID ()).getDisplayName ());
       aRow.addCell (aItem.getChangeType ().getDisplayName ());
       aRow.addCell (aItem.getDescription ());
     }

@@ -17,24 +17,38 @@
  */
 package com.helger.registry434.app.bt;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotation.Nonempty;
 
 public final class BusinessTerm extends AbstractBT
 {
   private final String m_sDataType;
 
   public BusinessTerm (@Nullable final BusinessGroup aParent,
-                       final String sID,
-                       final String sName,
-                       final String sCard,
-                       final String sDataType)
+                       @Nonnull @Nonempty final String sID,
+                       @Nonnull @Nonempty final String sName,
+                       @Nonnull @Nonempty final String sCard,
+                       @Nonnull @Nonempty final String sDataType)
   {
     super (aParent, sID, sName, sCard);
+    ValueEnforcer.notEmpty (sDataType, "DataType");
     m_sDataType = sDataType;
   }
 
+  @Nonnull
+  @Nonempty
   public String getDataType ()
   {
     return m_sDataType;
+  }
+
+  @Nonnull
+  @Nonempty
+  public String getDisplayName ()
+  {
+    return getID () + " " + getName () + " [" + getCard () + "]";
   }
 }

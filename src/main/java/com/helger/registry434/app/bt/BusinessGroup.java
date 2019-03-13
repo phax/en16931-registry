@@ -17,15 +17,25 @@
  */
 package com.helger.registry434.app.bt;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import com.helger.commons.annotation.Nonempty;
 
 public final class BusinessGroup extends AbstractBT
 {
   public BusinessGroup (@Nullable final BusinessGroup aParent,
-                        final String sID,
-                        final String sName,
-                        final String sCard)
+                        @Nonnull @Nonempty final String sID,
+                        @Nonnull @Nonempty final String sName,
+                        @Nonnull @Nonempty final String sCard)
   {
     super (aParent, sID, sName, sCard);
+  }
+
+  @Nonnull
+  @Nonempty
+  public String getDisplayName ()
+  {
+    return getID () + " " + getName ();
   }
 }

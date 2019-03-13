@@ -22,8 +22,11 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import com.helger.commons.collection.impl.CommonsLinkedHashMap;
+import com.helger.commons.collection.impl.ICommonsOrderedMap;
 import com.helger.html.request.IHCRequestField;
 import com.helger.photon.uicore.html.select.HCExtSelect;
+import com.helger.registry434.app.bt.AbstractBT;
 import com.helger.registry434.app.bt.BTManager;
 
 /**
@@ -33,11 +36,19 @@ import com.helger.registry434.app.bt.BTManager;
  */
 public class HCBTSelect extends HCExtSelect
 {
+  private static ICommonsOrderedMap <String, String> LONG_NAMES = new CommonsLinkedHashMap <> ();
+
+  static
+  {
+    for (final Map.Entry <String, AbstractBT> aEntry : BTManager.map ().entrySet ())
+      LONG_NAMES.put (aEntry.getKey (), aEntry.getValue ().getRecursiveDisplayName (" / "));
+  }
+
   public HCBTSelect (@Nonnull final IHCRequestField aRF, @Nonnull final Locale aDisplayLocale)
   {
     super (aRF);
 
-    for (final Map.Entry <String, String> aEntry : BTManager.longNames ().entrySet ())
+    for (final Map.Entry <String, String> aEntry : LONG_NAMES.entrySet ())
     {
       final String sID = aEntry.getKey ();
       final boolean bIsBT = sID.startsWith ("BT-");
