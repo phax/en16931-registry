@@ -18,6 +18,7 @@
 package com.helger.registry434.app.bt;
 
 import java.io.Serializable;
+import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -80,18 +81,22 @@ public abstract class AbstractBT implements Serializable, IHasID <String>, IHasD
     return m_sCard;
   }
 
+  public final void forAllParents (@Nonnull final Consumer <String> aNameConsumer)
+  {
+    AbstractBT aCur = getParent ();
+    while (aCur != null)
+    {
+      aNameConsumer.accept (aCur.getDisplayName ());
+      aCur = aCur.getParent ();
+    }
+  }
+
   @Nonnull
   @Nonempty
   public final String getRecursiveDisplayName (@Nonnull final String sSeparator)
   {
     final StringBuilder aSB = new StringBuilder (getDisplayName ());
-    AbstractBT aCur = getParent ();
-    while (aCur != null)
-    {
-      aSB.insert (0, sSeparator);
-      aSB.insert (0, aCur.getDisplayName ());
-      aCur = aCur.getParent ();
-    }
+    forAllParents (x -> aSB.insert (0, sSeparator).insert (0, x));
     return aSB.toString ();
   }
 }

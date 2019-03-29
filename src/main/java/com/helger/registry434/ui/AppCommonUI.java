@@ -35,6 +35,9 @@ import com.helger.css.propertyvalue.CCSSValue;
 import com.helger.html.hc.IHCNode;
 import com.helger.html.hc.ext.HCA_MailTo;
 import com.helger.html.hc.html.embedded.HCImg;
+import com.helger.html.hc.html.grouping.HCDiv;
+import com.helger.html.hc.html.tabular.HCRow;
+import com.helger.html.hc.html.tabular.IHCCell;
 import com.helger.html.hc.html.textlevel.HCA;
 import com.helger.html.hc.impl.HCNodeList;
 import com.helger.html.hc.impl.HCTextNode;
@@ -42,6 +45,7 @@ import com.helger.photon.basic.app.menu.IMenuObject;
 import com.helger.photon.bootstrap4.badge.BootstrapBadge;
 import com.helger.photon.bootstrap4.badge.EBootstrapBadgeType;
 import com.helger.photon.bootstrap4.pages.BootstrapPagesMenuConfigurator;
+import com.helger.photon.bootstrap4.table.BootstrapTable;
 import com.helger.photon.core.url.LinkHelper;
 import com.helger.photon.security.mgr.PhotonSecurityManager;
 import com.helger.photon.security.role.IRole;
@@ -51,7 +55,11 @@ import com.helger.photon.security.util.SecurityHelper;
 import com.helger.photon.uicore.css.CPageParam;
 import com.helger.photon.uicore.page.IWebPageExecutionContext;
 import com.helger.registry434.app.CApp;
+import com.helger.registry434.app.bt.BTManager;
+import com.helger.registry434.app.bt.BusinessTerm;
 import com.helger.registry434.domain.EObjectStatus;
+import com.helger.registry434.domain.ICEDetailsItem;
+import com.helger.registry434.domain.ICEHeader;
 
 @Immutable
 public final class AppCommonUI
@@ -223,5 +231,29 @@ public final class AppCommonUI
 
     // add other types as desired
     throw new IllegalArgumentException ("Unsupported object: " + aObject);
+  }
+
+  @Nonnull
+  public static BootstrapTable createDetailsTable (@Nonnull final ICEHeader aSelectedObject)
+  {
+    final BootstrapTable aTable = new BootstrapTable ();
+    aTable.addHeaderRow ().addCells ("Business Term", "Change Type", "Description");
+    for (final ICEDetailsItem aItem : aSelectedObject.getDetails ().changes ())
+    {
+      final BusinessTerm aBT = BTManager.findBT (aItem.getBtID ());
+
+      final HCRow aRow = aTable.addBodyRow ();
+      final IHCCell <?> aCell = aRow.addCell ();
+      if (aBT.hasParent ())
+      {
+        final HCDiv aDiv = aCell.addAndReturnChild (new HCDiv ());
+        aBT.forAllParents (x -> aDiv.addChildAt (0, new BootstrapBadge (EBootstrapBadgeType.INFO).addChild (x)));
+      }
+      aCell.addChild (new HCDiv ().addChild (aBT.getDisplayName ()));
+
+      aRow.addCell (aItem.getChangeType ().getDisplayName ());
+      aRow.addCell (aItem.getDescription ());
+    }
+    return aTable;
   }
 }

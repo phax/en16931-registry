@@ -17,7 +17,7 @@
  */
 package com.helger.registry434.app.bt;
 
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,7 +43,7 @@ public final class BTManager
 
   private static void _read (@Nonnull final IMicroElement aStart,
                              @Nonnull final NonBlockingStack <BusinessGroup> aStack,
-                             @Nonnull final BiConsumer <NonBlockingStack <BusinessGroup>, AbstractBT> aConsumer)
+                             @Nonnull final Consumer <AbstractBT> aConsumer)
   {
     for (final IMicroElement e : aStart.getAllChildElements ())
       if (e.getTagName ().equals ("business-group"))
@@ -52,7 +52,7 @@ public final class BTManager
                                                      e.getAttributeValue ("id"),
                                                      e.getAttributeValue ("name"),
                                                      e.getAttributeValue ("card"));
-        aConsumer.accept (aStack, aBG);
+        aConsumer.accept (aBG);
         aStack.push (aBG);
         _read (e, aStack, aConsumer);
         aStack.pop ();
@@ -66,7 +66,7 @@ public final class BTManager
                                                      e.getAttributeValue ("name"),
                                                      e.getAttributeValue ("card"),
                                                      e.getAttributeValue ("dt"));
-          aConsumer.accept (aStack, aBT);
+          aConsumer.accept (aBT);
         }
         else
           throw new IllegalStateException ("Unspported tag " + e.getTagName ());
@@ -75,15 +75,13 @@ public final class BTManager
   static
   {
     // Initialize map
-    forEach ( (aStack, aItem) -> {
-      MAP.put (aItem.getID (), aItem);
-    });
+    forEach ( (aItem) -> MAP.put (aItem.getID (), aItem));
   }
 
   private BTManager ()
   {}
 
-  public static void forEach (@Nonnull final BiConsumer <NonBlockingStack <BusinessGroup>, AbstractBT> aConsumer)
+  public static void forEach (@Nonnull final Consumer <AbstractBT> aConsumer)
   {
     final NonBlockingStack <BusinessGroup> aStack = new NonBlockingStack <> ();
     _read (BT_DOC.getDocumentElement (), aStack, aConsumer);

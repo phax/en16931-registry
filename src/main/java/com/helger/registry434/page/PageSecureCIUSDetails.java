@@ -58,7 +58,6 @@ import com.helger.photon.bootstrap4.form.BootstrapFormHelper;
 import com.helger.photon.bootstrap4.grid.BootstrapCol;
 import com.helger.photon.bootstrap4.grid.BootstrapRow;
 import com.helger.photon.bootstrap4.pages.handler.AbstractBootstrapWebPageActionHandlerDelete;
-import com.helger.photon.bootstrap4.table.BootstrapTable;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDTColAction;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDataTables;
 import com.helger.photon.core.EPhotonCoreText;
@@ -85,6 +84,7 @@ import com.helger.registry434.domain.EObjectType;
 import com.helger.registry434.domain.ICEDetailsItem;
 import com.helger.registry434.domain.ICEHeader;
 import com.helger.registry434.ui.AbstractAppWebPageForm;
+import com.helger.registry434.ui.AppCommonUI;
 import com.helger.registry434.ui.HCBTSelect;
 import com.helger.registry434.ui.HCChangeTypeRestrictionSelect;
 import com.helger.servlet.request.IRequestParamMap;
@@ -239,17 +239,7 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
   {
     final HCNodeList aNodeList = aWPEC.getNodeList ();
 
-    final BootstrapTable aTable = new BootstrapTable ();
-    aTable.addHeaderRow ().addCells ("Business Term", "Change Type", "Description");
-    for (final ICEDetailsItem aItem : aSelectedObject.getDetails ().changes ())
-    {
-      final HCRow aRow = aTable.addBodyRow ();
-      aRow.addCell (BTManager.findBT (aItem.getBtID ()).getDisplayName ());
-      aRow.addCell (aItem.getChangeType ().getDisplayName ());
-      aRow.addCell (aItem.getDescription ());
-    }
-
-    aNodeList.addChild (aTable);
+    aNodeList.addChild (AppCommonUI.createDetailsTable (aSelectedObject));
   }
 
   @Override
