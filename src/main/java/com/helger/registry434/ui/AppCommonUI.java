@@ -247,7 +247,8 @@ public final class AppCommonUI
       if (aBT.hasParent ())
       {
         final HCDiv aDiv = aCell.addAndReturnChild (new HCDiv ());
-        aBT.forAllParents (x -> aDiv.addChildAt (0, new BootstrapBadge (EBootstrapBadgeType.INFO).addChild (x)));
+        aBT.forAllParents (x -> aDiv.addChildAt (0, " ")
+                                    .addChildAt (0, new BootstrapBadge (EBootstrapBadgeType.INFO).addChild (x)));
       }
       aCell.addChild (new HCDiv ().addChild (aBT.getDisplayName ()));
 
