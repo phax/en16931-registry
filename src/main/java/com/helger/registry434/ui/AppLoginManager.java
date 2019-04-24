@@ -23,10 +23,10 @@ import javax.annotation.Nullable;
 import com.helger.html.hc.IHCNode;
 import com.helger.html.hc.html.sections.HCH5;
 import com.helger.html.hc.impl.HCNodeList;
+import com.helger.photon.app.html.IHTMLProvider;
 import com.helger.photon.bootstrap4.uictrls.ext.BootstrapLoginHTMLProvider;
 import com.helger.photon.bootstrap4.uictrls.ext.BootstrapLoginManager;
-import com.helger.photon.core.app.context.ISimpleWebExecutionContext;
-import com.helger.photon.core.app.html.IHTMLProvider;
+import com.helger.photon.core.execcontext.ISimpleWebExecutionContext;
 import com.helger.registry434.app.CApp;
 import com.helger.security.authentication.credentials.ICredentialValidationResult;
 

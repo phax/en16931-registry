@@ -19,7 +19,7 @@ package com.helger.registry434.servlet;
 
 import javax.annotation.Nonnull;
 
-import com.helger.photon.core.app.html.IHTMLProvider;
+import com.helger.photon.app.html.IHTMLProvider;
 import com.helger.photon.core.servlet.AbstractApplicationXServletHandler;
 import com.helger.photon.core.servlet.AbstractPublicApplicationServlet;
 import com.helger.registry434.ui.AppLayoutHTMLProvider;

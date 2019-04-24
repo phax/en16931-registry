@@ -23,16 +23,16 @@ import javax.servlet.ServletContext;
 import com.helger.commons.vendor.VendorInfo;
 import com.helger.html.jquery.JQueryAjaxBuilder;
 import com.helger.html.jscode.JSAssocArray;
-import com.helger.photon.basic.app.appid.CApplicationID;
-import com.helger.photon.basic.app.appid.PhotonGlobalState;
-import com.helger.photon.basic.app.locale.ILocaleManager;
-import com.helger.photon.basic.app.menu.MenuTree;
-import com.helger.photon.basic.app.request.RequestParameterHandlerURLPathNamed;
-import com.helger.photon.basic.app.request.RequestParameterManager;
+import com.helger.photon.ajax.IAjaxRegistry;
 import com.helger.photon.bootstrap4.ext.BootstrapSystemMessage;
 import com.helger.photon.bootstrap4.servlet.WebAppListenerBootstrap;
 import com.helger.photon.bootstrap4.uictrls.datatables.BootstrapDataTables;
-import com.helger.photon.core.ajax.IAjaxInvoker;
+import com.helger.photon.core.appid.CApplicationID;
+import com.helger.photon.core.appid.PhotonGlobalState;
+import com.helger.photon.core.locale.ILocaleManager;
+import com.helger.photon.core.menu.MenuTree;
+import com.helger.photon.core.requestparam.RequestParameterHandlerURLPathNamed;
+import com.helger.photon.core.requestparam.RequestParameterManager;
 import com.helger.photon.uictrls.datatables.DataTablesLengthMenu;
 import com.helger.photon.uictrls.datatables.EDataTablesFilterType;
 import com.helger.photon.uictrls.datatables.ajax.AjaxExecutorDataTables;
@@ -40,9 +40,9 @@ import com.helger.photon.uictrls.datatables.ajax.AjaxExecutorDataTablesI18N;
 import com.helger.photon.uictrls.datatables.plugins.DataTablesPluginSearchHighlight;
 import com.helger.registry434.app.AppDefaultSecurity;
 import com.helger.registry434.app.AppInternalErrorHandler;
-import com.helger.registry434.app.AppSettings;
 import com.helger.registry434.app.AppMenuPublic;
 import com.helger.registry434.app.AppMenuSecure;
+import com.helger.registry434.app.AppSettings;
 import com.helger.registry434.app.CAjax;
 import com.helger.registry434.app.CApp;
 import com.helger.registry434.app.MetaManager;
@@ -103,7 +103,7 @@ public final class AppWebAppListener extends WebAppListenerBootstrap
   }
 
   @Override
-  protected void initAjax (@Nonnull final IAjaxInvoker aAjaxInvoker)
+  protected void initAjax (@Nonnull final IAjaxRegistry aAjaxInvoker)
   {
     aAjaxInvoker.registerFunction (CAjax.DATATABLES);
     aAjaxInvoker.registerFunction (CAjax.DATATABLES_I18N);

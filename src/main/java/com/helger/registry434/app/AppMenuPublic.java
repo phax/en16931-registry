@@ -20,7 +20,7 @@ package com.helger.registry434.app;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
-import com.helger.photon.basic.app.menu.IMenuTree;
+import com.helger.photon.core.menu.IMenuTree;
 import com.helger.registry434.page.PagePublicCEHeaderList;
 
 @Immutable

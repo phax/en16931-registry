@@ -20,15 +20,15 @@ package com.helger.registry434.app;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
-import com.helger.photon.basic.app.menu.IMenuItemPage;
-import com.helger.photon.basic.app.menu.IMenuTree;
 import com.helger.photon.bootstrap4.pages.BootstrapPagesMenuConfigurator;
 import com.helger.photon.bootstrap4.pages.security.BasePageSecurityChangePassword;
-import com.helger.photon.security.menu.MenuObjectFilterUserAssignedToUserGroup;
+import com.helger.photon.core.menu.IMenuItemPage;
+import com.helger.photon.core.menu.IMenuTree;
+import com.helger.photon.core.menu.filter.MenuObjectFilterUserAssignedToUserGroup;
 import com.helger.photon.uicore.page.WebPageExecutionContext;
 import com.helger.photon.uicore.page.system.BasePageShowChildren;
-import com.helger.registry434.page.PageSecureCIUSDetails;
 import com.helger.registry434.page.PageSecureCEHeader;
+import com.helger.registry434.page.PageSecureCIUSDetails;
 
 @Immutable
 public final class AppMenuSecure
