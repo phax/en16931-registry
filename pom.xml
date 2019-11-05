@@ -157,7 +157,7 @@
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-jdmc-maven-plugin</artifactId>
-        <version>0.0.4-SNAPSHOT</version>
+        <version>0.0.4</version>
         <executions>
           <execution>
             <goals>
