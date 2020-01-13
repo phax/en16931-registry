@@ -24,3 +24,9 @@ Add the following folders into your IDE build path:
 * target/generated-test-resources/jdmc
 
 Note: code generation is based on https://github.com/phax/ph-jdmc
+
+---
+
+My personal [Coding Styleguide](https://github.com/phax/meta/blob/master/CodingStyleguide.md) |
+On Twitter: <a href="https://twitter.com/philiphelger">@philiphelger</a> |
+Kindly supported by [YourKit Java Profiler](https://www.yourkit.com)
