@@ -175,9 +175,9 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
     setDeleteHandler (new AbstractBootstrapWebPageActionHandlerDelete <ICEHeader, WebPageExecutionContext> ()
     {
       @Override
-      protected void showDeleteQuery (@Nonnull final WebPageExecutionContext aWPEC,
-                                      @Nonnull final BootstrapForm aForm,
-                                      @Nonnull final ICEHeader aSelectedObject)
+      protected void showQuery (@Nonnull final WebPageExecutionContext aWPEC,
+                                @Nonnull final BootstrapForm aForm,
+                                @Nonnull final ICEHeader aSelectedObject)
       {
         aForm.addChild (new BootstrapQuestionBox ().addChild (new HCDiv ().addChild ("Are you sure to delete the details of '" +
                                                                                      aSelectedObject.getName () +
@@ -186,7 +186,7 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
       }
 
       @Override
-      protected void performDelete (@Nonnull final WebPageExecutionContext aWPEC,
+      protected void performAction (@Nonnull final WebPageExecutionContext aWPEC,
                                     @Nonnull final ICEHeader aSelectedObject)
       {
         final CEHeaderManagerExt aCEHeaderMgr = MetaManager.getCEHeaderMgr ();
