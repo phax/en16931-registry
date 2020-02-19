@@ -169,7 +169,7 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
 
   public PageSecureCEHeader (@Nonnull @Nonempty final String sID)
   {
-    super (sID, "CIUS and Extensions");
+    super (sID, "CIUSes and Extensions");
     setDeleteHandler (new AbstractBootstrapWebPageActionHandlerDelete <ICEHeader, WebPageExecutionContext> ()
     {
       @Override

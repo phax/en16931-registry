@@ -24,12 +24,9 @@ import javax.annotation.Nonnull;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.url.ISimpleURL;
 import com.helger.html.hc.IHCNode;
-import com.helger.html.hc.html.grouping.HCP;
 import com.helger.html.hc.html.metadata.HCHead;
 import com.helger.html.hc.html.root.HCHtml;
 import com.helger.html.hc.html.sections.HCBody;
-import com.helger.html.hc.html.textlevel.HCSpan;
-import com.helger.html.hc.html.textlevel.HCStrong;
 import com.helger.html.hc.impl.HCNodeList;
 import com.helger.photon.app.url.LinkHelper;
 import com.helger.photon.bootstrap4.CBootstrapCSS;
@@ -37,15 +34,16 @@ import com.helger.photon.bootstrap4.button.BootstrapButton;
 import com.helger.photon.bootstrap4.layout.BootstrapContainer;
 import com.helger.photon.bootstrap4.navbar.BootstrapNavbar;
 import com.helger.photon.bootstrap4.navbar.BootstrapNavbarToggleable;
+import com.helger.photon.bootstrap4.traits.IHCBootstrap4Trait;
 import com.helger.photon.bootstrap4.uictrls.ext.BootstrapPageRenderer;
 import com.helger.photon.core.EPhotonCoreText;
-import com.helger.photon.core.appid.CApplicationID;
 import com.helger.photon.core.appid.RequestSettings;
 import com.helger.photon.core.execcontext.ISimpleWebExecutionContext;
 import com.helger.photon.core.execcontext.LayoutExecutionContext;
 import com.helger.photon.core.html.AbstractSWECHTMLProvider;
 import com.helger.photon.core.html.CLayout;
 import com.helger.photon.core.menu.IMenuItemPage;
+import com.helger.photon.core.servlet.AbstractPublicApplicationServlet;
 import com.helger.photon.core.servlet.LogoutServlet;
 import com.helger.photon.security.user.IUser;
 import com.helger.photon.security.util.SecurityHelper;
@@ -59,15 +57,15 @@ import com.helger.xservlet.forcedredirect.ForcedRedirectException;
  *
  * @author Philip Helger
  */
-public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
+public class AppLayoutHTMLProviderSecure extends AbstractSWECHTMLProvider implements IHCBootstrap4Trait
 {
-  public static final AppLayoutHTMLProvider INSTANCE = new AppLayoutHTMLProvider ();
+  public static final AppLayoutHTMLProviderSecure INSTANCE = new AppLayoutHTMLProviderSecure ();
 
-  private AppLayoutHTMLProvider ()
+  private AppLayoutHTMLProviderSecure ()
   {}
 
   @Nonnull
-  private static IHCNode _getNavbar (@Nonnull final ISimpleWebExecutionContext aSWEC, final boolean bIsAdministration)
+  private IHCNode _getNavbar (@Nonnull final ISimpleWebExecutionContext aSWEC)
   {
     final Locale aDisplayLocale = aSWEC.getDisplayLocale ();
     final IRequestWebScopeWithoutResponse aRequestScope = aSWEC.getRequestScope ();
@@ -75,31 +73,30 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
     final ISimpleURL aLinkToStartPage = aSWEC.getLinkToMenuItem (aSWEC.getMenuTree ().getDefaultMenuItemID ());
 
     final BootstrapNavbar aNavbar = new BootstrapNavbar ();
-
     aNavbar.addBrand (AppCommonUI.createLogoImg (), aLinkToStartPage);
-
-    aNavbar.addBrand (new HCNodeList ().addChild (new HCSpan ().addChild (CApp.APP_NAME)
-                                                               .addClass (CApp.CSS_CLASS_LOGO1))
-                                       .addChild (bIsAdministration ? new HCSpan ().addChild (" Administration")
-                                                                                   .addClass (CApp.CSS_CLASS_LOGO2)
-                                                                    : null),
+    aNavbar.addBrand (new HCNodeList ().addChild (span (CApp.APP_NAME).addClass (CApp.CSS_CLASS_LOGO1))
+                                       .addChild (span (" Administration").addClass (CApp.CSS_CLASS_LOGO2)),
                       aLinkToStartPage);
 
+    final BootstrapNavbarToggleable aToggleable = aNavbar.addAndReturnToggleable ();
+
+    aToggleable.addChild (new BootstrapButton ().addClass (CBootstrapCSS.ML_AUTO)
+                                                .addClass (CBootstrapCSS.MR_2)
+                                                .setOnClick (LinkHelper.getURLWithContext (AbstractPublicApplicationServlet.SERVLET_DEFAULT_PATH +
+                                                                                           "/"))
+                                                .addChild ("Goto public view"));
+
     final IUser aUser = aSWEC.getLoggedInUser ();
-    if (aUser != null)
-    {
-      final BootstrapNavbarToggleable aToggleable = aNavbar.addAndReturnToggleable ();
-      aToggleable.addAndReturnText ()
-                 .addChild (new HCSpan ().addChild ("Logged in as ")
-                                         .addChild (new HCStrong ().addChild (SecurityHelper.getUserDisplayName (aUser,
-                                                                                                                 aDisplayLocale))))
-                 .addClass (CBootstrapCSS.ML_AUTO);
-      aToggleable.addChild (new BootstrapButton ().setOnClick (LinkHelper.getURLWithContext (aRequestScope,
-                                                                                             LogoutServlet.SERVLET_DEFAULT_PATH))
-                                                  .addChild (EPhotonCoreText.LOGIN_LOGOUT.getDisplayText (aDisplayLocale))
-                                                  .addClass (CBootstrapCSS.ML_2)
-                                                  .addClass (CBootstrapCSS.BTN_OUTLINE_INFO));
-    }
+    aToggleable.addAndReturnText ()
+               .addChild (span ("Logged in as ").addChild (strong (SecurityHelper.getUserDisplayName (aUser,
+                                                                                                      aDisplayLocale))))
+               .addClass (CBootstrapCSS.ML_2);
+    aToggleable.addChild (new BootstrapButton ().setOnClick (LinkHelper.getURLWithContext (aRequestScope,
+                                                                                           LogoutServlet.SERVLET_DEFAULT_PATH))
+                                                .addChild (EPhotonCoreText.LOGIN_LOGOUT.getDisplayText (aDisplayLocale))
+                                                .addClass (CBootstrapCSS.ML_2)
+                                                .addClass (CBootstrapCSS.BTN_OUTLINE_INFO));
+
     return aNavbar;
   }
 
@@ -108,7 +105,6 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
                            @Nonnull final HCHtml aHtml) throws ForcedRedirectException
   {
     final IRequestWebScopeWithoutResponse aRequestScope = aSWEC.getRequestScope ();
-    final boolean bIsAdministration = CApplicationID.APP_ID_SECURE.equals (RequestSettings.getApplicationID (aRequestScope));
     final Locale aDisplayLocale = aSWEC.getDisplayLocale ();
     final IMenuItemPage aMenuItem = RequestSettings.getMenuItem (aRequestScope);
     final LayoutExecutionContext aLEC = new LayoutExecutionContext (aSWEC, aMenuItem);
@@ -123,7 +119,7 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
     final BootstrapContainer aOuterContainer = new BootstrapContainer ().setFluid (true);
 
     // Header
-    aOuterContainer.addChild (_getNavbar (aLEC, bIsAdministration));
+    aOuterContainer.addChild (_getNavbar (aLEC));
 
     // Breadcrumbs
     aOuterContainer.addChild (BootstrapPageRenderer.getBreadcrumb (aLEC));
@@ -134,7 +130,7 @@ public class AppLayoutHTMLProvider extends AbstractSWECHTMLProvider
     // Footer
     {
       final BootstrapContainer aDiv = new BootstrapContainer ().setFluid (true).setID (CLayout.LAYOUT_AREAID_FOOTER);
-      aDiv.addChild (new HCP ().addChild (CApp.APP_NAME + " - a CEN/TC 434 service"));
+      aDiv.addChild (p (CApp.APP_NAME + " - a CEN/TC 434 service"));
       aOuterContainer.addChild (aDiv);
     }
 

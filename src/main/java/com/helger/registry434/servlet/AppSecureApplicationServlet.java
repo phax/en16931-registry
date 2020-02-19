@@ -22,7 +22,7 @@ import javax.annotation.Nonnull;
 import com.helger.photon.app.html.IHTMLProvider;
 import com.helger.photon.core.servlet.AbstractApplicationXServletHandler;
 import com.helger.photon.core.servlet.AbstractSecureApplicationServlet;
-import com.helger.registry434.ui.AppLayoutHTMLProvider;
+import com.helger.registry434.ui.AppLayoutHTMLProviderSecure;
 import com.helger.web.scope.IRequestWebScopeWithoutResponse;
 
 public final class AppSecureApplicationServlet extends AbstractSecureApplicationServlet
@@ -34,7 +34,7 @@ public final class AppSecureApplicationServlet extends AbstractSecureApplication
       @Override
       protected IHTMLProvider createHTMLProvider (@Nonnull final IRequestWebScopeWithoutResponse aRequestScope)
       {
-        return AppLayoutHTMLProvider.INSTANCE;
+        return AppLayoutHTMLProviderSecure.INSTANCE;
       }
     });
   }
