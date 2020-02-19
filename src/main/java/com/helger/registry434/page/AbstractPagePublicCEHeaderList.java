@@ -18,6 +18,7 @@
 package com.helger.registry434.page;
 
 import java.util.Locale;
+import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
@@ -43,13 +44,18 @@ import com.helger.registry434.domain.CEHeaderManager;
 import com.helger.registry434.domain.ICEHeader;
 import com.helger.registry434.ui.AppCommonUI;
 
-public class PagePublicCEHeaderList extends AbstractBootstrapWebPage <WebPageExecutionContext>
+public abstract class AbstractPagePublicCEHeaderList extends AbstractBootstrapWebPage <WebPageExecutionContext>
 {
   public static final String ACTION_DETAILS = "showdetails";
 
-  public PagePublicCEHeaderList (@Nonnull @Nonempty final String sID)
+  private final Predicate <? super ICEHeader> m_aFilter;
+
+  public AbstractPagePublicCEHeaderList (@Nonnull @Nonempty final String sID,
+                                         @Nonnull final String sName,
+                                         @Nonnull final Predicate <? super ICEHeader> aFilter)
   {
-    super (sID, "CIUSs and Extensions");
+    super (sID, sName);
+    m_aFilter = aFilter;
   }
 
   @Override
@@ -93,7 +99,7 @@ public class PagePublicCEHeaderList extends AbstractBootstrapWebPage <WebPageExe
                                           new DTCol ("Status"),
                                           new DTCol ("Contact"),
                                           new DTCol ("Details")).setID (getID ());
-      for (final ICEHeader aItem : aCEHeaderMgr.getAll ())
+      for (final ICEHeader aItem : aCEHeaderMgr.getAll (m_aFilter))
       {
         final HCRow aRow = aTable.addBodyRow ();
 

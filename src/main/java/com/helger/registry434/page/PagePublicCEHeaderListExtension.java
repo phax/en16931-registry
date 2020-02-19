@@ -15,17 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.registry434.app;
+package com.helger.registry434.page;
 
-import javax.annotation.concurrent.Immutable;
+import javax.annotation.Nonnull;
 
-@Immutable
-public final class CMenuPublic
+import com.helger.commons.annotation.Nonempty;
+import com.helger.registry434.domain.EObjectType;
+
+public class PagePublicCEHeaderListExtension extends AbstractPagePublicCEHeaderList
 {
-  // Menu item IDs
-  public static final String MENU_CIUSES = "ciuses";
-  public static final String MENU_EXTENSIONS = "extensions";
-
-  private CMenuPublic ()
-  {}
+  public PagePublicCEHeaderListExtension (@Nonnull @Nonempty final String sID)
+  {
+    super (sID, "Extensions", x -> x.getType () == EObjectType.EXTENSION);
+  }
 }

@@ -21,7 +21,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
 import com.helger.photon.core.menu.IMenuTree;
-import com.helger.registry434.page.PagePublicCEHeaderList;
+import com.helger.registry434.page.PagePublicCEHeaderListCIUS;
+import com.helger.registry434.page.PagePublicCEHeaderListExtension;
 
 @Immutable
 public final class AppMenuPublic
@@ -32,9 +33,10 @@ public final class AppMenuPublic
   public static void init (@Nonnull final IMenuTree aMenuTree)
   {
     // Show all
-    aMenuTree.createRootItem (new PagePublicCEHeaderList (CMenuPublic.MENU_CE_HEADER_LIST));
+    aMenuTree.createRootItem (new PagePublicCEHeaderListCIUS (CMenuPublic.MENU_CIUSES));
+    aMenuTree.createRootItem (new PagePublicCEHeaderListExtension (CMenuPublic.MENU_EXTENSIONS));
 
     // Default menu item
-    aMenuTree.setDefaultMenuItemID (CMenuPublic.MENU_CE_HEADER_LIST);
+    aMenuTree.setDefaultMenuItemID (CMenuPublic.MENU_CIUSES);
   }
 }
