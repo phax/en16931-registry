@@ -23,10 +23,12 @@ import javax.annotation.Nonnull;
 
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.url.ISimpleURL;
+import com.helger.commons.url.SimpleURL;
 import com.helger.html.hc.IHCNode;
 import com.helger.html.hc.html.metadata.HCHead;
 import com.helger.html.hc.html.root.HCHtml;
 import com.helger.html.hc.html.sections.HCBody;
+import com.helger.html.hc.html.textlevel.HCA;
 import com.helger.html.hc.impl.HCNodeList;
 import com.helger.photon.app.url.LinkHelper;
 import com.helger.photon.bootstrap4.CBootstrapCSS;
@@ -131,6 +133,9 @@ public class AppLayoutHTMLProviderSecure extends AbstractSWECHTMLProvider implem
     {
       final BootstrapContainer aDiv = new BootstrapContainer ().setFluid (true).setID (CLayout.LAYOUT_AREAID_FOOTER);
       aDiv.addChild (p (CApp.APP_NAME + " - a CEN/TC 434 service"));
+      aDiv.addChild (p ("Source code is available on ").addChild (new HCA (new SimpleURL ("https://github.com/phax/registry434/")).addChild ("GitHub")
+                                                                                                                                  .setTargetBlank ())
+                                                       .addChild (" - feel final free to contribute"));
       aOuterContainer.addChild (aDiv);
     }
 
