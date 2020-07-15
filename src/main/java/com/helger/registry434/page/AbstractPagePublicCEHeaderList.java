@@ -137,8 +137,7 @@ public abstract class AbstractPagePublicCEHeaderList extends AbstractBootstrapWe
           int nLink = 1;
           for (final String sExternalURL : aItem.externalURLs ())
           {
-            aCtrl.addChild (new HCDiv ().addChild (new HCA (new SimpleURL (sExternalURL)).addChild ("External link " +
-                                                                                                    nLink)
+            aCtrl.addChild (new HCDiv ().addChild (new HCA (new SimpleURL (sExternalURL)).addChild ("External link " + nLink)
                                                                                          .setTargetBlank ()));
             nLink++;
           }

@@ -90,8 +90,7 @@ public class AppLayoutHTMLProviderSecure extends AbstractSWECHTMLProvider implem
 
     final IUser aUser = aSWEC.getLoggedInUser ();
     aToggleable.addAndReturnText ()
-               .addChild (span ("Logged in as ").addChild (strong (SecurityHelper.getUserDisplayName (aUser,
-                                                                                                      aDisplayLocale))))
+               .addChild (span ("Logged in as ").addChild (strong (SecurityHelper.getUserDisplayName (aUser, aDisplayLocale))))
                .addClass (CBootstrapCSS.ML_2);
     aToggleable.addChild (new BootstrapButton ().setOnClick (LinkHelper.getURLWithContext (aRequestScope,
                                                                                            LogoutServlet.SERVLET_DEFAULT_PATH))
@@ -103,8 +102,7 @@ public class AppLayoutHTMLProviderSecure extends AbstractSWECHTMLProvider implem
   }
 
   @Override
-  protected void fillBody (@Nonnull final ISimpleWebExecutionContext aSWEC,
-                           @Nonnull final HCHtml aHtml) throws ForcedRedirectException
+  protected void fillBody (@Nonnull final ISimpleWebExecutionContext aSWEC, @Nonnull final HCHtml aHtml) throws ForcedRedirectException
   {
     final IRequestWebScopeWithoutResponse aRequestScope = aSWEC.getRequestScope ();
     final Locale aDisplayLocale = aSWEC.getDisplayLocale ();
@@ -114,9 +112,7 @@ public class AppLayoutHTMLProviderSecure extends AbstractSWECHTMLProvider implem
     final HCBody aBody = aHtml.body ();
 
     // Add menu item in page title
-    aHead.setPageTitle (StringHelper.getConcatenatedOnDemand (CApp.APP_NAME,
-                                                              " - ",
-                                                              aMenuItem.getDisplayText (aDisplayLocale)));
+    aHead.setPageTitle (StringHelper.getConcatenatedOnDemand (CApp.APP_NAME, " - ", aMenuItem.getDisplayText (aDisplayLocale)));
 
     final BootstrapContainer aOuterContainer = new BootstrapContainer ().setFluid (true);
 

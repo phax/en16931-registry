@@ -56,10 +56,7 @@ import com.helger.web.scope.IRequestWebScopeWithoutResponse;
  */
 public final class AppWebAppListener extends WebAppListenerBootstrap
 {
-  private static final DataTablesLengthMenu LENGTH_MENU = new DataTablesLengthMenu ().addItem (25)
-                                                                                     .addItem (50)
-                                                                                     .addItem (100)
-                                                                                     .addItemAll ();
+  private static final DataTablesLengthMenu LENGTH_MENU = new DataTablesLengthMenu ().addItem (25).addItem (50).addItem (100).addItemAll ();
 
   @Override
   protected String getInitParameterDebug (@Nonnull final ServletContext aSC)
@@ -144,8 +141,7 @@ public final class AppWebAppListener extends WebAppListenerBootstrap
                                                           .data (new JSAssocArray ().add (AjaxExecutorDataTables.OBJECT_ID,
                                                                                           aTable.getID ())))
                  .setServerFilterType (EDataTablesFilterType.ALL_TERMS_PER_ROW)
-                 .setTextLoadingURL (CAjax.DATATABLES_I18N.getInvocationURL (aRequestScope),
-                                     AjaxExecutorDataTablesI18N.LANGUAGE_ID)
+                 .setTextLoadingURL (CAjax.DATATABLES_I18N.getInvocationURL (aRequestScope), AjaxExecutorDataTablesI18N.LANGUAGE_ID)
                  .addPlugin (new DataTablesPluginSearchHighlight ());
     });
 

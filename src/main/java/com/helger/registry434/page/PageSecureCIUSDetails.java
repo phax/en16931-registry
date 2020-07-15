@@ -117,8 +117,7 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
   {
     final Locale aDisplayLocale = aLEC.getDisplayLocale ();
     final String sEntityID = StringHelper.hasText (sExistingID) ? sExistingID
-                                                                : TMP_ID_PREFIX +
-                                                                  Integer.toString (GlobalIDFactory.getNewIntID ());
+                                                                : TMP_ID_PREFIX + Integer.toString (GlobalIDFactory.getNewIntID ());
 
     final BootstrapRow aRow = new BootstrapRow ().setID (sEntityID);
 
@@ -126,9 +125,7 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
       final BootstrapCol aCol1 = aRow.createColumn (3);
       final String sFieldBT = RequestParamMap.getFieldName (PREFIX_DETAILSITEM, sEntityID, SUFFIX_DETAILSITEM_BT);
       final IErrorList aErrors = aFormErrors.getListOfField (sFieldBT);
-      final HCBTSelect aCtrl = new HCBTSelect (new RequestField (sFieldBT,
-                                                                 aExistingObject == null ? null
-                                                                                         : aExistingObject.getBtID ()),
+      final HCBTSelect aCtrl = new HCBTSelect (new RequestField (sFieldBT, aExistingObject == null ? null : aExistingObject.getBtID ()),
                                                aDisplayLocale);
       BootstrapFormHelper.markAsFormControl (aCtrl);
       BootstrapFormHelper.applyFormControlValidityState (aCtrl, aErrors);
@@ -152,9 +149,7 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
       final BootstrapCol aCol3 = aRow.createColumn (4);
       final String sFieldDesc = RequestParamMap.getFieldName (PREFIX_DETAILSITEM, sEntityID, SUFFIX_DETAILSITEM_DESC);
       final IErrorList aErrors = aFormErrors.getListOfField (sFieldDesc);
-      final HCEdit aCtrl = new HCEdit (new RequestField (sFieldDesc,
-                                                         aExistingObject == null ? null
-                                                                                 : aExistingObject.getDescription ()));
+      final HCEdit aCtrl = new HCEdit (new RequestField (sFieldDesc, aExistingObject == null ? null : aExistingObject.getDescription ()));
       BootstrapFormHelper.markAsFormControl (aCtrl);
       BootstrapFormHelper.applyFormControlValidityState (aCtrl, aErrors);
       aCol3.addChild (aCtrl).addChild (BootstrapFormHelper.createDefaultErrorNode (aErrors, aDisplayLocale));
@@ -186,8 +181,7 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
       }
 
       @Override
-      protected void performAction (@Nonnull final WebPageExecutionContext aWPEC,
-                                    @Nonnull final ICEHeader aSelectedObject)
+      protected void performAction (@Nonnull final WebPageExecutionContext aWPEC, @Nonnull final ICEHeader aSelectedObject)
       {
         final CEHeaderManagerExt aCEHeaderMgr = MetaManager.getCEHeaderMgr ();
         if (aCEHeaderMgr.setDetails (aSelectedObject, null).isChanged ())
@@ -234,8 +228,7 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
   }
 
   @Override
-  protected void showSelectedObject (@Nonnull final WebPageExecutionContext aWPEC,
-                                     @Nonnull final ICEHeader aSelectedObject)
+  protected void showSelectedObject (@Nonnull final WebPageExecutionContext aWPEC, @Nonnull final ICEHeader aSelectedObject)
   {
     final HCNodeList aNodeList = aWPEC.getNodeList ();
 
@@ -253,12 +246,8 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
     final IRequestWebScopeWithoutResponse aRequestScope = aWPEC.getRequestScope ();
     final boolean bEdit = eFormAction.isEdit ();
 
-    aForm.addChild (getUIHandler ().createActionHeader (bEdit ? "Edit the details of '" +
-                                                                aSelectedObject.getName () +
-                                                                "'"
-                                                              : "Create new details for '" +
-                                                                aSelectedObject.getName () +
-                                                                "'"));
+    aForm.addChild (getUIHandler ().createActionHeader (bEdit ? "Edit the details of '" + aSelectedObject.getName () + "'"
+                                                              : "Create new details for '" + aSelectedObject.getName () + "'"));
 
     {
       final BootstrapRow aHeaderRow = new BootstrapRow ();
@@ -290,9 +279,7 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
 
       final JSAnonymousFunction aJSAppend = new JSAnonymousFunction ();
       final JSVar aJSAppendData = aJSAppend.param ("data");
-      aJSAppend.body ()
-               .add (JQuery.idRef (aEntityContainer)
-                           .append (aJSAppendData.ref (PhotonUnifiedResponse.HtmlHelper.PROPERTY_HTML)));
+      aJSAppend.body ().add (JQuery.idRef (aEntityContainer).append (aJSAppendData.ref (PhotonUnifiedResponse.HtmlHelper.PROPERTY_HTML)));
 
       final JSPackage aOnAdd = new JSPackage ();
       aOnAdd.add (new JQueryAjaxBuilder ().url (s_aAjaxAddRowChangeType.getInvocationURL (aRequestScope))
@@ -341,9 +328,7 @@ public class PageSecureCIUSDetails extends AbstractAppWebPageForm <ICEHeader>
             aFormErrors.addFieldError (sFieldBT, "The selected Business Term does not exist.");
 
         // Change type
-        final String sFieldCTR = RequestParamMap.getFieldName (PREFIX_DETAILSITEM,
-                                                               sEntityRowID,
-                                                               SUFFIX_DETAILSITEM_CTR);
+        final String sFieldCTR = RequestParamMap.getFieldName (PREFIX_DETAILSITEM, sEntityRowID, SUFFIX_DETAILSITEM_CTR);
         final String sEntityCTRID = aEntityRow.get (SUFFIX_DETAILSITEM_CTR);
         final EChangeTypeRestriction eEntityCTR = EChangeTypeRestriction.getFromIDOrNull (sEntityCTRID);
         if (StringHelper.hasNoText (sEntityCTRID))

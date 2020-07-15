@@ -38,14 +38,12 @@ public final class AppLoginManager extends BootstrapLoginManager
   }
 
   @Override
-  protected IHTMLProvider createLoginScreen (final boolean bLoginError,
-                                             @Nonnull final ICredentialValidationResult aLoginResult)
+  protected IHTMLProvider createLoginScreen (final boolean bLoginError, @Nonnull final ICredentialValidationResult aLoginResult)
   {
     return new BootstrapLoginHTMLProvider (bLoginError, aLoginResult, getPageTitle ())
     {
       @Override
-      protected IHCNode createPageHeader (@Nonnull final ISimpleWebExecutionContext aSWEC,
-                                          @Nullable final IHCNode aPageTitle)
+      protected IHCNode createPageHeader (@Nonnull final ISimpleWebExecutionContext aSWEC, @Nullable final IHCNode aPageTitle)
       {
         final HCNodeList ret = new HCNodeList ();
         ret.addChild (super.createPageHeader (aSWEC, aPageTitle));

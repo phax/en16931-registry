@@ -102,8 +102,7 @@ public final class AppCommonUI
   }
 
   @Nonnull
-  public static IHCNode getUIContact (@Nonnull @Nonempty final String sContactName,
-                                      @Nullable final String sContactEmail)
+  public static IHCNode getUIContact (@Nonnull @Nonempty final String sContactName, @Nullable final String sContactEmail)
   {
     if (StringHelper.hasNoText (sContactEmail))
       return new HCTextNode (sContactName);
@@ -170,8 +169,7 @@ public final class AppCommonUI
   }
 
   @Nonnull
-  public static IHCNode createViewLink (@Nonnull final IWebPageExecutionContext aWPEC,
-                                        @Nullable final ITypedObject <String> aObject)
+  public static IHCNode createViewLink (@Nonnull final IWebPageExecutionContext aWPEC, @Nullable final ITypedObject <String> aObject)
   {
     return createViewLink (aWPEC, aObject, null);
   }
@@ -194,25 +192,19 @@ public final class AppCommonUI
       final IMenuObject aObj = aWPEC.getMenuTree ().getItemDataWithID (sMenuItemID);
       if (aObj != null && aObj.matchesDisplayFilter ())
         return new HCA (getViewLink (aWPEC, sMenuItemID, aTypedObj)).addChild (sRealDisplayName)
-                                                                    .setTitle ("Details of role '" +
-                                                                               sRealDisplayName +
-                                                                               "'");
+                                                                    .setTitle ("Details of role '" + sRealDisplayName + "'");
       return new HCTextNode (sRealDisplayName);
     }
 
     if (aObject instanceof IUser)
     {
       final IUser aTypedObj = (IUser) aObject;
-      final String sRealDisplayName = sDisplayName != null ? sDisplayName
-                                                           : SecurityHelper.getUserDisplayName (aTypedObj,
-                                                                                                aDisplayLocale);
+      final String sRealDisplayName = sDisplayName != null ? sDisplayName : SecurityHelper.getUserDisplayName (aTypedObj, aDisplayLocale);
       final String sMenuItemID = BootstrapPagesMenuConfigurator.MENU_ADMIN_SECURITY_USER;
       final IMenuObject aObj = aWPEC.getMenuTree ().getItemDataWithID (sMenuItemID);
       if (aObj != null && aObj.matchesDisplayFilter ())
         return new HCA (getViewLink (aWPEC, sMenuItemID, aTypedObj)).addChild (sRealDisplayName)
-                                                                    .setTitle ("Details of user '" +
-                                                                               sRealDisplayName +
-                                                                               "'");
+                                                                    .setTitle ("Details of user '" + sRealDisplayName + "'");
       return new HCTextNode (sRealDisplayName);
     }
     if (aObject instanceof IUserGroup)
@@ -223,9 +215,7 @@ public final class AppCommonUI
       final IMenuObject aObj = aWPEC.getMenuTree ().getItemDataWithID (sMenuItemID);
       if (aObj != null && aObj.matchesDisplayFilter ())
         return new HCA (getViewLink (aWPEC, sMenuItemID, aTypedObj)).addChild (sRealDisplayName)
-                                                                    .setTitle ("Details of user group '" +
-                                                                               sRealDisplayName +
-                                                                               "'");
+                                                                    .setTitle ("Details of user group '" + sRealDisplayName + "'");
       return new HCTextNode (sRealDisplayName);
     }
 
@@ -247,8 +237,7 @@ public final class AppCommonUI
       if (aBT.hasParent ())
       {
         final HCDiv aDiv = aCell.addAndReturnChild (new HCDiv ());
-        aBT.forAllParents (x -> aDiv.addChildAt (0, " ")
-                                    .addChildAt (0, new BootstrapBadge (EBootstrapBadgeType.INFO).addChild (x)));
+        aBT.forAllParents (x -> aDiv.addChildAt (0, " ").addChildAt (0, new BootstrapBadge (EBootstrapBadgeType.INFO).addChild (x)));
       }
       aCell.addChild (new HCDiv ().addChild (aBT.getDisplayName ()));
 

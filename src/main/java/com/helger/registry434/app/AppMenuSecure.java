@@ -52,8 +52,7 @@ public final class AppMenuSecure
       final IMenuItemPage aAdmin = aMenuTree.createRootItem (new BasePageShowChildren <WebPageExecutionContext> (CMenuSecure.MENU_ADMIN,
                                                                                                                  "Administration",
                                                                                                                  aMenuTree));
-      aMenuTree.createItem (aAdmin,
-                            new BasePageSecurityChangePassword <WebPageExecutionContext> (CMenuSecure.MENU_ADMIN_CHANGE_PASSWORD));
+      aMenuTree.createItem (aAdmin, new BasePageSecurityChangePassword <WebPageExecutionContext> (CMenuSecure.MENU_ADMIN_CHANGE_PASSWORD));
       BootstrapPagesMenuConfigurator.addAllItems (aMenuTree, aAdmin, aFilterSuperUser, CApp.DEFAULT_LOCALE);
     }
 

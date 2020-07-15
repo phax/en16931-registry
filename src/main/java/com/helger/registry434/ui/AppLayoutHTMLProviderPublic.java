@@ -80,8 +80,7 @@ public class AppLayoutHTMLProviderPublic extends AbstractSWECHTMLProvider implem
   }
 
   @Override
-  protected void fillBody (@Nonnull final ISimpleWebExecutionContext aSWEC,
-                           @Nonnull final HCHtml aHtml) throws ForcedRedirectException
+  protected void fillBody (@Nonnull final ISimpleWebExecutionContext aSWEC, @Nonnull final HCHtml aHtml) throws ForcedRedirectException
   {
     final IRequestWebScopeWithoutResponse aRequestScope = aSWEC.getRequestScope ();
     final Locale aDisplayLocale = aSWEC.getDisplayLocale ();
@@ -91,9 +90,7 @@ public class AppLayoutHTMLProviderPublic extends AbstractSWECHTMLProvider implem
     final HCBody aBody = aHtml.body ();
 
     // Add menu item in page title
-    aHead.setPageTitle (StringHelper.getConcatenatedOnDemand (CApp.APP_NAME,
-                                                              " - ",
-                                                              aMenuItem.getDisplayText (aDisplayLocale)));
+    aHead.setPageTitle (StringHelper.getConcatenatedOnDemand (CApp.APP_NAME, " - ", aMenuItem.getDisplayText (aDisplayLocale)));
 
     final BootstrapContainer aOuterContainer = new BootstrapContainer ().setFluid (true);
 

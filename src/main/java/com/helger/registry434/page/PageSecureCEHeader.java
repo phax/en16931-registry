@@ -143,8 +143,7 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
   {
     final Locale aDisplayLocale = aLEC.getDisplayLocale ();
     final String sEntityID = StringHelper.hasText (sExistingID) ? sExistingID
-                                                                : TMP_ID_PREFIX +
-                                                                  Integer.toString (GlobalIDFactory.getNewIntID ());
+                                                                : TMP_ID_PREFIX + Integer.toString (GlobalIDFactory.getNewIntID ());
 
     final BootstrapRow aRow = new BootstrapRow ().setID (sEntityID);
 
@@ -184,8 +183,7 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
       }
 
       @Override
-      protected void performAction (@Nonnull final WebPageExecutionContext aWPEC,
-                                    @Nonnull final ICEHeader aSelectedObject)
+      protected void performAction (@Nonnull final WebPageExecutionContext aWPEC, @Nonnull final ICEHeader aSelectedObject)
       {
         final CEHeaderManager aCEHeaderMgr = MetaManager.getCEHeaderMgr ();
         if (aCEHeaderMgr.deleteCEHeader (aSelectedObject.getID ()).isChanged ())
@@ -222,8 +220,7 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
   }
 
   @Override
-  protected void showSelectedObject (@Nonnull final WebPageExecutionContext aWPEC,
-                                     @Nonnull final ICEHeader aSelectedObject)
+  protected void showSelectedObject (@Nonnull final WebPageExecutionContext aWPEC, @Nonnull final ICEHeader aSelectedObject)
   {
     final HCNodeList aNodeList = aWPEC.getNodeList ();
     final Locale aDisplayLocale = aWPEC.getDisplayLocale ();
@@ -233,8 +230,7 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
 
     aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Artefact name").setCtrl (aSelectedObject.getName ()));
 
-    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Type")
-                                                     .setCtrl (aSelectedObject.getType ().getDisplayName ()));
+    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Type").setCtrl (aSelectedObject.getType ().getDisplayName ()));
 
     {
       IHCNode aCtrl;
@@ -259,11 +255,9 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
 
     aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Publisher").setCtrl (aSelectedObject.getPublisher ()));
 
-    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Governing entity")
-                                                     .setCtrl (aSelectedObject.getGovernor ()));
+    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Governing entity").setCtrl (aSelectedObject.getGovernor ()));
 
-    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Underlying specification")
-                                                     .setCtrl (aSelectedObject.getUnderlyingSpec ()));
+    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Underlying specification").setCtrl (aSelectedObject.getUnderlyingSpec ()));
 
     if (aSelectedObject.hasFurtherInfo ())
       aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Further information")
@@ -273,16 +267,13 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
     {
       final HCNodeList aCtrl = new HCNodeList ();
       for (final String sExternalURL : aSelectedObject.externalURLs ())
-        aCtrl.addChild (new HCDiv ().addChild (new HCA (new SimpleURL (sExternalURL)).addChild (sExternalURL)
-                                                                                     .setTargetBlank ()));
+        aCtrl.addChild (new HCDiv ().addChild (new HCA (new SimpleURL (sExternalURL)).addChild (sExternalURL).setTargetBlank ()));
       aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("External URLs").setCtrl (aCtrl));
     }
 
-    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Status")
-                                                     .setCtrl (AppCommonUI.getUIStatus (aSelectedObject.getStatus ())));
+    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Status").setCtrl (AppCommonUI.getUIStatus (aSelectedObject.getStatus ())));
 
-    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Contact name")
-                                                     .setCtrl (aSelectedObject.getContactName ()));
+    aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Contact name").setCtrl (aSelectedObject.getContactName ()));
 
     if (aSelectedObject.hasContactEmail ())
       aViewForm.addFormGroup (new BootstrapFormGroup ().setLabel ("Contact email address")
@@ -401,9 +392,7 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
 
       final JSAnonymousFunction aJSAppend = new JSAnonymousFunction ();
       final JSVar aJSAppendData = aJSAppend.param ("data");
-      aJSAppend.body ()
-               .add (JQuery.idRef (aEntityContainer)
-                           .append (aJSAppendData.ref (PhotonUnifiedResponse.HtmlHelper.PROPERTY_HTML)));
+      aJSAppend.body ().add (JQuery.idRef (aEntityContainer).append (aJSAppendData.ref (PhotonUnifiedResponse.HtmlHelper.PROPERTY_HTML)));
 
       final JSPackage aOnAdd = new JSPackage ();
       aOnAdd.add (new JQueryAjaxBuilder ().url (s_aAjaxCreateURL.getInvocationURL (aRequestScope))
@@ -568,9 +557,7 @@ public class PageSecureCEHeader extends AbstractAppWebPageForm <ICEHeader>
                                      sContactName,
                                      sContactEmail,
                                      aSelectedObject.getDetails ());
-        aWPEC.postRedirectGetInternal (new BootstrapSuccessBox ().addChild ("Successfully edited '" +
-                                                                            aSelectedObject.getName () +
-                                                                            "'."));
+        aWPEC.postRedirectGetInternal (new BootstrapSuccessBox ().addChild ("Successfully edited '" + aSelectedObject.getName () + "'."));
       }
       else
       {

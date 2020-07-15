@@ -35,6 +35,7 @@ public enum ECardinalityType implements IHasID <String>
   _0N ("0..n"),
   _11 ("1..1"),
   _1n ("1..n");
+
   private final String m_sID;
 
   private ECardinalityType (@Nonnull @Nonempty final String sID)
