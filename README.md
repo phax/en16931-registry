@@ -2,7 +2,7 @@
 
 CEN/TC 434 and EN 16931 registry services.
 
-**Work in progress**
+This project is no longer maintained because there was no interest in it.
 
 ~~Running prototype: https://www.helger.com/registry434/~~
 
