@@ -19,13 +19,10 @@ package com.helger.registry434.app;
 
 import javax.annotation.concurrent.Immutable;
 
-import com.helger.commons.functional.IPredicate;
 import com.helger.photon.ajax.decl.AjaxFunctionDeclaration;
 import com.helger.photon.ajax.decl.IAjaxFunctionDeclaration;
-import com.helger.photon.security.login.LoggedInUserManager;
 import com.helger.photon.uictrls.datatables.ajax.AjaxExecutorDataTables;
 import com.helger.photon.uictrls.datatables.ajax.AjaxExecutorDataTablesI18N;
-import com.helger.web.scope.IRequestWebScopeWithoutResponse;
 
 /**
  * This class defines the available ajax functions
@@ -36,13 +33,11 @@ import com.helger.web.scope.IRequestWebScopeWithoutResponse;
 public final class CAjax
 {
   public static final IAjaxFunctionDeclaration DATATABLES = AjaxFunctionDeclaration.builder ("dataTables")
-                                                                                   .withExecutor (AjaxExecutorDataTables.class)
+                                                                                   .executor (AjaxExecutorDataTables.class)
                                                                                    .build ();
   public static final IAjaxFunctionDeclaration DATATABLES_I18N = AjaxFunctionDeclaration.builder ("datatables-i18n")
-                                                                                        .withExecutor (new AjaxExecutorDataTablesI18N (CApp.DEFAULT_LOCALE))
+                                                                                        .executor (new AjaxExecutorDataTablesI18N (CApp.DEFAULT_LOCALE))
                                                                                         .build ();
-  public static final IPredicate <? super IRequestWebScopeWithoutResponse> FILTER_LOGIN = x -> LoggedInUserManager.getInstance ()
-                                                                                                                  .isUserLoggedInInCurrentSession ();
 
   private CAjax ()
   {}
