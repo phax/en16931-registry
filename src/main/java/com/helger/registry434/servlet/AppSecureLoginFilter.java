@@ -18,7 +18,6 @@
 package com.helger.registry434.servlet;
 
 import javax.annotation.Nonnull;
-import javax.servlet.ServletException;
 
 import com.helger.commons.debug.GlobalDebug;
 import com.helger.commons.state.EContinue;
@@ -29,6 +28,8 @@ import com.helger.photon.security.login.LoggedInUserManager;
 import com.helger.registry434.ui.AppLoginManager;
 import com.helger.servlet.response.UnifiedResponse;
 import com.helger.web.scope.IRequestWebScopeWithoutResponse;
+
+import jakarta.servlet.ServletException;
 
 public final class AppSecureLoginFilter extends AbstractUnifiedResponseFilter
 {

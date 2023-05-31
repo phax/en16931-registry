@@ -18,7 +18,6 @@
 package com.helger.registry434.servlet;
 
 import javax.annotation.Nonnull;
-import javax.servlet.ServletContext;
 
 import com.helger.commons.vendor.VendorInfo;
 import com.helger.html.jquery.JQueryAjaxBuilder;
@@ -48,6 +47,8 @@ import com.helger.registry434.app.CApp;
 import com.helger.registry434.app.MetaManager;
 import com.helger.scope.singleton.SingletonHelper;
 import com.helger.web.scope.IRequestWebScopeWithoutResponse;
+
+import jakarta.servlet.ServletContext;
 
 /**
  * Callbacks for the application server
