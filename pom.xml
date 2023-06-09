@@ -54,6 +54,13 @@
       <email>philip(at)helger.com</email>
       <url>http://www.helger.com</url>
     </developer>
+    <!-- since 06.2023 -->
+    <developer>
+      <id>svanteschubert</id>
+      <name>Svante Schubert</name>
+      <email>svanteschubert(at)apache.org</email>
+      <url>https://www.linkedin.com/in/svante-schubert-2913232/</url>
+    </developer>
   </developers>
   
   <properties>
@@ -148,6 +155,12 @@
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
       <scope>provided</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/jakarta.annotation/jakarta.annotation-api -->
+    <dependency>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <version>2.1.1</version>
     </dependency>
 
     <dependency>
