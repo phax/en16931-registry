@@ -21,7 +21,7 @@ The project was therefore smoke-tested for the CEN 434 plenary in Bruxelles (202
 * User Management
 * Additional Meta data for CIUS/EXTENSION
 * Continuous Integration (CI/CD)
-* Security (e.g. no https)
+* Security Features
 * Dependency updates: Consistent Jakarta EE 10 package usages
 * Scalability
 * JSON REST API for CIUS/Extension data sets
