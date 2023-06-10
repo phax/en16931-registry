@@ -19,7 +19,7 @@ The project was therefore smoke-tested for the CEN 434 plenary in Bruxelles (202
 ## Possible missing Features (v2019)
 
 * User Management
-* Additional Meta data for CIUS/EXTENSION
+* Additional Meta data for CIUS/EXTENSION (see [issue #3](https://github.com/phax/en16931-registry/issues/3)
 * Continuous Integration (CI/CD)
 * Security Features
 * Dependency updates: Consistent Jakarta EE 10 package usages
