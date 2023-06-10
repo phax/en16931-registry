@@ -21,6 +21,7 @@ The project was therefore smoke-tested for the CEN 434 plenary in Bruxelles (202
 * User Management
 * Additional Meta data for CIUS/EXTENSION (see [issue #3](https://github.com/phax/en16931-registry/issues/3)
 * High-Level CIUS/Extension Comparison (e.g. [visual comparison between e-Invoice and e-Receipt](https://stpe.semantic-treehouse.nl/#/TreeView/Message_a7df2626-c410-44fe-bf84-e18d64ae9f3b))
+  ![image](https://github.com/phax/en16931-registry/assets/825051/d101aebd-8daa-4011-9f55-d8fed5d74c95)
 * Visual Sorting/Selection (e.g. by Country providing EU Map or by Sector)
   ![image](https://github.com/phax/en16931-registry/assets/825051/c3b3e046-d66d-49d9-8c72-e18d6140a60c)
 * Continuous Integration (CI/CD)
