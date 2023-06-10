@@ -14,7 +14,7 @@ The project was therefore smoke-tested for the CEN 434 plenary in Bruxelles (202
 * [Demo of the prototype of registry server (v2019) running in the Cloud (user view)](http://138.3.243.85:8080/en16931-registry-services-1.0.0-SNAPSHOT/public)
 * [Prototype of registry server (v2019) running in the Cloud (admin view)](http://138.3.243.85:8080/en16931-registry-services-1.0.0-SNAPSHOT/secure/).<br/>
    Use ***admin@helger.com*** as email with ***password*** as the password!
-* [Official EU Wiki on EN16931 CIUS & Extensions](https://ec.europa.eu/digital-building-blocks/wikis/display/EINVCOMMUNITY/Registry+of+CIUS+%28Core+Invoice+Usage+Specifications%29+and+Extensions) (***not yet added to the registry prototype***)
+* [Official EU Wiki on EN16931 CIUS & Extensions](https://ec.europa.eu/digital-building-blocks/wikis/display/EINVCOMMUNITY/Registry+of+CIUS+%28Core+Invoice+Usage+Specifications%29+and+Extensions) (***not yet added to the registry prototype (see [issue #3)***)
 
 ## Possible missing Features (v2019)
 
